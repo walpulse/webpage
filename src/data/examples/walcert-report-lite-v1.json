@@ -1,0 +1,612 @@
+{
+  "_meta": {
+    "source": "https://stormy-crimson-platypus.myfilebase.com/ipfs/QmVxESMz52v69Q7rfVvD76Ppag57TsgYzpGify7iMK452B",
+    "cid": "QmVxESMz52v69Q7rfVvD76Ppag57TsgYzpGify7iMK452B",
+    "note": "Hackathon walcert_report_lite_v1 sample. Extended with por locale for Walpulse website. Illustrative only."
+  },
+  "schema": "walcert_report_lite_v1",
+  "wallet": "0xC15316BDE4FA13Dd8f3F3348DCCb878e8c033518",
+  "analyzed_at": "2026-07-31T16:32:16.395Z",
+  "agent_id": "9699",
+  "chain_id": 42220,
+  "partial": false,
+  "modules": [
+    {
+      "type": "ORIGINS",
+      "grade": "A",
+      "formula_version": "origins-v2.2",
+      "certificate_id": "b7f1c65b-64f2-46f7-9923-9fb870faf569",
+      "data_hash": "0x1ef300c423bae8f8d076d039a8586a7172e7e9c8e36d887f137de613112eae8d",
+      "onchain_tx_hash": "0x6e0765fe3277da97e16b462e4cb76c8741f4e1934523820aea0a33680c50f2db",
+      "summary": {
+        "eng": "Funding origins show unknown dominance with 208 unique senders and low mixing risk. HHI/top1 on priced USD; priced coverage ~60.9% of value-relevant inflows (421/691 native/ERC-20 amount>0; NFTs excluded from denominator).",
+        "esp": "Los orígenes muestran dominancia unknown, 208 senders únicos y riesgo de mixing low. HHI/top1 sobre USD priced; cobertura priced ~60.9% de inflows value-relevant (421/691 native/ERC-20 amount>0; NFTs fuera del denominador).",
+        "por": "As origens mostram dominância unknown, 208 senders únicos e risco de mixing baixo. HHI/top1 sobre USD priced; cobertura priced ~60.9% dos inflows value-relevant (421/691 native/ERC-20 amount>0; NFTs fora do denominador)."
+      },
+      "strengths": [
+        {
+          "eng": "Low mixing risk",
+          "esp": "Bajo riesgo de mixing",
+          "por": "Baixo risco de mixing"
+        },
+        {
+          "eng": "Acceptable sender diversity",
+          "esp": "Diversidad de senders aceptable",
+          "por": "Diversidade de senders aceitável"
+        },
+        {
+          "eng": "Long-standing funding",
+          "esp": "Funding antiguo",
+          "por": "Funding antigo"
+        }
+      ],
+      "concerns": [],
+      "signals": [
+        {
+          "id": "mixing_risk",
+          "label": {
+            "eng": "Mixing risk",
+            "esp": "Riesgo de mixing",
+            "por": "Risco de mixing"
+          },
+          "value": "low",
+          "display": {
+            "eng": "low",
+            "esp": "bajo",
+            "por": "baixo"
+          }
+        },
+        {
+          "id": "sanctions_hit",
+          "label": {
+            "eng": "Sanctions / OFAC",
+            "esp": "Sanctions / OFAC",
+            "por": "Sanctions / OFAC"
+          },
+          "value": false,
+          "display": {
+            "eng": "no",
+            "esp": "no",
+            "por": "não"
+          }
+        },
+        {
+          "id": "unique_senders",
+          "label": {
+            "eng": "Unique senders",
+            "esp": "Remitentes únicos",
+            "por": "Remetentes únicos"
+          },
+          "value": 208,
+          "display": {
+            "eng": "208",
+            "esp": "208",
+            "por": "208"
+          }
+        },
+        {
+          "id": "hhi",
+          "label": {
+            "eng": "Concentration HHI",
+            "esp": "Concentración HHI",
+            "por": "Concentração HHI"
+          },
+          "value": 0.0595,
+          "display": {
+            "eng": "0.06",
+            "esp": "0.06",
+            "por": "0.06"
+          }
+        },
+        {
+          "id": "top1",
+          "label": {
+            "eng": "Top-1 share",
+            "esp": "Top-1 share",
+            "por": "Top-1 share"
+          },
+          "value": 12.6,
+          "display": {
+            "eng": "12.6%",
+            "esp": "12.6%",
+            "por": "12.6%"
+          }
+        },
+        {
+          "id": "top3",
+          "label": {
+            "eng": "Top-3 share",
+            "esp": "Top-3 share",
+            "por": "Top-3 share"
+          },
+          "value": 32.2,
+          "display": {
+            "eng": "32.2%",
+            "esp": "32.2%",
+            "por": "32.2%"
+          }
+        },
+        {
+          "id": "cex_pct",
+          "label": {
+            "eng": "CEX %",
+            "esp": "% CEX",
+            "por": "% CEX"
+          },
+          "value": 31.3,
+          "display": {
+            "eng": "31.3%",
+            "esp": "31.3%",
+            "por": "31.3%"
+          }
+        },
+        {
+          "id": "bridge_pct",
+          "label": {
+            "eng": "Bridge %",
+            "esp": "% Bridge",
+            "por": "% Bridge"
+          },
+          "value": 0,
+          "display": {
+            "eng": "0.0%",
+            "esp": "0.0%",
+            "por": "0.0%"
+          }
+        },
+        {
+          "id": "mixer_pct",
+          "label": {
+            "eng": "Mixer %",
+            "esp": "% Mixer",
+            "por": "% Mixer"
+          },
+          "value": 0,
+          "display": {
+            "eng": "0.0%",
+            "esp": "0.0%",
+            "por": "0.0%"
+          }
+        },
+        {
+          "id": "first_funding_age_days",
+          "label": {
+            "eng": "First funding age",
+            "esp": "Antigüedad primer funding",
+            "por": "Antiguidade do primeiro funding"
+          },
+          "value": 1943,
+          "display": {
+            "eng": "1943 days",
+            "esp": "1943 días",
+            "por": "1943 dias"
+          }
+        },
+        {
+          "id": "main_origin_type",
+          "label": {
+            "eng": "Main origin type",
+            "esp": "Origen principal",
+            "por": "Origem principal"
+          },
+          "value": "unknown",
+          "display": {
+            "eng": "unknown",
+            "esp": "unknown",
+            "por": "unknown"
+          }
+        }
+      ]
+    },
+    {
+      "type": "ACTIVITY",
+      "grade": "D",
+      "formula_version": "activity-v2.1",
+      "certificate_id": "47b2498e-d31e-4cc3-bbe0-a7d883f8e943",
+      "data_hash": "0x7f1cd68c1f495ac88bcab03f8f90a260a667536eaeeee65701225c1f8981514a",
+      "onchain_tx_hash": "0x9dc8c75702b3d756d4021b2c1dfe0672e08edecfcfb3c1bd4f5f69371c8affe4",
+      "summary": {
+        "eng": "Recent activity (15d) shows 1 counterparties with low wash risk. Volume is highly concentrated (HHI 1) despite 1 counterparties.",
+        "esp": "La actividad reciente (15d) muestra 1 contrapartes con riesgo de wash low. El volumen está muy concentrado (HHI 1) pese a 1 contrapartes.",
+        "por": "A atividade recente (15d) mostra 1 contraparte com risco de wash baixo. O volume está muito concentrado (HHI 1) apesar de 1 contraparte."
+      },
+      "strengths": [
+        {
+          "eng": "No evident circular patterns",
+          "esp": "Sin patrones circulares evidentes",
+          "por": "Sem padrões circulares evidentes"
+        },
+        {
+          "eng": "Low wash trading risk",
+          "esp": "Bajo riesgo de wash trading",
+          "por": "Baixo risco de wash trading"
+        }
+      ],
+      "concerns": [
+        {
+          "eng": "High volume concentration across counterparties (HHI 1)",
+          "esp": "Alta concentración de volumen entre contrapartes (HHI 1)",
+          "por": "Alta concentração de volume entre contrapartes (HHI 1)"
+        }
+      ],
+      "signals": [
+        {
+          "id": "unique_counterparties",
+          "label": {
+            "eng": "Unique counterparties",
+            "esp": "Contrapartes únicas",
+            "por": "Contrapartes únicas"
+          },
+          "value": 1,
+          "display": {
+            "eng": "1",
+            "esp": "1",
+            "por": "1"
+          }
+        },
+        {
+          "id": "counterparty_hhi",
+          "label": {
+            "eng": "Counterparty HHI",
+            "esp": "HHI contrapartes",
+            "por": "HHI contrapartes"
+          },
+          "value": 1,
+          "display": {
+            "eng": "1",
+            "esp": "1",
+            "por": "1"
+          }
+        },
+        {
+          "id": "cex_interaction_pct_value",
+          "label": {
+            "eng": "CEX interaction % (value)",
+            "esp": "% CEX (valor)",
+            "por": "% CEX (valor)"
+          },
+          "value": 0,
+          "display": {
+            "eng": "0.0%",
+            "esp": "0.0%",
+            "por": "0.0%"
+          }
+        },
+        {
+          "id": "wash_trading_risk",
+          "label": {
+            "eng": "Wash trading risk",
+            "esp": "Riesgo wash",
+            "por": "Risco wash"
+          },
+          "value": "low",
+          "display": {
+            "eng": "low",
+            "esp": "bajo",
+            "por": "baixo"
+          }
+        },
+        {
+          "id": "wash_score",
+          "label": {
+            "eng": "Wash score",
+            "esp": "Wash score",
+            "por": "Wash score"
+          },
+          "value": 0.1,
+          "display": {
+            "eng": "0.10",
+            "esp": "0.10",
+            "por": "0.10"
+          }
+        },
+        {
+          "id": "bot_like_score",
+          "label": {
+            "eng": "Bot-like score",
+            "esp": "Bot-like score",
+            "por": "Bot-like score"
+          },
+          "value": 0.5275,
+          "display": {
+            "eng": "0.53",
+            "esp": "0.53",
+            "por": "0.53"
+          }
+        },
+        {
+          "id": "velocity_txs_per_day",
+          "label": {
+            "eng": "Velocity (txs/day)",
+            "esp": "Velocidad (txs/día)",
+            "por": "Velocidade (txs/dia)"
+          },
+          "value": 0.07,
+          "display": {
+            "eng": "0.1",
+            "esp": "0.1",
+            "por": "0.1"
+          }
+        },
+        {
+          "id": "reciprocity_ratio",
+          "label": {
+            "eng": "Reciprocity ratio",
+            "esp": "Ratio de reciprocidad",
+            "por": "Razão de reciprocidade"
+          },
+          "value": 0,
+          "display": {
+            "eng": "0",
+            "esp": "0",
+            "por": "0"
+          }
+        },
+        {
+          "id": "token_diversity",
+          "label": {
+            "eng": "Token diversity",
+            "esp": "Diversidad de tokens",
+            "por": "Diversidade de tokens"
+          },
+          "value": 1,
+          "display": {
+            "eng": "1",
+            "esp": "1",
+            "por": "1"
+          }
+        }
+      ]
+    },
+    {
+      "type": "PORTFOLIO",
+      "grade": "D",
+      "formula_version": "portfolio-v2.2",
+      "certificate_id": "40b8951f-1a39-4dcc-b496-6bc0874d0f2c",
+      "data_hash": "0x658469e21dec47543199c66a0b6c3ce7a87a6a6ebf8d69b1741ac9901251f97b",
+      "onchain_tx_hash": "0x9f47b7661f2e155585d0bdda07f5f694e4481827f41cc80b6bb739113bb5a21c",
+      "summary": {
+        "eng": "Portfolio ~$12.54 with 100% liquid, 1 effective positions, HHI 0.6566. 3 of 42 positions after filters (27 spam/unpriced, 12 dust).",
+        "esp": "Portafolio ~$12.54 con 100% líquido, 1 posiciones efectivas, HHI 0.6566. 3 de 42 posiciones tras filtros (27 spam/unpriced, 12 dust).",
+        "por": "Portafolio ~$12.54 con 100% líquido, 1 posiciones efectivas, HHI 0.6566. 3 de 42 posiciones tras filtros (27 spam/unpriced, 12 dust)."
+      },
+      "strengths": [],
+      "concerns": [
+        {
+          "eng": "Portfolio size still moderate",
+          "esp": "Tamaño de portafolio todavía moderado",
+          "por": "Tamanho de portfólio ainda moderado"
+        },
+        {
+          "eng": "High concentration in a single asset",
+          "esp": "Alta concentración en un solo activo",
+          "por": "Alta concentração em um único ativo"
+        },
+        {
+          "eng": "Feed dominated by spam/unpriced positions (27 filtered; 3 of 42 used); valuation after filters",
+          "esp": "Feed dominado por spam/unpriced (27 filtradas; 3 de 42 usadas); valuación tras filtros",
+          "por": "Feed dominado por spam/unpriced (27 filtradas; 3 de 42 usadas); valuation após filtros"
+        }
+      ],
+      "signals": [
+        {
+          "id": "total_value_usd",
+          "label": {
+            "eng": "Total value",
+            "esp": "Valor total",
+            "por": "Valor total"
+          },
+          "value": 12.54,
+          "display": {
+            "eng": "$13",
+            "esp": "$13",
+            "por": "$13"
+          }
+        },
+        {
+          "id": "liquid_ratio",
+          "label": {
+            "eng": "Liquid ratio",
+            "esp": "Ratio líquido",
+            "por": "Razão líquido"
+          },
+          "value": 100,
+          "display": {
+            "eng": "100.0%",
+            "esp": "100.0%",
+            "por": "100.0%"
+          }
+        },
+        {
+          "id": "holdings_hhi",
+          "label": {
+            "eng": "Holdings HHI",
+            "esp": "HHI holdings",
+            "por": "HHI holdings"
+          },
+          "value": 0.6566,
+          "display": {
+            "eng": "0.66",
+            "esp": "0.66",
+            "por": "0.66"
+          }
+        },
+        {
+          "id": "effective_positions",
+          "label": {
+            "eng": "Effective positions",
+            "esp": "Posiciones efectivas",
+            "por": "Posições efetivas"
+          },
+          "value": 1,
+          "display": {
+            "eng": "1",
+            "esp": "1",
+            "por": "1"
+          }
+        },
+        {
+          "id": "dust_ratio",
+          "label": {
+            "eng": "Dust ratio",
+            "esp": "Dust ratio",
+            "por": "Dust ratio"
+          },
+          "value": 0,
+          "display": {
+            "eng": "0.0%",
+            "esp": "0.0%",
+            "por": "0.0%"
+          }
+        },
+        {
+          "id": "protocol_exposure_count",
+          "label": {
+            "eng": "Protocol exposure",
+            "esp": "Protocolos",
+            "por": "Protocolos"
+          },
+          "value": 0,
+          "display": {
+            "eng": "0",
+            "esp": "0",
+            "por": "0"
+          }
+        }
+      ]
+    },
+    {
+      "type": "MULTICHAIN",
+      "grade": "B",
+      "formula_version": "multichain-v2.1",
+      "certificate_id": "c5e09184-dcd0-4769-a00a-f431a48709df",
+      "data_hash": "0x0770563612d698f7d12086f9cb44d963288681aed7531818bb434e46f54c01dd",
+      "onchain_tx_hash": "0x81dd6cd6ae0878d4dccce9dfe32ab8095afe2a94deff8d47b0b6dd6add8c03b1",
+      "summary": {
+        "eng": "19 mainnets, 3454 txs on 6 sampled chains, span 1942d.",
+        "esp": "19 mainnets, 3454 txs en 6 chains muestreadas, span 1942d.",
+        "por": "19 mainnets, 3454 txs em 6 chains amostradas, span 1942d."
+      },
+      "strengths": [
+        {
+          "eng": "Broad multi-chain footprint",
+          "esp": "Footprint multi-chain amplio",
+          "por": "Footprint multi-chain amplo"
+        },
+        {
+          "eng": "Meaningful activity intensity on sampled chains",
+          "esp": "Intensidad de actividad relevante en chains muestreadas",
+          "por": "Intensidade de atividade relevante em chains amostradas"
+        },
+        {
+          "eng": "Presence in multiple core ecosystems",
+          "esp": "Presencia en varios ecosistemas core",
+          "por": "Presença em vários ecossistemas core"
+        }
+      ],
+      "concerns": [],
+      "signals": [
+        {
+          "id": "ecosystem_count",
+          "label": {
+            "eng": "Ecosystems",
+            "esp": "Ecosistemas",
+            "por": "Ecossistemas"
+          },
+          "value": 12,
+          "display": {
+            "eng": "12",
+            "esp": "12",
+            "por": "12"
+          }
+        },
+        {
+          "id": "span_days",
+          "label": {
+            "eng": "Activity span",
+            "esp": "Span de actividad",
+            "por": "Span de atividade"
+          },
+          "value": 1942,
+          "display": {
+            "eng": "1942 days",
+            "esp": "1942 días",
+            "por": "1942 dias"
+          }
+        },
+        {
+          "id": "active_30d",
+          "label": {
+            "eng": "Active 30d",
+            "esp": "Activas 30d",
+            "por": "Ativas 30d"
+          },
+          "value": 5,
+          "display": {
+            "eng": "5",
+            "esp": "5",
+            "por": "5"
+          }
+        },
+        {
+          "id": "active_90d",
+          "label": {
+            "eng": "Active 90d",
+            "esp": "Activas 90d",
+            "por": "Ativas 90d"
+          },
+          "value": 10,
+          "display": {
+            "eng": "10",
+            "esp": "10",
+            "por": "10"
+          }
+        },
+        {
+          "id": "dormant_ratio",
+          "label": {
+            "eng": "Dormant ratio",
+            "esp": "Ratio dormidas",
+            "por": "Razão dormentes"
+          },
+          "value": 0.4211,
+          "display": {
+            "eng": "0.42",
+            "esp": "0.42",
+            "por": "0.42"
+          }
+        },
+        {
+          "id": "consistency",
+          "label": {
+            "eng": "Consistency",
+            "esp": "Consistencia",
+            "por": "Consistência"
+          },
+          "value": 0.7895,
+          "display": {
+            "eng": "0.79",
+            "esp": "0.79",
+            "por": "0.79"
+          }
+        },
+        {
+          "id": "recency",
+          "label": {
+            "eng": "Recency",
+            "esp": "Recencia",
+            "por": "Recência"
+          },
+          "value": 0.3947,
+          "display": {
+            "eng": "0.39",
+            "esp": "0.39",
+            "por": "0.39"
+          }
+        }
+      ]
+    }
+  ],
+  "cid": null,
+  "generated_at": "2026-07-31T16:32:17.032Z"
+}

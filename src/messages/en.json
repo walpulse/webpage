@@ -1,0 +1,412 @@
+{
+  "meta": {
+    "siteName": "Walpulse",
+    "homeTitle": "Walpulse — On-chain reputation signals for wallets",
+    "homeDescription": "Verifiable reputation, maturity, and risk signals for blockchain wallets. Explainable A–F grades; interpretation belongs to the recipient.",
+    "senalesTitle": "Signals",
+    "senalesDescription": "Origins, Activity, Multichain, and Portfolio: on-chain certificates with explainable A–F grades.",
+    "paraPsavTitle": "Crypto Exchanges",
+    "paraPsavDescription": "On-chain signals for exchanges: wallet risk and monitoring. In Uruguay, VASP / BCU framework.",
+    "criptoExchangesTitle": "Crypto Exchanges",
+    "criptoExchangesDescription": "On-chain signals for exchanges: wallet risk assessment and monitoring. In Uruguay, VASP / BCU framework.",
+    "nosotrosTitle": "About",
+    "nosotrosDescription": "Walpulse origin, founder, and related projects. On-chain reputation signals; the recipient decides.",
+    "comoFuncionaTitle": "From wallet to signal",
+    "comoFuncionaDescription": "How Walpulse analyzes a wallet, issues explainable A–F grades, and delivers the signal for the recipient to use.",
+    "contactoTitle": "Contact",
+    "contactoDescription": "Reach the Walpulse team or request early access to explore on-chain wallet reputation signals.",
+    "ejemploTitle": "Signal example",
+    "ejemploDescription": "Illustrative Walpulse report walkthrough: Origins, Activity, Multichain, and Portfolio with explainable A–F grades."
+  },
+  "nav": {
+    "home": "Home",
+    "senales": "Signals",
+    "paraPsav": "For VASPs",
+    "nosotros": "About",
+    "comoFunciona": "How it works",
+    "contacto": "Contact",
+    "language": "Language"
+  },
+  "common": {
+    "exploreSignals": "Explore signals",
+    "talkToTeam": "Talk to the team",
+    "requestAccess": "Request early access",
+    "seeSignalsDetail": "See signal details",
+    "forPsavs": "For VASPs",
+    "learnMore": "Learn more",
+    "knowOrigin": "Learn about the project origin",
+    "disclaimerShort": "Walpulse delivers on-chain signals. Interpretation and decisions belong to the recipient.",
+    "principle": "We create and analyze signals. The recipient decides.",
+    "gradeScale": "A–F scale"
+  },
+  "footer": {
+    "tagline": "On-chain reputation signals for wallets.",
+    "rights": "Walpulse. All rights reserved."
+  },
+  "home": {
+    "heroHeadline": "On-chain signals for wallets",
+    "heroSub": "We produce reputation, maturity, and risk signals for blockchain wallets. Verifiable, explainable, and ready as input for risk analysis, due diligence, financial diligence, investigations, and more.",
+    "heroPrinciple": "We create signals. The recipient decides.",
+    "whatTitle": "What Walpulse is",
+    "whatBody": "We are a platform that produces on-chain reputation and analysis signals for wallets.",
+    "whatIntro": "It provides verifiable, explainable intelligence on:",
+    "whatPoints": {
+      "origins": "Source of funds (incl. 2-level depth and top counterparties)",
+      "activity": "Behavior and activity (90-day window)",
+      "multichain": "Maturity and multi-chain presence",
+      "portfolio": "Portfolio quality and composition"
+    },
+    "whatClose": "These signals serve as input so third parties can strengthen risk analysis, due diligence, or other processes within their own decision framework.",
+    "whatLimits": "Our platform does not perform KYC, does not execute Travel Rule, does not make compliance decisions, and does not follow tax-authority regulations.",
+    "whatCta": "How we work",
+    "signalsTitle": "The 4 signals",
+    "signalsIntro": "On-chain signals with A–F grades — verifiable and explainable.",
+    "signals": {
+      "origins": {
+        "name": "Origins",
+        "desc": "Source of funds with 2-level depth and top counterparties",
+        "grade": "B"
+      },
+      "activity": {
+        "name": "Activity",
+        "desc": "Flow behavior over a 90-day window",
+        "grade": "A"
+      },
+      "multichain": {
+        "name": "Multichain",
+        "desc": "Multi-network presence and maturity",
+        "grade": "C"
+      },
+      "portfolio": {
+        "name": "Portfolio",
+        "desc": "Portfolio quality and composition",
+        "grade": "B"
+      }
+    },
+    "mockTitle": "Signal preview",
+    "mockCta": "View full example",
+    "mockHint": "Illustrative example",
+    "useCasesTitle": "Who needs our signals?",
+    "useCasesIntro": "Walpulse signals can be used as input across multiple domains:",
+    "useCases": {
+      "cryptoExchanges": {
+        "title": "Crypto Exchanges",
+        "body": "Wallet risk assessment and monitoring"
+      },
+      "funds": {
+        "title": "Funds & investment",
+        "body": "On-chain due diligence of wallets and flows"
+      },
+      "insurance": {
+        "title": "Insurance",
+        "body": "Wallet-linked risk assessment"
+      },
+      "investigations": {
+        "title": "Civil and judicial investigations",
+        "body": "Structured on-chain evidence on origin, activity, and behavior"
+      }
+    },
+    "useCasesLearnMore": "Learn more",
+    "storyTitle": "Our story and team",
+    "storyBody": "We started from a hackathon-winning project, and our destination is a platform for universal on-chain signals.",
+    "storyCta": "Meet the team",
+    "ctaTitle": "Ready to explore the signals",
+    "ctaBody": "Explore the signals or talk to the team for early access."
+  },
+  "ejemplo": {
+    "metaTitle": "Signal example",
+    "metaDescription": "Illustrative walkthrough of an on-chain report with A–F grades and an explainable breakdown.",
+    "title": "This is what a Walpulse signal looks like",
+    "intro": "An illustrative walkthrough of an on-chain report: Origins, Activity, Multichain, and Portfolio with A–F grades and the detail that lets you audit each result. It shows the density and explainability of the product; interpretation belongs to the recipient.",
+    "analyzedAt": "Analyzed",
+    "chain": "Chain",
+    "agent": "Agent",
+    "moduleId": "Module ID",
+    "strengths": "Strengths",
+    "concerns": "Concerns",
+    "signals": "Signals",
+    "footer": "Illustrative · signals, not certification · the recipient decides.",
+    "backHome": "Back to home",
+    "prevModule": "Previous analysis",
+    "nextModule": "Next analysis"
+  },
+  "senales": {
+    "title": "Signals",
+    "intro": "Walpulse generates on-chain reputation, maturity, and risk signals for wallets (A–F scale). Signals are verifiable and explainable: the recipient can audit how each grade was reached.",
+    "limits": "Our platform does not perform KYC, does not execute Travel Rule, does not make compliance decisions, and does not follow tax-authority regulations.",
+    "overviewTitle": "The 4 certificates",
+    "version": "Version",
+    "provider": "Primary provider",
+    "certs": {
+      "origins": {
+        "name": "Origins",
+        "version": "origins-v2.2",
+        "summary": "Source of funds, with 2-level depth and origins of top counterparties",
+        "provider": "Alchemy + DefiLlama + labels",
+        "value": "On-chain evidence of funding origins — direct and through the wallets that financed the target.",
+        "analyzes": [
+          "% by origin category (CEX, bridge, mixer, OFAC, airdrop, organic…)",
+          "Unique senders",
+          "HHI concentration and top-1 / top-3",
+          "CEX quality",
+          "Temporal funding pattern",
+          "Mixer / OFAC exposure",
+          "Organic vs synthetic (NFT / airdrop)",
+          "Age of first funding",
+          "2-level origins (multi-hop)",
+          "Origins of the top 5 counterparties"
+        ]
+      },
+      "activity": {
+        "name": "Activity",
+        "version": "activity-v2.1",
+        "summary": "Flow behavior over a 90-day window, with counterparty history and sanctions exposure",
+        "provider": "Alchemy + DefiLlama",
+        "value": "Medium-term on-chain behavior profile and a historical exposure signal to sensitive counterparties.",
+        "analyzes": [
+          "Unique counterparties and concentration (HHI)",
+          "CEX interaction (% value and txs)",
+          "Reciprocity",
+          "Net vs gross flow",
+          "Velocity and burstiness",
+          "Token diversity",
+          "Wash / circular / bot-like signals",
+          "NFT vs fungible mix",
+          "To/from counterparty history",
+          "Historical exposure to OFAC / known sanctions (signal, not official screening)"
+        ]
+      },
+      "multichain": {
+        "name": "Multichain",
+        "version": "multichain-v1.5 / v2.1",
+        "summary": "Multi-network presence and maturity",
+        "provider": "Moralis / GoldRush",
+        "value": "Multi-chain maturity and presence.",
+        "analyzes": [
+          "Number of chains with activity",
+          "Global activity span",
+          "Chains active in 30 and 90 days",
+          "Dormant-chain ratio",
+          "Consistency and recency",
+          "Core ecosystems",
+          "Footprint concentration (HHI)"
+        ]
+      },
+      "portfolio": {
+        "name": "Portfolio",
+        "version": "portfolio-v2.2",
+        "summary": "Economic quality and composition of the portfolio",
+        "provider": "Zerion",
+        "value": "Economic quality and substance of the portfolio.",
+        "analyzes": [
+          "Total value usable vs credible",
+          "Liquid / locked and liquid ratio",
+          "Holdings concentration (HHI)",
+          "Stablecoin / bluechip / meme distribution",
+          "Dust and spam",
+          "Protocol exposure"
+        ]
+      }
+    },
+    "analyzesTitle": "What it analyzes",
+    "valueTitle": "Value as a signal",
+    "gradesTitle": "How grades are presented",
+    "gradesBody": "A–F scale. Each grade comes with a breakdown (explainability). The goal is for the recipient to understand why that grade was assigned—not just receive an opaque score.",
+    "roadmapNote": "Web v1 focuses on current signals. Any roadmap mention is brief and without date promises."
+  },
+  "paraPsav": {
+    "title": "For VASPs",
+    "message": "We deliver verifiable, explainable on-chain signals on source of funds, recent behavior, and wallet maturity so VASPs can strengthen risk assessment and monitoring within their own due-diligence framework.",
+    "problemTitle": "The context",
+    "problemBody": "BCU Circular No. 2507 establishes the authorization regime and obligations for Virtual Asset Service Providers (VASPs / PSAVs) in Uruguay. VASPs need stronger wallet risk assessment and monitoring. Part of that intelligence can come from verifiable on-chain signals.",
+    "problemClose": "Walpulse addresses that need from the on-chain signals side, without assuming the formal obligations the regulation assigns to the VASP.",
+    "mapTitle": "How Walpulse helps",
+    "mapHeaders": {
+      "aspect": "Aspect",
+      "contribution": "Walpulse contribution",
+      "cert": "Key certificate",
+      "level": "Level"
+    },
+    "map": [
+      {
+        "aspect": "Source of funds",
+        "contribution": "Strong (origin type, concentration, mixing, labels)",
+        "cert": "Origins",
+        "level": "High"
+      },
+      {
+        "aspect": "Activity profile",
+        "contribution": "Good (flows, counterparties, velocity, patterns)",
+        "cert": "Activity + Multichain",
+        "level": "Medium-High"
+      },
+      {
+        "aspect": "Unusual activity monitoring",
+        "contribution": "Good as signals (wash, circular, bot-like, mixing)",
+        "cert": "Activity + Origins",
+        "level": "Medium-High"
+      },
+      {
+        "aspect": "Risk-based approach",
+        "contribution": "Support (A–F grades + explainable breakdown)",
+        "cert": "All 4 certificates",
+        "level": "Medium"
+      },
+      {
+        "aspect": "Customer identification / KYC",
+        "contribution": "Not covered",
+        "cert": "—",
+        "level": "None"
+      },
+      {
+        "aspect": "Travel Rule",
+        "contribution": "Not covered",
+        "cert": "—",
+        "level": "None"
+      },
+      {
+        "aspect": "Official screening + freezing",
+        "contribution": "Very limited (internal labels)",
+        "cert": "Origins",
+        "level": "Low"
+      },
+      {
+        "aspect": "UIAF reporting",
+        "contribution": "Not covered",
+        "cert": "—",
+        "level": "None"
+      }
+    ],
+    "doesTitle": "What Walpulse does",
+    "does": [
+      "Produces on-chain reputation, maturity, and risk signals for wallets (A–F scale).",
+      "Delivers verifiable, explainable information (the recipient can audit how each grade was reached).",
+      "Especially covers: source of funds, recent behavior, multi-chain presence, and portfolio quality.",
+      "Serves as input so the VASP can enrich its own risk assessment and monitoring system."
+    ],
+    "doesNotTitle": "What Walpulse does not do",
+    "doesNot": [
+      "It is not a VASP.",
+      "It does not perform KYC or identify the person behind the wallet.",
+      "It does not execute Travel Rule.",
+      "It does not report to UIAF.",
+      "It does not perform official list screening or freezing.",
+      "It does not make compliance decisions or classify customers into regulatory risk categories.",
+      "It does not produce the formal report or written examination the regulation requires from the VASP."
+    ],
+    "benefitsTitle": "Concrete benefits",
+    "benefits": [
+      "Structured on-chain evidence on source of funds and recent behavior.",
+      "Early detection of risk signals (mixing, wash trading, bot-like activity, anomalous concentrations).",
+      "Enrichment of the activity profile and risk-based approach with auditable data.",
+      "Traceability: Walpulse does not obfuscate; it classifies and makes behavior more visible.",
+      "Integration as input to the VASP’s own due-diligence process, without transferring regulatory responsibility."
+    ]
+  },
+  "nosotros": {
+    "title": "About",
+    "intro": "Walpulse grows out of concrete work in the Ethereum Uruguay ecosystem. What began as ORIGO at a hackathon became production signals and later an independent project delivering on-chain reputation intelligence for wallets.",
+    "originTitle": "Origin",
+    "originBody": "At the Ethereum Uruguay Hackathon 2026 (3rd edition), the ORIGO project — verifiable analysis of wallet source of funds — won 1st place in the Startup category. The final pitch and awards ceremony took place at Blockchain Summit Global 2026 (Montevideo).",
+    "originBody2": "It did not stay a demo: source-of-funds signals were integrated into production as Walcert Origins. Walpulse is the independent project that continues and expands that approach.",
+    "originTeam": "Hackathon team (public coverage): Jair Valenzuela and Rodrigo Médica.",
+    "founderTitle": "Founder",
+    "founderName": "Ibzan Jair Valenzuela Suarez",
+    "founderRole": "Founder of Walpulse · Montevideo, Uruguay",
+    "founderBio": "Data Engineer with over 12 years of experience in databases, data warehousing, and large-scale data transformation. He leads Walpulse product vision and the definition of on-chain reputation signals.",
+    "projectsTitle": "Related projects",
+    "projectsIntro": "Walpulse is part of a line of work on on-chain reputation signals.",
+    "projects": {
+      "gsa": {
+        "name": "Global Score Agent",
+        "focus": "ERC-8004 agent reputation + wallets",
+        "audience": "Agents, protocols, agent owners"
+      },
+      "walcert": {
+        "name": "Walcert",
+        "focus": "A–F wallet maturity certificates",
+        "audience": "Agents and services that consume signals"
+      },
+      "walpulse": {
+        "name": "Walpulse",
+        "focus": "On-chain signals oriented to risk assessment",
+        "audience": "VASPs and due diligence"
+      }
+    },
+    "principlesTitle": "Principles",
+    "principles": [
+      "We create and analyze on-chain reputation signals.",
+      "The recipient interprets the signals and makes determinations.",
+      "We do not perform KYC, Travel Rule, UIAF reporting, or compliance decisions.",
+      "Signals are verifiable and explainable."
+    ]
+  },
+  "comoFunciona": {
+    "title": "From wallet to signal",
+    "eyebrow": "Flow",
+    "intro": "An address goes in. On-chain intelligence comes out — explainable A–F grades. The recipient decides what to do with it.",
+    "stepsTitle": "The process",
+    "steps": {
+      "input": {
+        "title": "Input",
+        "body": "A wallet address is received."
+      },
+      "analysis": {
+        "title": "On-chain analysis",
+        "body": "Data from multiple sources is processed per module (Origins, Activity, Multichain, Portfolio)."
+      },
+      "signals": {
+        "title": "Signals + Grades",
+        "body": "Signals are generated with an A–F grade and detail that allows auditing the result."
+      },
+      "use": {
+        "title": "Use by the recipient",
+        "body": "An exchange, fund, investigator, or other actor interprets the signals and makes their own determinations."
+      }
+    },
+    "explainTitle": "Explainability",
+    "explainLead": "Each grade is not a black box. Walpulse prioritizes that the recipient can understand how the result was built.",
+    "explainPoints": {
+      "variables": "Which variables were considered in the analysis.",
+      "factors": "How risk or maturity factors are distributed.",
+      "why": "Why that grade was reached — not just an opaque label."
+    },
+    "explainClose": "That matters when signals are used as input for risk analysis, due diligence, or investigation.",
+    "b2bTitle": "B2B / API approach",
+    "b2bBody": "Walpulse is designed as an on-chain intelligence source for teams that monitor wallets, assess risk, run due diligence, or investigate. Today the value is in the signals themselves: lookup by wallet and interpretation by the recipient. The next layer is integrating that intelligence into their own processes.",
+    "b2bSoonLabel": "Coming soon",
+    "b2bSoon": {
+      "dashboard": "Dashboard for on-demand signal lookups by wallet at the user’s request.",
+      "api": "Public API to plug into internal evaluation processes in an automated way."
+    }
+  },
+  "contacto": {
+    "title": "Let’s talk",
+    "intro": "If you want to explore how Walpulse on-chain signals can support your risk analysis, due diligence, or investigation work, get in touch.",
+    "earlyAccess": "Early access / preliminary conversation. We do not promise dates or undocumented features.",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "org": "Organization (optional)",
+      "message": "Message",
+      "submit": "Send message",
+      "sending": "Sending…",
+      "hint": "We will get back to you shortly at the email you provide.",
+      "success": "Message sent. Thank you for reaching out.",
+      "error": "We could not send the message. Please try again in a few minutes."
+    }
+  },
+  "hero": {
+    "chips": {
+      "originsB": "Origins · B",
+      "activityA": "Activity · A",
+      "multichainC": "Multichain · C",
+      "portfolioB": "Portfolio · B",
+      "psav": "VASP",
+      "exchange": "Exchange",
+      "fondo": "Fund",
+      "insurance": "Insurance",
+      "investigacion": "Investigation"
+    }
+  }
+}

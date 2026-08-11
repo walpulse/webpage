@@ -1,0 +1,27 @@
+# Walpulse
+
+> Walpulse creates and analyzes on-chain reputation signals for blockchain wallets.
+> Signals are verifiable and explainable (A–F grades). The recipient interprets and decides.
+> Walpulse does not perform KYC, Travel Rule, UIAF reporting, or compliance decisions.
+
+## Site
+
+- Home (ES): https://walpulse.com/es
+- Home (EN): https://walpulse.com/en
+- Home (PT): https://walpulse.com/pt
+
+## Key pages
+
+- Crypto exchanges / PSAV (UY): https://walpulse.com/es/cripto-exchanges
+- How it works: https://walpulse.com/es/como-funciona
+- Signal example report: https://walpulse.com/es/ejemplo
+- About: https://walpulse.com/es/nosotros
+- Contact: https://walpulse.com/es/contacto
+
+## Contact
+
+- Email: hello@walpulse.com
+
+## Principle
+
+We create and analyze signals. The recipient decides.

@@ -44,13 +44,8 @@ export type RegionContent = {
 };
 
 export type ExchangesPageCopy = {
-  regionLabel: string;
-  regionHint: string;
-  uruguayLabel: string;
-  worldLabel: string;
   principle: string;
   talkToTeam: string;
-  seeSignals: string;
   expandDiagram: string;
   closeDiagram: string;
   uy: RegionContent;
@@ -367,13 +362,8 @@ const mapCorePt: MapRow[] = [
 
 export const exchangesCopyByLocale: Record<string, ExchangesPageCopy> = {
   es: {
-    regionLabel: "Elegí tu región",
-    regionHint: "El contenido cambia según el marco regulatorio que te aplica.",
-    uruguayLabel: "Uruguay",
-    worldLabel: "Resto del mundo",
     principle: "Creamos y analizamos señales. El receptor decide.",
     talkToTeam: "Hablar con el equipo",
-    seeSignals: "Ver detalle de señales",
     expandDiagram: "Ampliar diagrama",
     closeDiagram: "Cerrar",
     uy: {
@@ -461,14 +451,8 @@ export const exchangesCopyByLocale: Record<string, ExchangesPageCopy> = {
     },
   },
   en: {
-    regionLabel: "Choose your region",
-    regionHint:
-      "Content changes based on the regulatory frame that applies to you.",
-    uruguayLabel: "Uruguay",
-    worldLabel: "Rest of world",
     principle: "We create and analyze signals. The recipient decides.",
     talkToTeam: "Talk to the team",
-    seeSignals: "See signal details",
     expandDiagram: "Expand diagram",
     closeDiagram: "Close",
     uy: {
@@ -556,14 +540,8 @@ export const exchangesCopyByLocale: Record<string, ExchangesPageCopy> = {
     },
   },
   pt: {
-    regionLabel: "Escolha sua região",
-    regionHint:
-      "O conteúdo muda conforme o marco regulatório que se aplica a você.",
-    uruguayLabel: "Uruguai",
-    worldLabel: "Resto do mundo",
     principle: "Criamos e analisamos sinais. O receptor decide.",
     talkToTeam: "Falar com a equipe",
-    seeSignals: "Ver detalhe dos sinais",
     expandDiagram: "Ampliar diagrama",
     closeDiagram: "Fechar",
     uy: {

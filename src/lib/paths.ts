@@ -2,6 +2,8 @@ export const routes = {
   home: "/",
   senales: "/senales",
   criptoExchanges: "/cripto-exchanges",
+  criptoExchangesInternacional: "/cripto-exchanges/internacional",
+  criptoExchangesUruguay: "/cripto-exchanges/uruguay",
   nosotros: "/nosotros",
   comoFunciona: "/como-funciona",
   contacto: "/contacto",
@@ -16,11 +18,54 @@ export const homeSenales = {
 
 export type AppRoute = (typeof routes)[keyof typeof routes];
 
-/** Primary header — empty: logo + language only. */
-export const headerNavItems: {
+export type ExchangeRegion = "uy" | "row";
+
+export function criptoExchangesPath(region: ExchangeRegion): string {
+  return region === "uy"
+    ? routes.criptoExchangesUruguay
+    : routes.criptoExchangesInternacional;
+}
+
+export type HeaderNavLink = {
+  type: "link";
   href: AppRoute;
-  labelKey: "home" | "nosotros" | "contacto";
-}[] = [];
+  labelKey: "senales" | "nosotros" | "earlyAccess";
+};
+
+export type HeaderNavDropdown = {
+  type: "dropdown";
+  labelKey: "whoUses";
+  children: {
+    href: string;
+    labelKey: "cryptoExchanges" | "cryptoExchangesPsav";
+    region: ExchangeRegion;
+  }[];
+};
+
+export type HeaderNavItem = HeaderNavLink | HeaderNavDropdown;
+
+/** Primary header — Inicio, Para quienes, Nosotros, Hablemos. */
+export const headerNavItems: HeaderNavItem[] = [
+  { type: "link", href: routes.home, labelKey: "senales" },
+  {
+    type: "dropdown",
+    labelKey: "whoUses",
+    children: [
+      {
+        href: routes.criptoExchangesInternacional,
+        labelKey: "cryptoExchanges",
+        region: "row",
+      },
+      {
+        href: routes.criptoExchangesUruguay,
+        labelKey: "cryptoExchangesPsav",
+        region: "uy",
+      },
+    ],
+  },
+  { type: "link", href: routes.nosotros, labelKey: "nosotros" },
+  { type: "link", href: routes.contacto, labelKey: "earlyAccess" },
+];
 
 export const CONTACT_EMAIL = "hello@walpulse.com";
 

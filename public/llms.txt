@@ -4,23 +4,37 @@
 > Signals are verifiable and explainable (A–F grades). The recipient interprets and decides.
 > Walpulse does not perform KYC, Travel Rule, UIAF reporting, or compliance decisions.
 
-## Site
+Canonical site: https://www.walpulse.com
 
-- Home (ES): https://walpulse.com/es
-- Home (EN): https://walpulse.com/en
-- Home (PT): https://walpulse.com/pt
+## Site (locales)
+
+- Home (ES): https://www.walpulse.com/es
+- Home (EN): https://www.walpulse.com/en
+- Home (PT): https://www.walpulse.com/pt
 
 ## Key pages
 
-- Crypto exchanges / PSAV (UY): https://walpulse.com/es/cripto-exchanges
-- How it works: https://walpulse.com/es/como-funciona
-- Signal example report: https://walpulse.com/es/ejemplo
-- About: https://walpulse.com/es/nosotros
-- Contact: https://walpulse.com/es/contacto
+- Crypto exchanges — International: https://www.walpulse.com/es/cripto-exchanges/internacional
+- Crypto exchanges — Uruguay (PSAV / BCU frame): https://www.walpulse.com/es/cripto-exchanges/uruguay
+- How it works: https://www.walpulse.com/es/como-funciona
+- Signal example report: https://www.walpulse.com/es/ejemplo
+- About: https://www.walpulse.com/es/nosotros
+- Contact: https://www.walpulse.com/es/contacto
+
+## Signals (current product)
+
+- Origins: source of funds with 2-level depth and origins of top counterparties
+- Activity: flow behavior over a 90-day window, counterparty history, sanctions exposure as a signal (not official screening)
+- Multichain: multi-network presence and maturity
+- Portfolio: economic quality and on-chain composition of holdings
+
+Grades are A–F and explainable. Walpulse delivers signals as input; the recipient decides.
 
 ## Contact
 
 - Email: hello@walpulse.com
+- X: https://x.com/ibzjairvalenz
+- Telegram: https://t.me/Global_Score_Agent
 
 ## Principle
 

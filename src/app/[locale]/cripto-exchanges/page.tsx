@@ -1,25 +1,23 @@
-import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
-import { CriptoExchangesContent } from "@/components/cripto-exchanges/CriptoExchangesContent";
+import { redirect } from "@/i18n/navigation";
+import { setRequestLocale } from "next-intl/server";
 import { routes } from "@/lib/paths";
-import { pageMetadata } from "@/lib/seo";
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ region?: string }>;
+};
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export default async function CriptoExchangesIndexPage({
+  params,
+  searchParams,
+}: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "meta" });
-  return pageMetadata({
-    locale,
-    path: routes.criptoExchanges,
-    title: t("criptoExchangesTitle"),
-    description: t("criptoExchangesDescription"),
-    siteName: t("siteName"),
-  });
-}
-
-export default async function CriptoExchangesPage({ params }: Props) {
-  const { locale } = await params;
+  const { region } = await searchParams;
   setRequestLocale(locale);
-  return <CriptoExchangesContent locale={locale} />;
+
+  if (region === "row") {
+    redirect({ href: routes.criptoExchangesInternacional, locale });
+  }
+
+  redirect({ href: routes.criptoExchangesUruguay, locale });
 }

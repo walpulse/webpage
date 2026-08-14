@@ -9,6 +9,10 @@
     "paraPsavDescription": "Señales on-chain para exchanges: riesgo y monitoreo de wallets. En Uruguay, marco PSAV / BCU.",
     "criptoExchangesTitle": "Cripto Exchanges",
     "criptoExchangesDescription": "Señales on-chain para exchanges: evaluación de riesgo y monitoreo de wallets. En Uruguay, marco PSAV / BCU.",
+    "criptoExchangesInternacionalTitle": "Cripto Exchanges — Internacional",
+    "criptoExchangesInternacionalDescription": "Señales on-chain para exchanges internacionales: evaluación de riesgo y monitoreo de wallets.",
+    "criptoExchangesUruguayTitle": "Cripto Exchanges — Uruguay",
+    "criptoExchangesUruguayDescription": "Señales on-chain para exchanges en Uruguay: evaluación de riesgo y monitoreo de wallets bajo marco PSAV / BCU.",
     "nosotrosTitle": "Nosotros",
     "nosotrosDescription": "Origen de Walpulse, fundador y proyectos asociados. Señales on-chain de reputación; el receptor decide.",
     "comoFuncionaTitle": "De wallet a señal",
@@ -20,11 +24,15 @@
   },
   "nav": {
     "home": "Inicio",
-    "senales": "Señales",
+    "senales": "Inicio",
+    "whoUses": "Para quienes",
+    "cryptoExchanges": "Cripto-Exchanges - Internacional",
+    "cryptoExchangesPsav": "Cripto-Exchanges - Uruguay",
     "paraPsav": "Para PSAVs",
     "nosotros": "Nosotros",
     "comoFunciona": "Cómo funciona",
     "contacto": "Contacto",
+    "earlyAccess": "Hablemos",
     "language": "Idioma"
   },
   "common": {
@@ -407,6 +415,85 @@
       "fondo": "Fondo",
       "insurance": "Insurance",
       "investigacion": "Investigación"
+    }
+  },
+  "reveal": {
+    "progressLabel": "Capas de análisis",
+    "ctaExample": "Ver ejemplo de reporte",
+    "gradeHint": "Grade ilustrativo",
+    "principle": "Nosotros creamos las señales, el receptor es quien decide.",
+    "analyzesHeading": "Qué analizamos",
+    "intro": {
+      "title": "Qué es Walpulse?",
+      "body": "Somos una plataforma especializada en producir señales sobre wallets blockchain. Nuestras señales son verificables, explicables y listas para usarse como input en análisis de riesgo, debida diligencia, due diligence financiera, investigación y más.",
+      "explainLead": "Cada señal no es una caja negra. Priorizamos que el receptor pueda entender cómo se construyó el resultado.",
+      "explainPoints": {
+        "variables": "Qué variables se consideraron en el análisis.",
+        "factors": "Cómo se distribuyen los factores de riesgo o madurez.",
+        "why": "Por qué se llegó a ese resultado — no solo un rótulo opaco."
+      },
+      "explainImageAlt": "Explicabilidad: la señal no es una caja negra",
+      "expandImage": "Ampliar imagen",
+      "closeImage": "Cerrar"
+    },
+    "moduleExample": {
+      "expand": "Ver análisis",
+      "close": "Cerrar",
+      "teaserTitle": {
+        "origins": "Ejemplo de reporte Orígenes",
+        "activity": "Ejemplo de reporte Actividad",
+        "multichain": "Ejemplo de reporte Multichain",
+        "portfolio": "Ejemplo de reporte Portafolio"
+      },
+      "walletLabel": "Wallet",
+      "analyzedAt": "Analizado",
+      "chain": "Chain",
+      "agent": "Agent",
+      "moduleId": "ID módulo",
+      "strengths": "Fortalezas",
+      "concerns": "Alertas",
+      "footer": "Ilustrativo · señales, no certificación · el receptor decide."
+    },
+    "framework": {
+      "title": "Tu marco de decisión",
+      "stepData": "Tus datos internos",
+      "stepSignals": "Nuestras señales on-chain",
+      "stepDecisions": "Decisiones más informadas y confiables"
+    },
+    "levels": {
+      "0": {
+        "kicker": "",
+        "title": "Señales on-chain para wallets",
+        "body": "Creamos señales de reputación, madurez y riesgo sobre wallets"
+      },
+      "1": {
+        "kicker": "",
+        "title": "Origen de los fondos",
+        "body": "Realizamos un análisis de dos niveles sobre el origen de los fondos que financiaron a la wallet"
+      },
+      "2": {
+        "kicker": "",
+        "title": "Actividad reciente",
+        "body": "Realizamos un análisis de comportamiento de flujos en una ventana de 90 días, con historial de contrapartes y exposición a sanciones como señal"
+      },
+      "3": {
+        "kicker": "",
+        "title": "Presencia multi-cadena",
+        "body": "Analizamos la madurez y presencia de la wallet a lo largo de múltiples redes"
+      },
+      "4": {
+        "kicker": "",
+        "title": "Calidad del portafolio",
+        "body": "Analizamos la composición económica y la calidad on-chain del portafolio"
+      }
+    },
+    "visual": {
+      "origins": "Origen",
+      "activity": "Actividad",
+      "presence": "Presencia",
+      "portfolio": "Portafolio",
+      "window90d": "90 DÍAS",
+      "inflowsLabel": "FONDOS → WALLET · 2 NIVELES"
     }
   }
 }

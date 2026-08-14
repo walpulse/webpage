@@ -1,49 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useId, useState, useSyncExternalStore } from "react";
+import { useEffect, useId, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Section, SectionHeading } from "@/components/ui/Section";
-import { homeSenales, routes } from "@/lib/paths";
+import { routes, type ExchangeRegion } from "@/lib/paths";
 import {
   exchangesCopyByLocale,
   type CoverageLevel,
   type RegionContent,
 } from "@/components/cripto-exchanges/exchangesCopy";
 
-type Region = "uy" | "row";
-
-const STORAGE_KEY = "walpulse-exchanges-region";
-
-const regionListeners = new Set<() => void>();
-
-function readStoredRegion(): Region {
-  try {
-    const stored = sessionStorage.getItem(STORAGE_KEY);
-    if (stored === "uy" || stored === "row") return stored;
-  } catch {
-    /* ignore */
-  }
-  return "uy";
-}
-
-function subscribeRegion(onStoreChange: () => void) {
-  regionListeners.add(onStoreChange);
-  return () => {
-    regionListeners.delete(onStoreChange);
-  };
-}
-
-function writeStoredRegion(next: Region) {
-  try {
-    sessionStorage.setItem(STORAGE_KEY, next);
-  } catch {
-    /* ignore */
-  }
-  regionListeners.forEach((listener) => listener());
-}
-
-const diagramByRegion: Record<Region, Record<string, string>> = {
+const diagramByRegion: Record<ExchangeRegion, Record<string, string>> = {
   uy: {
     es: "/psav_es.jpg",
     en: "/psav_en.jpg",
@@ -58,20 +26,15 @@ const diagramByRegion: Record<Region, Record<string, string>> = {
 
 type Props = {
   locale: string;
+  region: ExchangeRegion;
 };
 
 function coverageClass(level: CoverageLevel): string {
   return `coverage-badge coverage-badge--${level}`;
 }
 
-export function CriptoExchangesContent({ locale }: Props) {
+export function CriptoExchangesContent({ locale, region }: Props) {
   const copy = exchangesCopyByLocale[locale] ?? exchangesCopyByLocale.es;
-  // getServerSnapshot keeps SSR/hydration on "uy"; client then reads sessionStorage.
-  const region = useSyncExternalStore<Region>(
-    subscribeRegion,
-    readStoredRegion,
-    () => "uy",
-  );
   const [diagramOpen, setDiagramOpen] = useState(false);
   const dialogTitleId = useId();
 
@@ -89,11 +52,6 @@ export function CriptoExchangesContent({ locale }: Props) {
     };
   }, [diagramOpen]);
 
-  const select = (next: Region) => {
-    writeStoredRegion(next);
-    setDiagramOpen(false);
-  };
-
   const content: RegionContent = region === "uy" ? copy.uy : copy.row;
   const showCoverage = Boolean(content.mapHeaders.level);
   const diagramSrc =
@@ -103,40 +61,7 @@ export function CriptoExchangesContent({ locale }: Props) {
   return (
     <>
       <Section className="section-atmosphere relative overflow-hidden pt-20 md:pt-28">
-        <div className="region-picker">
-          <div className="region-picker__copy">
-            <p className="region-picker__label">{copy.regionLabel}</p>
-            <p className="region-picker__hint">{copy.regionHint}</p>
-          </div>
-          <div
-            role="tablist"
-            aria-label={copy.regionLabel}
-            className="region-picker__toggle"
-          >
-            {(
-              [
-                { id: "uy" as const, label: copy.uruguayLabel },
-                { id: "row" as const, label: copy.worldLabel },
-              ] as const
-            ).map((opt) => {
-              const active = region === opt.id;
-              return (
-                <button
-                  key={opt.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => select(opt.id)}
-                  className={`region-picker__option${active ? " is-active" : ""}`}
-                >
-                  {opt.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <h1 className="mt-10 max-w-3xl font-display text-4xl font-semibold tracking-tight text-pure md:text-5xl md:leading-[1.08]">
+        <h1 className="max-w-3xl font-display text-4xl font-semibold tracking-tight text-pure md:text-5xl md:leading-[1.08]">
           {content.title}
         </h1>
         <blockquote className="mt-6 max-w-3xl border-l-2 border-primary pl-5 text-lg leading-relaxed text-pure">
@@ -198,7 +123,6 @@ export function CriptoExchangesContent({ locale }: Props) {
           </p>
         ) : null}
 
-        {/* Mobile: stacked comparison cards */}
         <ul className="exchanges-map-cards">
           {content.map.map((row) => (
             <li key={row.aspect} className="exchanges-map-card">
@@ -227,7 +151,6 @@ export function CriptoExchangesContent({ locale }: Props) {
           ))}
         </ul>
 
-        {/* Desktop: table */}
         <div className="exchanges-map-table">
           <table className="min-w-full text-left text-sm">
             <thead className="bg-surface/90 text-muted">
@@ -324,9 +247,6 @@ export function CriptoExchangesContent({ locale }: Props) {
         <div className="mt-10 flex flex-wrap gap-3">
           <Button href={routes.contacto} className="btn-premium">
             {copy.talkToTeam}
-          </Button>
-          <Button href={homeSenales} variant="secondary">
-            {copy.seeSignals}
           </Button>
         </div>
       </Section>

@@ -11,12 +11,12 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/para-psav",
-        destination: "/cripto-exchanges",
+        destination: "/cripto-exchanges/uruguay",
         permanent: true,
       },
       {
         source: "/:locale(es|en|pt)/para-psav",
-        destination: "/:locale/cripto-exchanges",
+        destination: "/:locale/cripto-exchanges/uruguay",
         permanent: true,
       },
     ];

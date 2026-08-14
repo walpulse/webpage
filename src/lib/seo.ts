@@ -3,13 +3,14 @@ import { routing } from "@/i18n/routing";
 import { routes, type AppRoute } from "@/lib/paths";
 
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://walpulse.com"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.walpulse.com"
 ).replace(/\/$/, "");
 
 /** Indexable app paths (locale prefix added separately). */
 export const INDEXABLE_PATHS: readonly AppRoute[] = [
   routes.home,
-  routes.criptoExchanges,
+  routes.criptoExchangesInternacional,
+  routes.criptoExchangesUruguay,
   routes.nosotros,
   routes.comoFunciona,
   routes.contacto,

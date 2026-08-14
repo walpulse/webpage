@@ -4,7 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { OriginRecognitionMedia } from "@/components/nosotros/OriginRecognitionMedia";
 import { Button } from "@/components/ui/Button";
 import { Section, SectionHeading } from "@/components/ui/Section";
-import { homeSenales, ORIGIN_LINKS, routes } from "@/lib/paths";
+import { ORIGIN_LINKS, routes } from "@/lib/paths";
 import { pageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -355,9 +355,6 @@ export default async function NosotrosPage({ params }: Props) {
           ))}
         </ul>
         <div className="mt-12 flex flex-wrap gap-3">
-          <Button href={homeSenales} className="btn-premium">
-            {tc("exploreSignals")}
-          </Button>
           <Button href={routes.contacto} className="btn-premium">
             {tc("talkToTeam")}
           </Button>

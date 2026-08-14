@@ -9,6 +9,10 @@
     "paraPsavDescription": "On-chain signals for exchanges: wallet risk and monitoring. In Uruguay, VASP / BCU framework.",
     "criptoExchangesTitle": "Crypto Exchanges",
     "criptoExchangesDescription": "On-chain signals for exchanges: wallet risk assessment and monitoring. In Uruguay, VASP / BCU framework.",
+    "criptoExchangesInternacionalTitle": "Crypto Exchanges — International",
+    "criptoExchangesInternacionalDescription": "On-chain signals for international exchanges: wallet risk assessment and monitoring.",
+    "criptoExchangesUruguayTitle": "Crypto Exchanges — Uruguay",
+    "criptoExchangesUruguayDescription": "On-chain signals for Uruguay exchanges: wallet risk assessment and monitoring under the VASP / BCU framework.",
     "nosotrosTitle": "About",
     "nosotrosDescription": "Walpulse origin, founder, and related projects. On-chain reputation signals; the recipient decides.",
     "comoFuncionaTitle": "From wallet to signal",
@@ -20,11 +24,15 @@
   },
   "nav": {
     "home": "Home",
-    "senales": "Signals",
+    "senales": "Home",
+    "whoUses": "For whom",
+    "cryptoExchanges": "Crypto exchanges - International",
+    "cryptoExchangesPsav": "Crypto exchanges - Uruguay",
     "paraPsav": "For VASPs",
     "nosotros": "About",
     "comoFunciona": "How it works",
     "contacto": "Contact",
+    "earlyAccess": "Let's talk",
     "language": "Language"
   },
   "common": {
@@ -407,6 +415,85 @@
       "fondo": "Fund",
       "insurance": "Insurance",
       "investigacion": "Investigation"
+    }
+  },
+  "reveal": {
+    "progressLabel": "Analysis layers",
+    "ctaExample": "View sample report",
+    "gradeHint": "Illustrative grade",
+    "principle": "We create the signals; the recipient is who decides.",
+    "analyzesHeading": "What we analyze",
+    "intro": {
+      "title": "What is Walpulse?",
+      "body": "We are a platform specialized in producing signals about blockchain wallets. Our signals are verifiable, explainable, and ready to use as input for risk analysis, due diligence, financial due diligence, investigation, and more.",
+      "explainLead": "Each signal is not a black box. We prioritize that the recipient can understand how the result was built.",
+      "explainPoints": {
+        "variables": "Which variables were considered in the analysis.",
+        "factors": "How risk or maturity factors are distributed.",
+        "why": "Why that result was reached — not just an opaque label."
+      },
+      "explainImageAlt": "Explainability: the signal is not a black box",
+      "expandImage": "Enlarge image",
+      "closeImage": "Close"
+    },
+    "moduleExample": {
+      "expand": "View analysis",
+      "close": "Close",
+      "teaserTitle": {
+        "origins": "Origins report example",
+        "activity": "Activity report example",
+        "multichain": "Multichain report example",
+        "portfolio": "Portfolio report example"
+      },
+      "walletLabel": "Wallet",
+      "analyzedAt": "Analyzed",
+      "chain": "Chain",
+      "agent": "Agent",
+      "moduleId": "Module ID",
+      "strengths": "Strengths",
+      "concerns": "Concerns",
+      "footer": "Illustrative · signals, not certification · the recipient decides."
+    },
+    "framework": {
+      "title": "Your decision framework",
+      "stepData": "Your internal data",
+      "stepSignals": "Our on-chain signals",
+      "stepDecisions": "Better-informed, more reliable decisions"
+    },
+    "levels": {
+      "0": {
+        "kicker": "",
+        "title": "On-chain signals for wallets",
+        "body": "We create reputation, maturity, and risk signals about wallets"
+      },
+      "1": {
+        "kicker": "",
+        "title": "Origin of funds",
+        "body": "We run a two-level analysis of the origin of the funds that financed the wallet"
+      },
+      "2": {
+        "kicker": "",
+        "title": "Recent activity",
+        "body": "We analyze flow behavior over a 90-day window, including counterparty history and sanctions exposure as a signal"
+      },
+      "3": {
+        "kicker": "",
+        "title": "Multi-chain presence",
+        "body": "We analyze the wallet’s maturity and presence across multiple networks"
+      },
+      "4": {
+        "kicker": "",
+        "title": "Portfolio quality",
+        "body": "We analyze the economic composition and on-chain quality of the portfolio"
+      }
+    },
+    "visual": {
+      "origins": "Origin",
+      "activity": "Activity",
+      "presence": "Presence",
+      "portfolio": "Portfolio",
+      "window90d": "90 DAYS",
+      "inflowsLabel": "FUNDS → WALLET · 2 LEVELS"
     }
   }
 }

@@ -588,80 +588,7 @@ body {
   }
 }
 
-/* Cripto Exchanges — region picker */
-.region-picker {
-  display: flex;
-  flex-direction: column;
-  gap: 1.15rem;
-  max-width: 40rem;
-  padding: 1.35rem 1.4rem 1.45rem;
-  border-radius: 1.25rem;
-  border: 1px solid color-mix(in oklab, var(--primary) 28%, var(--glass));
-  background:
-    linear-gradient(
-      160deg,
-      color-mix(in oklab, var(--surface) 92%, transparent),
-      color-mix(in oklab, var(--void) 88%, transparent)
-    );
-  box-shadow:
-    0 0 0 1px color-mix(in oklab, var(--primary) 6%, transparent),
-    0 0 48px color-mix(in oklab, var(--primary) 10%, transparent);
-}
-
-.region-picker__label {
-  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.15rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--pure);
-}
-
-.region-picker__hint {
-  margin-top: 0.35rem;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: var(--muted);
-}
-
-.region-picker__toggle {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.45rem;
-  width: 100%;
-  padding: 0.35rem;
-  border-radius: 0.95rem;
-  border: 1px solid color-mix(in oklab, var(--glass) 70%, white 10%);
-  background: color-mix(in oklab, var(--void) 75%, transparent);
-}
-
-.region-picker__option {
-  border-radius: 0.75rem;
-  border: 1px solid transparent;
-  padding: 0.85rem 1rem;
-  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: color-mix(in oklab, var(--muted) 90%, white);
-  transition:
-    color 220ms ease,
-    background-color 220ms ease,
-    border-color 220ms ease,
-    box-shadow 220ms ease;
-}
-
-.region-picker__option:hover {
-  color: var(--pure);
-  border-color: color-mix(in oklab, var(--primary) 22%, transparent);
-}
-
-.region-picker__option.is-active {
-  color: var(--void);
-  font-weight: 600;
-  background: var(--primary-soft);
-  border-color: color-mix(in oklab, var(--primary) 55%, white);
-  box-shadow: 0 0 28px color-mix(in oklab, var(--primary) 22%, transparent);
-}
-
+/* Cripto Exchanges — coverage map */
 .coverage-badge {
   display: inline-flex;
   align-items: center;
@@ -1705,5 +1632,949 @@ body {
   .benefit-card,
   .benefit-card:hover {
     transform: none;
+  }
+
+  .wallet-reveal__layer {
+    transition: none;
+  }
+}
+
+/* Home — progressive wallet reveal (split: etapas izq / detalle der) */
+.wallet-reveal {
+  position: relative;
+  height: 500vh;
+}
+
+.wallet-reveal__sticky {
+  position: sticky;
+  top: 4rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  height: calc(100svh - 4rem);
+  overflow: hidden;
+  background: var(--void);
+}
+
+.wallet-reveal__left {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.wallet-reveal__stage {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: var(--void);
+}
+
+.wallet-reveal__stage-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 52% 48% at 50% 44%,
+      color-mix(in oklab, var(--primary) 14%, transparent),
+      transparent 68%
+    ),
+    var(--void);
+}
+
+.wallet-reveal__vignette {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--void) 42%, transparent) 0%,
+      transparent 26%,
+      transparent 58%,
+      color-mix(in oklab, var(--void) 78%, transparent) 100%
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--void) 55%, transparent) 0%,
+      transparent 38%,
+      color-mix(in oklab, var(--void) 28%, transparent) 100%
+    );
+}
+
+.reveal-visual {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  justify-items: center;
+  align-items: center;
+  overflow: hidden;
+  padding-left: 14%;
+}
+
+.reveal-visual__glow {
+  position: absolute;
+  inset: 18% 10% 28% 22%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in oklab, var(--primary) 18%, transparent),
+    transparent 70%
+  );
+  filter: blur(8px);
+}
+
+.reveal-visual__svg {
+  position: relative;
+  z-index: 1;
+  width: min(90%, 600px);
+  height: auto;
+  max-height: min(72%, 540px);
+  opacity: 0.96;
+}
+
+.reveal-visual__layer {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+
+.reveal-visual__layer.is-active {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-visual__layer {
+    transition: none;
+  }
+}
+
+.wallet-reveal__ui {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  height: 100%;
+  padding: 1.5rem 2.4rem 1.75rem 1.85rem;
+  pointer-events: none;
+}
+
+.wallet-reveal__copy {
+  position: relative;
+  display: flex;
+  width: min(34rem, 58%);
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  pointer-events: auto;
+}
+
+.wallet-reveal__layers {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wallet-reveal__layer {
+  position: absolute;
+  inset: auto 0 auto 0;
+  top: 14%;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 420ms ease,
+    transform 420ms ease;
+  pointer-events: none;
+}
+
+.wallet-reveal__layer.is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  position: relative;
+  top: auto;
+}
+
+.wallet-reveal__kicker {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--primary) 80%, white);
+}
+
+.wallet-reveal__kicker:empty {
+  display: none;
+}
+
+.wallet-reveal__title {
+  margin-top: 0.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 3.1vw, 2.65rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--pure);
+}
+
+.wallet-reveal__body {
+  margin-top: 0.9rem;
+  max-width: 32rem;
+  font-size: 1.08rem;
+  line-height: 1.62;
+  color: var(--muted);
+}
+
+.wallet-reveal__footer {
+  flex-shrink: 0;
+  margin-top: auto;
+  padding-top: 1.25rem;
+}
+
+.wallet-reveal__principle {
+  max-width: 22rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  line-height: 1.55;
+  color: color-mix(in oklab, var(--muted) 88%, white);
+}
+
+.wallet-reveal__cta {
+  margin-top: 0.85rem;
+}
+
+.wallet-reveal__dots {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  display: flex;
+  translate: 0 -50%;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: auto;
+}
+
+.wallet-reveal__dot {
+  display: block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--primary) 45%, var(--glass));
+  background: transparent;
+  cursor: pointer;
+}
+
+.wallet-reveal__dot.is-active {
+  background: var(--primary);
+  box-shadow: 0 0 14px color-mix(in oklab, var(--primary) 45%, transparent);
+}
+
+.wallet-reveal__right {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  padding: 1.15rem 1.25rem 1.25rem 0.65rem;
+}
+
+.wallet-reveal__detail {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.35rem 1.4rem 1.5rem;
+  border-radius: 1.25rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 70%, var(--primary) 22%);
+  background: color-mix(in oklab, var(--surface) 68%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--primary) 6%, transparent),
+    0 24px 48px color-mix(in oklab, var(--void) 45%, transparent),
+    0 0 40px color-mix(in oklab, var(--primary) 8%, transparent);
+  backdrop-filter: blur(16px);
+  animation: reveal-detail-in 380ms ease;
+}
+
+@keyframes reveal-detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal-detail__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.2vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--pure);
+}
+
+.reveal-detail__lead {
+  margin-top: 0.85rem;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--pure);
+}
+
+.reveal-explain {
+  display: grid;
+  gap: 1.15rem;
+  margin-top: 1.35rem;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .reveal-explain {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+    gap: 1.15rem;
+    align-items: center;
+  }
+}
+
+.reveal-explain__lead {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.reveal-explain__list {
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reveal-explain__list li {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.55rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.reveal-explain__list li span {
+  margin-top: 0.55rem;
+  width: 0.35rem;
+  height: 0.35rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--primary) 70%, transparent);
+}
+
+.reveal-explain__media {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 55%, var(--primary) 18%);
+  background: color-mix(in oklab, var(--void) 55%, transparent);
+  box-shadow: 0 18px 40px color-mix(in oklab, var(--void) 45%, transparent);
+  cursor: zoom-in;
+  transition: border-color 200ms ease;
+}
+
+.reveal-explain__media:hover {
+  border-color: color-mix(in oklab, var(--primary) 45%, var(--glass));
+}
+
+.reveal-explain__image {
+  display: block;
+  width: 100%;
+  max-height: 12.5rem;
+  height: auto;
+  object-fit: contain;
+}
+
+.reveal-explain-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: color-mix(in oklab, var(--void) 82%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.reveal-explain-modal__dialog {
+  width: min(56rem, 100%);
+  max-height: 92vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1rem 1.1rem 1.15rem;
+  border-radius: 1.15rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 65%, var(--primary) 30%);
+  background: color-mix(in oklab, var(--surface) 92%, var(--void));
+  box-shadow: 0 0 60px color-mix(in oklab, var(--primary) 14%, transparent);
+}
+
+.reveal-explain-modal__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.reveal-explain-modal__heading {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--primary) 85%, white);
+}
+
+.reveal-explain-modal__close {
+  flex-shrink: 0;
+  border-radius: 0.55rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 70%, transparent);
+  padding: 0.35rem 0.7rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    border-color 200ms ease,
+    color 200ms ease;
+}
+
+.reveal-explain-modal__close:hover {
+  border-color: color-mix(in oklab, var(--primary) 45%, transparent);
+  color: var(--pure);
+}
+
+.reveal-explain-modal__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.85rem;
+  object-fit: contain;
+}
+
+.reveal-process {
+  margin-top: 1.6rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid color-mix(in oklab, var(--primary) 16%, transparent);
+}
+
+.reveal-process__title {
+  margin-bottom: 0.95rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--pure);
+}
+
+.reveal-detail__what .process-flow__card {
+  padding: 0.85rem 0.8rem 0.95rem;
+}
+
+.reveal-detail__what .process-flow__title {
+  font-size: 0.95rem;
+}
+
+.reveal-detail__what .process-flow__body {
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.reveal-signal__kicker {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--primary) 80%, white);
+}
+
+.reveal-signal__name {
+  margin-top: 0.55rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--pure);
+}
+
+.reveal-signal__summary {
+  margin-top: 0.65rem;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.reveal-signal__analyzes-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--pure);
+}
+
+.reveal-signal__analyzes-label {
+  margin-top: 1.45rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--primary) 85%, white);
+}
+
+.reveal-signal--detail .reveal-signal__list {
+  margin-top: 0.85rem;
+}
+
+.reveal-signal__example {
+  margin-top: 1.35rem;
+}
+
+.reveal-module-card {
+  position: relative;
+  padding: 1rem 1.05rem 1.1rem;
+  border-radius: 1.05rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 65%, var(--primary) 28%);
+  background: color-mix(in oklab, var(--void) 55%, var(--surface));
+  cursor: zoom-in;
+  user-select: none;
+}
+
+.reveal-module-card__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.reveal-module-card__schema {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--primary) 85%, white);
+}
+
+.reveal-module-card__expand {
+  display: grid;
+  place-items: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 0.55rem;
+  border: 1px solid color-mix(in oklab, var(--primary) 40%, var(--glass));
+  background: color-mix(in oklab, var(--surface) 70%, transparent);
+  color: var(--primary);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border-color 200ms ease,
+    background 200ms ease;
+}
+
+.reveal-module-card__expand:hover {
+  border-color: color-mix(in oklab, var(--primary) 70%, white);
+  background: color-mix(in oklab, var(--primary) 12%, transparent);
+}
+
+.reveal-module-card__wallet {
+  margin-top: 0.55rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  word-break: break-all;
+  color: var(--pure);
+}
+
+.reveal-module-card__wallet-label {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--muted) 85%, transparent);
+}
+
+.reveal-module-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  margin-top: 0.45rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.62rem;
+  color: var(--muted);
+}
+
+.reveal-module-card__meta div {
+  display: inline;
+}
+
+.reveal-module-card__meta dt,
+.reveal-module-card__meta dd {
+  display: inline;
+}
+
+.reveal-module-card__meta dt {
+  color: color-mix(in oklab, var(--muted) 75%, transparent);
+}
+
+.reveal-module-card__hint {
+  margin-top: 0.85rem;
+  font-size: 0.68rem;
+  line-height: 1.45;
+  color: color-mix(in oklab, var(--muted) 80%, transparent);
+}
+
+.reveal-module-body {
+  margin-top: 0.85rem;
+}
+
+.reveal-module-body__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem;
+}
+
+.reveal-module-body__title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--pure);
+}
+
+.reveal-module-body__summary {
+  margin-top: 0.55rem;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.reveal-module-body__summary--clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.reveal-module-body__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .reveal-module-body__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .reveal-module-body__grid:not(.reveal-module-body__grid--teaser) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.reveal-module-body__metric {
+  border-radius: 0.65rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 55%, transparent);
+  background: color-mix(in oklab, var(--void) 55%, transparent);
+  padding: 0.45rem 0.55rem;
+}
+
+.reveal-module-body__metric-label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--muted) 85%, transparent);
+}
+
+.reveal-module-body__metric-value {
+  margin-top: 0.2rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.8rem;
+  color: var(--pure);
+}
+
+.reveal-module-body__notes {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 640px) {
+  .reveal-module-body__notes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.reveal-module-body__notes-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.reveal-module-body__notes-label.is-strength {
+  color: var(--grade-a);
+}
+
+.reveal-module-body__notes-label.is-concern {
+  color: var(--grade-c);
+}
+
+.reveal-module-body__notes ul {
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reveal-module-body__notes li {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.reveal-module-body__notes li span {
+  margin-top: 0.45rem;
+  width: 0.28rem;
+  height: 0.28rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+}
+
+.reveal-module-body__notes li span.is-strength {
+  background: var(--grade-a);
+}
+
+.reveal-module-body__notes li span.is-concern {
+  background: var(--grade-c);
+}
+
+.reveal-module-body__module-id {
+  margin-top: 0.85rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.58rem;
+  color: color-mix(in oklab, var(--muted) 70%, transparent);
+}
+
+.reveal-module-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: color-mix(in oklab, var(--void) 82%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.reveal-module-modal__dialog {
+  width: min(52rem, 100%);
+  max-height: 92vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.15rem 1.2rem 1.25rem;
+  border-radius: 1.15rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 65%, var(--primary) 30%);
+  background: color-mix(in oklab, var(--surface) 92%, var(--void));
+  box-shadow: 0 0 60px color-mix(in oklab, var(--primary) 14%, transparent);
+}
+
+.reveal-module-modal__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.reveal-module-modal__heading {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--primary) 85%, white);
+}
+
+.reveal-module-modal__close {
+  flex-shrink: 0;
+  border-radius: 0.55rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 70%, transparent);
+  padding: 0.35rem 0.7rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    border-color 200ms ease,
+    color 200ms ease;
+}
+
+.reveal-module-modal__close:hover {
+  border-color: color-mix(in oklab, var(--primary) 45%, transparent);
+  color: var(--pure);
+}
+
+.reveal-module-modal__wallet {
+  margin-top: 0.65rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.85rem;
+  word-break: break-all;
+  color: var(--pure);
+}
+
+.reveal-module-modal__meta {
+  margin-top: 0.5rem;
+}
+
+.reveal-module-modal .reveal-module-body__title {
+  font-size: 1.25rem;
+}
+
+.reveal-module-modal .reveal-module-body__summary {
+  font-size: 0.9rem;
+}
+
+.reveal-signal__list {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reveal-signal__list li {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.reveal-signal__list li span {
+  margin-top: 0.7rem;
+  width: 0.85rem;
+  height: 1px;
+  flex-shrink: 0;
+  background: color-mix(in oklab, var(--primary) 55%, transparent);
+}
+
+.reveal-signal__value {
+  margin-top: 1.35rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in oklab, var(--primary) 16%, transparent);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: color-mix(in oklab, var(--pure) 86%, transparent);
+}
+
+@media (max-width: 768px) {
+  .wallet-reveal__sticky {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(10.5rem, 36svh) minmax(0, 1fr);
+  }
+
+  .wallet-reveal__stage {
+    opacity: 0.55;
+  }
+
+  .wallet-reveal__ui {
+    padding: 0.85rem 1rem 2.4rem;
+  }
+
+  .wallet-reveal__copy {
+    width: min(100%, 100%);
+  }
+
+  .wallet-reveal__layers {
+    justify-content: flex-end;
+    padding-bottom: 0.35rem;
+  }
+
+  .wallet-reveal__layer {
+    top: auto;
+    bottom: 0.25rem;
+  }
+
+  .wallet-reveal__title {
+    font-size: clamp(1.35rem, 5.8vw, 1.75rem);
+  }
+
+  .wallet-reveal__body {
+    display: none;
+  }
+
+  .wallet-reveal__footer {
+    padding-top: 0.65rem;
+  }
+
+  .wallet-reveal__cta {
+    margin-top: 0.65rem;
+  }
+
+  .wallet-reveal__dots {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: 0.65rem;
+    translate: -50% 0;
+    flex-direction: row;
+  }
+
+  .wallet-reveal__vignette {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--void) 18%, transparent) 0%,
+        transparent 30%,
+        color-mix(in oklab, var(--void) 78%, transparent) 100%
+      );
+  }
+
+  .reveal-visual {
+    place-items: start center;
+    justify-items: center;
+    align-items: flex-start;
+    padding-left: 0;
+    padding-top: 0.35rem;
+  }
+
+  .reveal-visual__glow {
+    inset: 8% 18% 42% 18%;
+  }
+
+  .reveal-visual__svg {
+    width: min(88%, 420px);
+    max-height: min(58%, 280px);
+  }
+
+  .wallet-reveal__right {
+    padding: 0.15rem 0.85rem 0.9rem;
+  }
+
+  .wallet-reveal__detail {
+    padding: 1.1rem 1.05rem 1.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wallet-reveal__detail {
+    animation: none;
   }
 }

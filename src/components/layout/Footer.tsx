@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { routes } from "@/lib/paths";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export async function Footer() {
@@ -7,7 +9,7 @@ export async function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-glass bg-surface">
+    <footer className="border-t border-glass bg-void">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-12 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <div className="flex items-center gap-2.5">
@@ -28,6 +30,12 @@ export async function Footer() {
         </div>
 
         <div className="flex flex-col items-start gap-3 sm:items-end">
+          <Link
+            href={routes.contacto}
+            className="text-sm text-muted transition-colors hover:text-pure"
+          >
+            {t("nav.earlyAccess")}
+          </Link>
           <LanguageSwitcher />
           <p className="text-xs text-muted">
             © {year} {t("footer.rights")}

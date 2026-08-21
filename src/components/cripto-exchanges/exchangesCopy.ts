@@ -41,6 +41,7 @@ export type RegionContent = {
   doesNot: string[];
   benefitsTitle: string;
   benefits: string[];
+  ctaTitle: string;
 };
 
 export type ExchangesPageCopy = {
@@ -55,40 +56,40 @@ export type ExchangesPageCopy = {
 const circularHeadersEs = {
   aspect: "Lo que pide la circular",
   contribution: "Lo que aporta Walpulse",
-  cert: "Certificado clave",
+  cert: "Parte clave",
   level: "Cobertura",
 };
 
 const circularHeadersEn = {
   aspect: "What the circular requires",
   contribution: "What Walpulse contributes",
-  cert: "Key certificate",
+  cert: "Key signal part",
   level: "Coverage",
 };
 
 const circularHeadersPt = {
   aspect: "O que a circular pede",
   contribution: "O que a Walpulse aporta",
-  cert: "Certificado chave",
+  cert: "Parte chave",
   level: "Cobertura",
 };
 
 const sharedMapHeadersEs = {
   aspect: "Aspecto",
   contribution: "Aporte de Walpulse",
-  cert: "Certificado clave",
+  cert: "Parte clave",
 };
 
 const sharedMapHeadersEn = {
   aspect: "Aspect",
   contribution: "Walpulse contribution",
-  cert: "Key certificate",
+  cert: "Key signal part",
 };
 
 const sharedMapHeadersPt = {
   aspect: "Aspecto",
   contribution: "Contribuição da Walpulse",
-  cert: "Certificado chave",
+  cert: "Parte chave",
 };
 
 /** Uruguay: 8 aspectos vault (Señales actuales + Gap vs PSAV). */
@@ -131,7 +132,7 @@ const mapUyEs: MapRow[] = [
   {
     aspect: "Enfoque basado en riesgo",
     contribution: "Apoyo (grades A–F + breakdown explicable)",
-    cert: "Los 4 certificados",
+    cert: "Las 4 partes (según tier)",
     level: "Media",
     coverage: "medium",
   },
@@ -172,7 +173,7 @@ const mapWorldEs: MapRow[] = [
   {
     aspect: "Enfoque basado en riesgo",
     contribution: "Apoyo (grades A–F + breakdown explicable)",
-    cert: "Los 4 certificados",
+    cert: "Las 4 partes (según tier)",
   },
   {
     aspect: "Screening oficial + congelamiento",
@@ -221,7 +222,7 @@ const mapUyEn: MapRow[] = [
   {
     aspect: "Risk-based approach",
     contribution: "Support (A–F grades + explainable breakdown)",
-    cert: "All 4 certificates",
+    cert: "All 4 parts (by tier)",
     level: "Medium",
     coverage: "medium",
   },
@@ -261,7 +262,7 @@ const mapCoreEn: MapRow[] = [
   {
     aspect: "Risk-based approach",
     contribution: "Support (A–F grades + explainable breakdown)",
-    cert: "All 4 certificates",
+    cert: "All 4 parts (by tier)",
   },
   {
     aspect: "Official screening + freezing",
@@ -310,7 +311,7 @@ const mapUyPt: MapRow[] = [
   {
     aspect: "Abordagem baseada em risco",
     contribution: "Apoio (grades A–F + breakdown explicável)",
-    cert: "Os 4 certificados",
+    cert: "As 4 partes (conforme o tier)",
     level: "Média",
     coverage: "medium",
   },
@@ -350,7 +351,7 @@ const mapCorePt: MapRow[] = [
   {
     aspect: "Abordagem baseada em risco",
     contribution: "Apoio (grades A–F + breakdown explicável)",
-    cert: "Os 4 certificados",
+    cert: "As 4 partes (conforme o tier)",
   },
   {
     aspect: "Screening oficial + congelamento",
@@ -408,6 +409,8 @@ export const exchangesCopyByLocale: Record<string, ExchangesPageCopy> = {
         "Trazabilidad: Walpulse no ofusca; clasifica y hace más visible el comportamiento.",
         "Integración como input del propio proceso de debida diligencia, sin transferir responsabilidad regulatoria.",
       ],
+      ctaTitle:
+        "¿Está listo para integrar señales on-chain a su proceso de debida diligencia?",
     },
     row: {
       title: "Para Cripto Exchanges",
@@ -448,6 +451,8 @@ export const exchangesCopyByLocale: Record<string, ExchangesPageCopy> = {
         "Trazabilidad: Walpulse no ofusca; clasifica y hace más visible el comportamiento.",
         "Integración como input del proceso interno del exchange, sin transferir responsabilidad.",
       ],
+      ctaTitle:
+        "¿Está listo para integrar señales on-chain a su proceso de decisión?",
     },
   },
   en: {
@@ -497,6 +502,8 @@ export const exchangesCopyByLocale: Record<string, ExchangesPageCopy> = {
         "Traceability: Walpulse does not obfuscate; it classifies and makes behavior more visible.",
         "Integration as input to the VASP’s own due-diligence process, without transferring regulatory responsibility.",
       ],
+      ctaTitle:
+        "Ready to integrate on-chain signals into your due-diligence process?",
     },
     row: {
       title: "For Crypto Exchanges",
@@ -537,6 +544,8 @@ export const exchangesCopyByLocale: Record<string, ExchangesPageCopy> = {
         "Traceability: Walpulse does not obfuscate; it classifies and makes behavior more visible.",
         "Integration as input to the exchange’s internal process, without transferring responsibility.",
       ],
+      ctaTitle:
+        "Ready to integrate on-chain signals into your decision process?",
     },
   },
   pt: {
@@ -586,6 +595,8 @@ export const exchangesCopyByLocale: Record<string, ExchangesPageCopy> = {
         "Rastreabilidade: a Walpulse não ofusca; classifica e torna o comportamento mais visível.",
         "Integração como input do próprio processo de due diligence, sem transferir responsabilidade regulatória.",
       ],
+      ctaTitle:
+        "Pronto para integrar sinais on-chain ao seu processo de due diligence?",
     },
     row: {
       title: "Para Cripto Exchanges",
@@ -626,6 +637,8 @@ export const exchangesCopyByLocale: Record<string, ExchangesPageCopy> = {
         "Rastreabilidade: a Walpulse não ofusca; classifica e torna o comportamento mais visível.",
         "Integração como input do processo interno do exchange, sem transferir responsabilidade.",
       ],
+      ctaTitle:
+        "Pronto para integrar sinais on-chain ao seu processo de decisão?",
     },
   },
 };

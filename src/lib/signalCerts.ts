@@ -31,7 +31,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       origins: {
         name: "Orígenes",
         summary:
-          "Origen de los fondos, con profundidad a 2 niveles y orígenes de top contrapartes",
+          "Origen de los fondos. La profundidad (0, 1 o 2 hops) depende del tier del análisis.",
         value:
           "Evidencia on-chain del origen de los fondos — directa y a través de las wallets que financiaron a la objetivo.",
         analyzes: [
@@ -50,7 +50,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       activity: {
         name: "Actividad",
         summary:
-          "Comportamiento de flujos en ventana de 90 días, con historial de contrapartes y exposición a sanciones",
+          "Comportamiento de flujos. Ventana de 15 o 90 días según el tier; exposición a sanciones como señal, no screening oficial.",
         value:
           "Perfil de comportamiento on-chain de mediano plazo y señal de exposición histórica a contrapartes sensibles.",
         analyzes: [
@@ -68,7 +68,8 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       },
       multichain: {
         name: "Multichain",
-        summary: "Presencia y madurez multi-red",
+        summary:
+          "Presencia y madurez multi-red. Entra en Básica, Estándar y Experta; la profundidad (redes / intensidad) depende del tier.",
         value: "Madurez y presencia multi-cadena.",
         analyzes: [
           "Número de chains con actividad",
@@ -82,7 +83,8 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       },
       portfolio: {
         name: "Portafolio",
-        summary: "Calidad y composición económica del portafolio",
+        summary:
+          "Calidad y composición económica del portafolio. Entra en Básica, Estándar y Experta.",
         value: "Calidad y sustancia económica del portafolio.",
         analyzes: [
           "Valor total usable vs credible",
@@ -101,7 +103,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       origins: {
         name: "Origins",
         summary:
-          "Source of funds, with 2-level depth and origins of top counterparties",
+          "Source of funds. Depth (0, 1, or 2 hops) depends on the analysis tier.",
         value:
           "On-chain evidence of funding origins — direct and through the wallets that financed the target.",
         analyzes: [
@@ -120,7 +122,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       activity: {
         name: "Activity",
         summary:
-          "Flow behavior over a 90-day window, with counterparty history and sanctions exposure",
+          "Flow behavior. 15- or 90-day window depending on the tier; sanctions exposure as a signal, not official screening.",
         value:
           "Medium-term on-chain behavior profile and a historical exposure signal to sensitive counterparties.",
         analyzes: [
@@ -138,7 +140,8 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       },
       multichain: {
         name: "Multichain",
-        summary: "Multi-network presence and maturity",
+        summary:
+          "Multi-network presence and maturity. Included in Basic, Standard, and Expert; depth (networks / intensity) depends on the tier.",
         value: "Multi-chain maturity and presence.",
         analyzes: [
           "Number of chains with activity",
@@ -152,7 +155,8 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       },
       portfolio: {
         name: "Portfolio",
-        summary: "Economic quality and composition of the portfolio",
+        summary:
+          "Economic quality and composition of the portfolio. Included in Basic, Standard, and Expert.",
         value: "Economic quality and substance of the portfolio.",
         analyzes: [
           "Total value usable vs credible",
@@ -171,7 +175,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       origins: {
         name: "Origens",
         summary:
-          "Origem dos fundos, com profundidade em 2 níveis e origens das top contrapartes",
+          "Origem dos fundos. A profundidade (0, 1 ou 2 hops) depende do tier da análise.",
         value:
           "Evidência on-chain da origem dos fundos — direta e através das wallets que financiaram a alvo.",
         analyzes: [
@@ -190,7 +194,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       activity: {
         name: "Atividade",
         summary:
-          "Comportamento de fluxos em janela de 90 dias, com histórico de contrapartes e exposição a sanções",
+          "Comportamento de fluxos. Janela de 15 ou 90 dias conforme o tier; exposição a sanções como sinal, não screening oficial.",
         value:
           "Perfil de comportamento on-chain de médio prazo e sinal de exposição histórica a contrapartes sensíveis.",
         analyzes: [
@@ -208,7 +212,8 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       },
       multichain: {
         name: "Multichain",
-        summary: "Presença e maturidade multi-rede",
+        summary:
+          "Presença e maturidade multi-rede. Entra em Básica, Standard e Expert; a profundidade (redes / intensidade) depende do tier.",
         value: "Maturidade e presença multi-cadeia.",
         analyzes: [
           "Número de chains com atividade",
@@ -222,7 +227,8 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       },
       portfolio: {
         name: "Portfólio",
-        summary: "Qualidade e composição econômica do portfólio",
+        summary:
+          "Qualidade e composição econômica do portfólio. Entra em Básica, Standard e Expert.",
         value: "Qualidade e substância econômica do portfólio.",
         analyzes: [
           "Valor total usable vs credible",

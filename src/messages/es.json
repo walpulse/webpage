@@ -1,10 +1,12 @@
 {
   "meta": {
     "siteName": "Walpulse",
-    "homeTitle": "Walpulse — Señales on-chain de reputación para wallets",
-    "homeDescription": "Señales verificables de reputación, madurez y riesgo sobre wallets blockchain. Grades A–F explicables; la interpretación queda en el receptor.",
+    "homeTitle": "Walpulse — Análisis on-chain de wallets",
+    "homeDescription": "Análisis de wallet en Básica, Estándar o Experta. Señales on-chain verificables (Orígenes, Actividad, Multichain, Portafolio) y síntesis A–F atada al tier; la interpretación queda en el receptor.",
     "senalesTitle": "Señales",
-    "senalesDescription": "Origins, Activity, Multichain y Portfolio: certificados on-chain con grades A–F explicables.",
+    "senalesDescription": "Partes de un análisis de wallet: Orígenes, Actividad, Multichain y Portafolio. La profundidad depende del tier.",
+    "analisisTitle": "Análisis en tres profundidades",
+    "analisisDescription": "Ofrecemos un análisis de billeteras virtuales basado en la profundidad que requiera nuestro cliente: Básica, Estándar o Experta. Cada profundidad ofrece distintos niveles de las señales.",
     "paraPsavTitle": "Cripto Exchanges",
     "paraPsavDescription": "Señales on-chain para exchanges: riesgo y monitoreo de wallets. En Uruguay, marco PSAV / BCU.",
     "criptoExchangesTitle": "Cripto Exchanges",
@@ -15,16 +17,17 @@
     "criptoExchangesUruguayDescription": "Señales on-chain para exchanges en Uruguay: evaluación de riesgo y monitoreo de wallets bajo marco PSAV / BCU.",
     "nosotrosTitle": "Nosotros",
     "nosotrosDescription": "Origen de Walpulse, fundador y proyectos asociados. Señales on-chain de reputación; el receptor decide.",
-    "comoFuncionaTitle": "De wallet a señal",
-    "comoFuncionaDescription": "Cómo Walpulse analiza una wallet, emite grades A–F explicables y entrega la señal para que el receptor la use.",
+    "comoFuncionaTitle": "De wallet a análisis",
+    "comoFuncionaDescription": "Cómo Walpulse recibe una wallet y un tier, calcula las partes de señal incluidas y entrega una síntesis A–F secundaria para que el receptor decida.",
     "contactoTitle": "Contacto",
     "contactoDescription": "Escribí al equipo Walpulse o pedí early access para explorar señales on-chain de reputación de wallets.",
-    "ejemploTitle": "Ejemplo de señal",
-    "ejemploDescription": "Recorrido ilustrativo de un reporte Walpulse: Origins, Activity, Multichain y Portfolio con grades A–F explicables."
+    "ejemploTitle": "Ejemplo de análisis",
+    "ejemploDescription": "Informe ilustrativo completo (cuatro partes). Cercano a Estándar / Experta, no a Básica. Grades A–F explicables; el receptor interpreta."
   },
   "nav": {
     "home": "Inicio",
     "senales": "Inicio",
+    "analisis": "Análisis",
     "whoUses": "Para quienes",
     "cryptoExchanges": "Cripto-Exchanges - Internacional",
     "cryptoExchangesPsav": "Cripto-Exchanges - Uruguay",
@@ -38,6 +41,7 @@
   "common": {
     "exploreSignals": "Explorar señales",
     "talkToTeam": "Hablar con el equipo",
+    "seeAnalysisTiers": "Ver Básica / Estándar / Experta",
     "requestAccess": "Solicitar acceso anticipado",
     "seeSignalsDetail": "Ver detalle de las señales",
     "forPsavs": "Para PSAVs",
@@ -48,7 +52,7 @@
     "gradeScale": "Escala A–F"
   },
   "footer": {
-    "tagline": "Señales on-chain de reputación para wallets.",
+    "tagline": "Análisis on-chain de wallets · Básica / Estándar / Experta.",
     "rights": "Walpulse. Todos los derechos reservados."
   },
   "home": {
@@ -59,16 +63,16 @@
     "whatBody": "Somos una plataforma que produce señales de reputación y análisis on-chain para wallets.",
     "whatIntro": "Aporta inteligencia verificable y explicable sobre:",
     "whatPoints": {
-      "origins": "Origen de los fondos (incl. 2 niveles y top contrapartes)",
-      "activity": "Comportamiento y actividad (ventana 90 días)",
-      "multichain": "Madurez y presencia multi-cadena",
-      "portfolio": "Calidad y composición del portafolio"
+      "origins": "Origen de los fondos (hops según el tier)",
+      "activity": "Comportamiento y actividad (15, 45 o 90 días según el tier)",
+      "multichain": "Madurez y presencia multi-cadena (todas las profundidades)",
+      "portfolio": "Calidad y composición del portafolio (todas las profundidades)"
     },
     "whatClose": "Estas señales sirven como input para que terceros fortalezcan su análisis de riesgo, debida diligencia u otros procesos, dentro de su propio marco de decisión.",
     "whatLimits": "Nuestra plataforma no realiza KYC, no ejecuta Travel Rule, no tomamos decisiones de compliance ni seguimos normativas de autoridades fiscales.",
     "whatCta": "Cómo funcionamos",
-    "signalsTitle": "Las 4 señales",
-    "signalsIntro": "Señales on-chain con grades A–F, verificables y explicables.",
+    "signalsTitle": "Partes del análisis",
+    "signalsIntro": "Cuatro motores de señal dentro de un mismo análisis. La cobertura depende del tier.",
     "signals": {
       "origins": {
         "name": "Orígenes",
@@ -142,7 +146,7 @@
     "title": "Señales",
     "intro": "Walpulse genera señales on-chain de reputación, madurez y riesgo de wallets (escala A–F). Las señales son verificables y explicables: el receptor puede auditar cómo se llegó a cada grade.",
     "limits": "Nuestra plataforma no realiza KYC, no ejecuta Travel Rule, no tomamos decisiones de compliance ni seguimos normativas de autoridades fiscales.",
-    "overviewTitle": "Los 4 certificados",
+    "overviewTitle": "Las 4 partes de señal",
     "version": "Versión",
     "provider": "Provider principal",
     "certs": {
@@ -232,7 +236,7 @@
     "mapHeaders": {
       "aspect": "Aspecto",
       "contribution": "Aporte de Walpulse",
-      "cert": "Certificado clave",
+      "cert": "Parte clave",
       "level": "Nivel"
     },
     "map": [
@@ -257,7 +261,7 @@
       {
         "aspect": "Enfoque basado en riesgo",
         "contribution": "Apoyo (grades A–F + breakdown explicable)",
-        "cert": "Los 4 certificados",
+        "cert": "Las 4 partes (según tier)",
         "level": "Media"
       },
       {
@@ -313,7 +317,7 @@
   },
   "nosotros": {
     "title": "Nosotros",
-    "intro": "Walpulse nace de un trabajo concreto en el ecosistema Ethereum Uruguay. Lo que empezó como ORIGO en una hackathon se convirtió en señales en producción y, posteriormente, en un proyecto independiente orientado a entregar inteligencia on-chain de reputación para wallets.",
+    "intro": "Walpulse nace de un trabajo concreto en el ecosistema Ethereum Uruguay. Empezó como proyecto para una hackathon, se convirtió en señales de un agente autónomo y, posteriormente, en un proyecto independiente orientado a entregar inteligencia on-chain de reputación para wallets.",
     "originTitle": "Origen",
     "originBody": "En la Ethereum Uruguay Hackathon 2026 (3ª edición) el proyecto ORIGO — análisis verificable del origen de fondos de wallets — obtuvo el 1er lugar en la categoría Startup. El pitch final y la ceremonia de premios se realizaron en el Blockchain Summit Global 2026 (Montevideo).",
     "originBody2": "Lo construido no quedó como demo: las señales de origen de fondos se integraron en producción como parte de Walcert Origins. Walpulse es el proyecto independiente que continúa y amplía ese enfoque: producir señales de reputación y análisis on-chain para wallets.",
@@ -347,25 +351,26 @@
       "El receptor interpreta las señales y toma las determinaciones.",
       "No realizamos KYC, Travel Rule, reportes a la UIAF ni decisiones de compliance.",
       "Las señales son verificables y explicables."
-    ]
+    ],
+    "ctaTitle": "¿Está listo para conversar sobre cómo Walpulse puede aportar a su proceso?"
   },
   "comoFunciona": {
-    "title": "De wallet a señal",
+    "title": "De wallet a análisis",
     "eyebrow": "Flujo",
-    "intro": "Una dirección entra. Sale inteligencia on-chain con grades A–F explicables. El receptor decide qué hacer con ella.",
+    "intro": "Entra una dirección y una profundidad (Básica, Estándar o Experta). Salen las partes de señal incluidas, con cobertura explícita y una síntesis A–F secundaria. El receptor decide.",
     "stepsTitle": "El proceso",
     "steps": {
       "input": {
         "title": "Input",
-        "body": "Se recibe una dirección de wallet."
+        "body": "Se recibe una dirección de wallet y el tier del análisis."
       },
       "analysis": {
         "title": "Análisis on-chain",
-        "body": "Se procesan datos de múltiples fuentes según el módulo (Origins, Activity, Multichain, Portfolio)."
+        "body": "Se calculan las partes incluidas en ese tier (Origins, Activity, Multichain, Portfolio) con la cobertura correspondiente."
       },
       "signals": {
-        "title": "Señales + Grades",
-        "body": "Se generan las señales con grade A–F y el detalle que permite auditar el resultado."
+        "title": "Señales + síntesis",
+        "body": "Salen las señales con breakdown auditable. El grade A–F compuesto es secundario y está atado al tier."
       },
       "use": {
         "title": "Uso por el receptor",
@@ -423,16 +428,74 @@
     "gradeHint": "Grade ilustrativo",
     "principle": "Nosotros creamos las señales, el receptor es quien decide.",
     "analyzesHeading": "Qué analizamos",
+    "origins": {
+      "lead": "Consultamos las transacciones de origen; se analiza la procedencia, validez y confianza de los fondos de la wallet. Permitiéndonos crear algunas de las siguientes señales:",
+      "bullets": {
+        "categories": "Categorías de origen (CEX, bridge, mixer, OFAC, airdrop, orgánico…)",
+        "uniqueSenders": "Remitentes únicos",
+        "mixerOrSanctionsExposure": "Exposición a wallets catalogadas como mixer o wallets marcadas por sanciones",
+        "fundQuality": "Calidad de los fondos (orgánico vs sintético)",
+        "amongOthers": "Entre otros…"
+      },
+      "scopeTitle": "Alcance",
+      "depthNote": "La cantidad de redes y cantidad de transacciones de origen varía dependiendo del tipo de análisis solicitado, partiendo en la versión básica en 2 redes y 100 transacciones de origen y llegando hasta más de +10 redes y 500 transacciones en la versión experto. También en los análisis más sofisticados se aplica un análisis de orígenes a los fondeadores directos.",
+      "whyTitle": "Importancia",
+      "whyBody": "El origen de los fondos es una de las primeras preguntas al evaluar una wallet. Entender de dónde vinieron los primeros fondos permite definir un contexto claro sobre el comportamiento de una wallet y al receptor de la señal evaluar dentro de su propio marco decisorio el nivel de confianza que tendrá al interactuar con dicha wallet."
+    },
+    "activity": {
+      "lead": "Analizamos una ventana de días recientes y con base a las transacciones on-chain de entrada y salida de fondos, creamos la siguientes señales:",
+      "bullets": {
+        "counterparties": "Contrapartes únicas y concentración de movimientos",
+        "cex": "Interacción con CEX",
+        "patterns": "Posibles interacciones catalogadas como wash / circulares / bot-like",
+        "tokenDiversity": "Diversidad de tokens en las transacciones",
+        "amongOthers": "Entre otras"
+      },
+      "scopeTitle": "Alcance",
+      "depthNote": "La cantidad de redes y la cantidad de transacciones varía dependiendo del tipo de análisis solicitado, partiendo en la versión básica en 2 redes y los últimos 15 días y llegando hasta más de +10 redes y últimos 90 días en la versión experto. También en los análisis más sofisticados se hace un análisis en las 5 billeteras con más interacción.",
+      "whyTitle": "Por qué es importante?",
+      "whyBody": "La actividad de una wallet permite al receptor entender el comportamiento de la wallet en las transacciones diarias, permitiendo evaluar el perfil de reputación y confianza que se puede llegar a tener sobre una wallet e incluso detectar alertas tempranas ante riesgos que podrían permanecer ocultos."
+    },
+    "multichain": {
+      "lead": "Usando herramientas profesionales ejecutamos un proceso de descubrimiento sobre las redes en las cuales la billetera se encuentra activa, permitiendo crear algunas de las siguientes señales:",
+      "bullets": {
+        "networksCount": "Número de redes con actividad",
+        "activeWindows": "Redes activas en los últimos 30 o 90 días",
+        "concentration": "Concentración de fondos",
+        "globalActivity": "Actividad global",
+        "amongOthers": "Entre otras...."
+      },
+      "scopeTitle": "Alcance",
+      "depthNote": "La cantidad de redes sobre la cual se ejecuta el proceso de descubrimiento varía dependiendo del tipo de análisis solicitado, partiendo en la versión básica en 15 redes y llegando hasta más de 100 redes en la versión experto.",
+      "whyTitle": "Importancia",
+      "whyBody": "Esta primera señal permite identificar correctamente el universo de redes que debe ser analizado en las siguientes señales. Además permite al receptor de la señal tener un mapa completo de toda la actividad ejecutada por una wallet."
+    },
+    "portfolio": {
+      "lead": "Se realiza un análisis multi-cadena de la wallet, evaluando no solo la composición económica, sino la calidad de los fondos. Permitiendo ofrecer algunas de las siguientes señales:",
+      "bullets": {
+        "liquidLocked": "Valor total líquido y fijado",
+        "distribution": "Distribución económica (stablecoins / bluechip / memecoins)",
+        "usableCredible": "Valor total usable vs credible",
+        "amongOthers": "Entre otras…"
+      },
+      "scopeTitle": "Alcance",
+      "depthNote": "Ejecutamos un análisis usando herramientas profesionales que permiten medir el portafolio de una billetera en más de 38 cadenas (incluido Solana) en cualquiera de los tipos de análisis.",
+      "whyTitle": "Importancia",
+      "whyBody": "Permite crear una visión completa del portafolio de la wallet, conocer el valor total económico y la sanidad de los fondos. Una foto general que ayuda a que el receptor entienda el tipo de billetera con la cual va a interactuar."
+    },
+    "tierNote": {
+      "multichain": "Multichain entra en Básica, Estándar y Experta; redes e intensidad escalan con la profundidad."
+    },
     "intro": {
       "title": "Qué es Walpulse?",
-      "body": "Somos una plataforma especializada en producir señales sobre wallets blockchain. Nuestras señales son verificables, explicables y listas para usarse como input en análisis de riesgo, debida diligencia, due diligence financiera, investigación y más.",
-      "explainLead": "Cada señal no es una caja negra. Priorizamos que el receptor pueda entender cómo se construyó el resultado.",
+      "body": "Producimos un análisis de wallet en tres profundidades: Básica, Estándar o Experta, basado en señales on-chain de cuatro elementos: presencia en el ecosistema, portafolio, origen de los fondos y actividad reciente.",
+      "explainLead": "El análisis no es una caja negra y tampoco es una calificación final. Priorizamos que el receptor entienda las señales asociadas a cada elemento analizado y que en base a ellas tome decisiones informadas al interactuar con la wallet.",
+      "explainGoal": "Nuestro objetivo es que el receptor entienda:",
       "explainPoints": {
-        "variables": "Qué variables se consideraron en el análisis.",
-        "factors": "Cómo se distribuyen los factores de riesgo o madurez.",
-        "why": "Por qué se llegó a ese resultado — no solo un rótulo opaco."
+        "variables": "Qué señales blockchain se leyeron en cada elemento",
+        "factors": "Cómo se calcularon los factores de riesgo o madurez"
       },
-      "explainImageAlt": "Explicabilidad: la señal no es una caja negra",
+      "explainImageAlt": "Explicabilidad: el análisis no es una caja negra",
       "expandImage": "Ampliar imagen",
       "closeImage": "Cerrar"
     },
@@ -463,31 +526,32 @@
     "levels": {
       "0": {
         "kicker": "",
-        "title": "Señales on-chain para wallets",
-        "body": "Creamos señales de reputación, madurez y riesgo sobre wallets"
+        "title": "Tómele el pulso a una wallet",
+        "body": "Proveemos un análisis que provee señales para evaluar la confianza de una wallet."
       },
       "1": {
-        "kicker": "",
-        "title": "Origen de los fondos",
-        "body": "Realizamos un análisis de dos niveles sobre el origen de los fondos que financiaron a la wallet"
+        "kicker": "Señal",
+        "title": "Presencia Ecosistema",
+        "body": "Se aplica un descubrimiento sobre en qué redes tiene presencia la billetera."
       },
       "2": {
-        "kicker": "",
-        "title": "Actividad reciente",
-        "body": "Realizamos un análisis de comportamiento de flujos en una ventana de 90 días, con historial de contrapartes y exposición a sanciones como señal"
+        "kicker": "Señal",
+        "title": "Calidad del Portafolio",
+        "body": "Análisis multi-cadena de la composición económica de la wallet."
       },
       "3": {
-        "kicker": "",
-        "title": "Presencia multi-cadena",
-        "body": "Analizamos la madurez y presencia de la wallet a lo largo de múltiples redes"
+        "kicker": "Señal",
+        "title": "Origen de los fondos",
+        "body": "Analizamos las transacciones que originaron los fondos en la wallet."
       },
       "4": {
-        "kicker": "",
-        "title": "Calidad del portafolio",
-        "body": "Analizamos la composición económica y la calidad on-chain del portafolio"
+        "kicker": "Señal",
+        "title": "Actividad reciente",
+        "body": "Analizamos el comportamiento y flujo de las transacciones on-chain recientes."
       }
     },
     "visual": {
+      "analysis": "Análisis Walpulse",
       "origins": "Origen",
       "activity": "Actividad",
       "presence": "Presencia",

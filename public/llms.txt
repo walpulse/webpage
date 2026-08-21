@@ -1,7 +1,10 @@
 # Walpulse
 
 > Walpulse creates and analyzes on-chain reputation signals for blockchain wallets.
-> Signals are verifiable and explainable (A–F grades). The recipient interprets and decides.
+> The product sold is a **wallet analysis** in three depths: Basic, Standard, Expert (ES: Básica / Estándar / Experta).
+> Origins, Activity, Multichain, and Portfolio are **parts** of that analysis, not standalone SKUs.
+> All four parts are included in every depth; coverage (networks, activity window, origin hops) scales with the tier.
+> A–F grades are a secondary synthesis tied to the tier. The recipient interprets and decides.
 > Walpulse does not perform KYC, Travel Rule, UIAF reporting, or compliance decisions.
 
 Canonical site: https://www.walpulse.com
@@ -14,28 +17,36 @@ Canonical site: https://www.walpulse.com
 
 ## Key pages
 
+- Analysis catalog (Basic / Standard / Expert): https://www.walpulse.com/es/analisis
 - Crypto exchanges — International: https://www.walpulse.com/es/cripto-exchanges/internacional
 - Crypto exchanges — Uruguay (PSAV / BCU frame): https://www.walpulse.com/es/cripto-exchanges/uruguay
 - How it works: https://www.walpulse.com/es/como-funciona
-- Signal example report: https://www.walpulse.com/es/ejemplo
+- Illustrative full report: https://www.walpulse.com/es/ejemplo
 - About: https://www.walpulse.com/es/nosotros
 - Contact: https://www.walpulse.com/es/contacto
 
-## Signals (current product)
+## Catalog (what is sold)
 
-- Origins: source of funds with 2-level depth and origins of top counterparties
-- Activity: flow behavior over a 90-day window, counterparty history, sanctions exposure as a signal (not official screening)
-- Multichain: multi-network presence and maturity
-- Portfolio: economic quality and on-chain composition of holdings
+- Basic (ES: Básica): all four signal parts. Ecosystem presence on 15 networks; Portfolio across 38+ networks; Origins + Activity on the top 2 networks (Activity 15 days; Origins first 100 inbound txs by value).
+- Standard (ES: Estándar): all four parts with deeper Origins (top 5 networks / 250 inbound + funder read) and Activity 45 days; ecosystem presence on 100 networks.
+- Expert (ES: Experta): all four parts at maximum published depth (top 10 networks; Activity 90 days; Origins 500 inbound + 2-hop / counterparty reads).
 
-Grades are A–F and explainable. Walpulse delivers signals as input; the recipient decides.
+Coverage depth is commercial; API provider endpoints and synthesis weights are not published.
+
+## Signal parts (engines inside an analysis)
+
+- Origins: source of funds; hop depth and tx cap depend on the tier
+- Activity: flow behavior; 15 / 45 / 90-day window by tier; sanctions exposure as a signal (not official screening)
+- Multichain: multi-network presence and maturity (all tiers); intensity scales with the tier
+- Portfolio: economic quality and on-chain composition (all tiers)
+
+## Principle
+
+We create and analyze signals. The recipient decides.
 
 ## Contact
 
 - Email: hello@walpulse.com
 - X: https://x.com/ibzjairvalenz
 - Telegram: https://t.me/Global_Score_Agent
-
-## Principle
-
-We create and analyze signals. The recipient decides.
+- LinkedIn (founder): https://www.linkedin.com/in/ibzanjairvalenzuelasuarez

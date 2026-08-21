@@ -19,23 +19,23 @@ const headerByLocale: Record<
 > = {
   es: {
     eyebrow: "Ejemplo",
-    title: "Así se ve una señal Walpulse",
+    title: "Así se ve un análisis Walpulse",
     intro:
-      "Recorrido ilustrativo de un reporte on-chain: Origins, Activity, Multichain y Portfolio con grades A–F y el detalle que permite auditar cada resultado. Sirve para entender densidad y explicabilidad del producto; la interpretación queda en el receptor.",
+      "Informe ilustrativo completo: las cuatro partes (Orígenes, Actividad, Multichain y Portafolio) con grades A–F y el detalle que permite auditar cada resultado. Es cercano a Estándar / Experta, no a Básica. La interpretación queda en el receptor.",
     backHome: "Volver al inicio",
   },
   en: {
     eyebrow: "Example",
-    title: "This is what a Walpulse signal looks like",
+    title: "This is what a Walpulse analysis looks like",
     intro:
-      "An illustrative walkthrough of an on-chain report: Origins, Activity, Multichain, and Portfolio with A–F grades and the detail that lets you audit each result. It shows the density and explainability of the product; interpretation belongs to the recipient.",
+      "A full illustrative report: all four parts (Origins, Activity, Multichain, and Portfolio) with A–F grades and the detail that lets you audit each result. Closer to Standard / Expert than to Basic. Interpretation belongs to the recipient.",
     backHome: "Back to home",
   },
   pt: {
     eyebrow: "Exemplo",
-    title: "Assim se vê um sinal Walpulse",
+    title: "Assim se vê uma análise Walpulse",
     intro:
-      "Percurso ilustrativo de um relatório on-chain: Origins, Activity, Multichain e Portfolio com grades A–F e o detalhe que permite auditar cada resultado. Serve para entender densidade e explicabilidade do produto; a interpretação fica com o receptor.",
+      "Relatório ilustrativo completo: as quatro partes (Origins, Activity, Multichain e Portfolio) com grades A–F e o detalhe que permite auditar cada resultado. Mais próximo de Standard / Expert do que de Básica. A interpretação fica com o receptor.",
     backHome: "Voltar ao início",
   },
 };

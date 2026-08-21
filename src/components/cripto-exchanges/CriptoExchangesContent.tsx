@@ -57,22 +57,45 @@ export function CriptoExchangesContent({ locale, region }: Props) {
   const diagramSrc =
     diagramByRegion[region][locale] ?? diagramByRegion[region].es;
   const diagramAlt = content.diagramAlt;
+  const heroImage =
+    region === "uy"
+      ? "/brand/exchanges/header-uruguay.png"
+      : "/brand/exchanges/header-internacional.png";
+
+  const band = {
+    context: "section-band-surface border-t border-glass/30",
+    map: "section-band-void section-atmosphere border-t border-glass/30",
+    does: "section-band-surface border-t border-glass/30",
+    benefits: "section-band-void border-t border-glass/30",
+  };
 
   return (
     <>
-      <Section className="section-atmosphere relative overflow-hidden pt-20 md:pt-28">
-        <h1 className="max-w-3xl font-display text-4xl font-semibold tracking-tight text-pure md:text-5xl md:leading-[1.08]">
-          {content.title}
-        </h1>
-        <blockquote className="mt-6 max-w-3xl border-l-2 border-primary pl-5 text-lg leading-relaxed text-pure">
-          {content.message}
-        </blockquote>
-      </Section>
+      <section className="page-hero">
+        <div className="page-hero__visual" aria-hidden>
+          <Image
+            src={heroImage}
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 899px) 100vw, 48vw"
+            className="page-hero__image"
+          />
+        </div>
+        <div className="page-hero__scrim" aria-hidden />
+        <div className="page-hero__content">
+          <div className="page-hero__copy">
+            <h1 className="font-display text-4xl font-semibold tracking-tight text-pure md:text-5xl md:leading-[1.08]">
+              {content.title}
+            </h1>
+            <blockquote className="mt-6 border-l-2 border-primary pl-5 text-base leading-relaxed text-muted md:text-lg">
+              {content.message}
+            </blockquote>
+          </div>
+        </div>
+      </section>
 
-      <Section
-        wide
-        className="section-atmosphere-alt section-atmosphere border-t border-glass/30"
-      >
+      <Section wide className={band.context}>
         <SectionHeading title={content.problemTitle} />
         <div className="context-diagram">
           <div className="context-diagram__copy">
@@ -115,7 +138,7 @@ export function CriptoExchangesContent({ locale, region }: Props) {
         </div>
       </Section>
 
-      <Section className="section-atmosphere border-t border-glass/30">
+      <Section className={band.map}>
         <SectionHeading title={content.mapTitle} />
         {content.mapIntro ? (
           <p className="mb-8 max-w-3xl text-base leading-relaxed text-muted">
@@ -200,7 +223,7 @@ export function CriptoExchangesContent({ locale, region }: Props) {
         </div>
       </Section>
 
-      <Section className="section-atmosphere-alt section-atmosphere border-t border-glass/30">
+      <Section className={band.does}>
         <div className="grid gap-8 md:grid-cols-2">
           <div>
             <h2 className="font-display text-2xl font-semibold text-pure">
@@ -229,10 +252,9 @@ export function CriptoExchangesContent({ locale, region }: Props) {
             </ul>
           </div>
         </div>
-        <p className="mt-8 text-sm text-primary">{copy.principle}</p>
       </Section>
 
-      <Section className="section-atmosphere border-t border-glass/30">
+      <Section className={band.benefits}>
         <SectionHeading title={content.benefitsTitle} />
         <ul className="mt-2 grid gap-5 md:grid-cols-2">
           {content.benefits.map((item, index) => (
@@ -244,10 +266,18 @@ export function CriptoExchangesContent({ locale, region }: Props) {
             </li>
           ))}
         </ul>
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Button href={routes.contacto} className="btn-premium">
-            {copy.talkToTeam}
-          </Button>
+      </Section>
+
+      <Section className="section-band-cta border-t border-glass/30">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-pure md:text-4xl md:leading-[1.15]">
+            {content.ctaTitle}
+          </h2>
+          <div className="mt-8 flex justify-center">
+            <Button href={routes.contacto} className="btn-premium">
+              {copy.talkToTeam}
+            </Button>
+          </div>
         </div>
       </Section>
 

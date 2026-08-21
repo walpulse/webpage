@@ -22,7 +22,6 @@ const projectLogos: Record<(typeof projectKeys)[number], string> = {
 };
 
 type NosotrosExtras = {
-  brandName: string;
   hackathonLabel: string;
   summitLabel: string;
   recognitionYear: string;
@@ -48,7 +47,6 @@ type NosotrosExtras = {
 
 const extrasByLocale: Record<string, NosotrosExtras> = {
   es: {
-    brandName: "Walpulse",
     hackathonLabel: "Ethereum Uruguay Hackathon 2026",
     summitLabel: "Blockchain Summit Global 2026",
     recognitionYear: "2026",
@@ -86,7 +84,6 @@ const extrasByLocale: Record<string, NosotrosExtras> = {
     },
   },
   en: {
-    brandName: "Walpulse",
     hackathonLabel: "Ethereum Uruguay Hackathon 2026",
     summitLabel: "Blockchain Summit Global 2026",
     recognitionYear: "2026",
@@ -124,7 +121,6 @@ const extrasByLocale: Record<string, NosotrosExtras> = {
     },
   },
   pt: {
-    brandName: "Walpulse",
     hackathonLabel: "Ethereum Uruguay Hackathon 2026",
     summitLabel: "Blockchain Summit Global 2026",
     recognitionYear: "2026",
@@ -190,34 +186,31 @@ export default async function NosotrosPage({ params }: Props) {
 
   return (
     <>
-      <Section className="section-atmosphere relative overflow-hidden pt-20 md:pt-28">
-        <div className="flex flex-col items-start gap-8 md:flex-row md:items-center md:gap-12">
-          <div className="relative shrink-0">
-            <div
-              className="pointer-events-none absolute inset-0 -m-8 rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--primary)_22%,transparent),transparent_68%)]"
-              aria-hidden
-            />
-            <Image
-              src="/brand/logo/Favicon.png"
-              alt={extras.brandName}
-              width={220}
-              height={220}
-              priority
-              className="relative h-36 w-36 object-contain md:h-44 md:w-44"
-            />
-          </div>
-          <div className="max-w-2xl">
+      <section className="page-hero">
+        <div className="page-hero__visual" aria-hidden>
+          <Image
+            src="/brand/nosotros/header-nosotros.png"
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 899px) 100vw, 48vw"
+            className="page-hero__image"
+          />
+        </div>
+        <div className="page-hero__scrim" aria-hidden />
+        <div className="page-hero__content">
+          <div className="page-hero__copy">
             <h1 className="font-display text-4xl font-semibold tracking-tight text-pure md:text-5xl md:leading-[1.08]">
               {t("title")}
             </h1>
-            <p className="mt-5 text-lg leading-relaxed text-muted md:text-xl md:leading-[1.65]">
+            <blockquote className="mt-6 border-l-2 border-primary pl-5 text-base leading-relaxed text-muted md:text-lg">
               {t("intro")}
-            </p>
+            </blockquote>
           </div>
         </div>
-      </Section>
+      </section>
 
-      <Section className="section-atmosphere-alt section-atmosphere border-t border-glass/30">
+      <Section className="section-band-surface border-t border-glass/30">
         <SectionHeading title={t("originTitle")} />
 
         <article className="origin-recognition">
@@ -270,7 +263,7 @@ export default async function NosotrosPage({ params }: Props) {
         </article>
       </Section>
 
-      <Section className="section-atmosphere border-t border-glass/30">
+      <Section className="section-band-void border-t border-glass/30">
         <SectionHeading title={t("founderTitle")} />
         <div className="founder-layout">
           <article className="founder-card">
@@ -309,7 +302,7 @@ export default async function NosotrosPage({ params }: Props) {
         </div>
       </Section>
 
-      <Section className="section-atmosphere-alt section-atmosphere border-t border-glass/30">
+      <Section className="section-band-surface border-t border-glass/30">
         <SectionHeading title={t("projectsTitle")} intro={t("projectsIntro")} />
         <div className="grid gap-5 md:grid-cols-2">
           {projectKeys.map((key) => {
@@ -342,7 +335,7 @@ export default async function NosotrosPage({ params }: Props) {
         </div>
       </Section>
 
-      <Section className="section-atmosphere border-t border-glass/30">
+      <Section className="section-band-void border-t border-glass/30">
         <SectionHeading title={extras.principlesTitle} />
         <ul className="principles-grid">
           {extras.principles.map((item, index) => (
@@ -354,10 +347,18 @@ export default async function NosotrosPage({ params }: Props) {
             </li>
           ))}
         </ul>
-        <div className="mt-12 flex flex-wrap gap-3">
-          <Button href={routes.contacto} className="btn-premium">
-            {tc("talkToTeam")}
-          </Button>
+      </Section>
+
+      <Section className="section-band-cta border-t border-glass/30">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-pure md:text-4xl md:leading-[1.15]">
+            {t("ctaTitle")}
+          </h2>
+          <div className="mt-8 flex justify-center">
+            <Button href={routes.contacto} className="btn-premium">
+              {tc("talkToTeam")}
+            </Button>
+          </div>
         </div>
       </Section>
     </>

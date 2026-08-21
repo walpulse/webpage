@@ -9,6 +9,7 @@ export const SITE_URL = (
 /** Indexable app paths (locale prefix added separately). */
 export const INDEXABLE_PATHS: readonly AppRoute[] = [
   routes.home,
+  routes.analisis,
   routes.criptoExchangesInternacional,
   routes.criptoExchangesUruguay,
   routes.nosotros,

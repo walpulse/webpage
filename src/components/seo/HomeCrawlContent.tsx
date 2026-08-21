@@ -31,6 +31,9 @@ export async function HomeCrawlContent({ locale }: Props) {
     <nav aria-label={t("siteName")}>
       <ul>
         <li>
+          <Link href={routes.analisis}>{nav("analisis")}</Link>
+        </li>
+        <li>
           <Link href={routes.criptoExchangesInternacional}>
             {nav("cryptoExchanges")}
           </Link>
@@ -63,6 +66,8 @@ export async function HomeCrawlContent({ locale }: Props) {
       <p>{reveal("principle")}</p>
       <p>{common("principle")}</p>
       <p>{common("disclaimerShort")}</p>
+      <h2>{reveal("intro.title")}</h2>
+      <p>{reveal("intro.body")}</p>
       <h2>{copy.analyzesTitle}</h2>
       {signalsList}
       {links}
@@ -72,7 +77,7 @@ export async function HomeCrawlContent({ locale }: Props) {
   const itemList = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Walpulse on-chain signals",
+    name: "Walpulse wallet analysis — signal parts",
     description: t("homeDescription"),
     numberOfItems: signalKeys.length,
     itemListElement: signalKeys.map((key, index) => ({

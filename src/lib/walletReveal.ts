@@ -6,11 +6,12 @@ export type RevealLevel = (typeof REVEAL_LEVELS)[number];
 
 export const REVEAL_LEVEL_COUNT = REVEAL_LEVELS.length;
 
+/** Slide order after welcome: Multichain → Portfolio → Origins → Activity. */
 export const SIGNAL_BY_LEVEL: Record<Exclude<RevealLevel, 0>, SignalKey> = {
-  1: "origins",
-  2: "activity",
-  3: "multichain",
-  4: "portfolio",
+  1: "multichain",
+  2: "portfolio",
+  3: "origins",
+  4: "activity",
 };
 
 /** Map continuous 0–1 scroll progress to a discrete level. */

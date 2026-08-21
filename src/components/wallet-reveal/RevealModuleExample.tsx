@@ -144,14 +144,16 @@ export function RevealModuleExample({ module }: Props) {
   const dialogTitleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
+  const [openForModule, setOpenForModule] = useState(module);
+
+  if (openForModule !== module) {
+    setOpenForModule(module);
+    setOpen(false);
+  }
 
   const lang = reportLocaleFromApp(locale);
   const reportType = REPORT_TYPE_BY_SIGNAL[module];
   const mod = report.modules.find((m) => m.type === reportType);
-
-  useEffect(() => {
-    setOpen(false);
-  }, [module]);
 
   useEffect(() => {
     if (!open) return;

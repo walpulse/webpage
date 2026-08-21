@@ -83,7 +83,11 @@ export function WalletReveal() {
         <div className="wallet-reveal__left">
           <div className="wallet-reveal__stage" aria-hidden>
             <div className="wallet-reveal__stage-bg" />
-            <WalletRevealVisual level={level} reducedMotion={reducedMotion} />
+            <WalletRevealVisual
+              level={level}
+              reducedMotion={reducedMotion}
+              onSelectLevel={scrollToLevel}
+            />
             <div className="wallet-reveal__vignette" />
           </div>
           <div className="wallet-reveal__ui">

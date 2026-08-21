@@ -2,7 +2,7 @@
 
 Experiencia del Home (ADR dirección `2026-08-13`; implementación viva `2026-08-14 - Website v1.5 Home reveal SVG exchanges split SEO`). Narrativa ilustrativa: no usa datos reales de wallets.
 
-**Copy de producto:** el del sitio live (`src/lib/signalCerts.ts` / cards originales), no el del ADR. Origins = profundidad a **2 niveles** + orígenes de top contrapartes. Activity = ventana **90 días** (+ historial de contrapartes / exposición a sanciones como *señal*, no screening oficial).
+**Copy de producto:** alineado al Catálogo Básica / Estándar / Experta (`src/lib/serviceTiers.ts`, `/analisis`). El Home muestra las capas de **un** análisis; la profundidad (hops, ventana, redes Multichain) depende del tier. Las listas `analyzes` en `src/lib/signalCerts.ts` describen el motor; los teasers no afirman Experta como default.
 
 ## Layout split
 
@@ -10,8 +10,8 @@ Sticky `calc(100svh - header)` en grid desktop **~60 / 40** (`1.5fr / 1fr`).
 
 | Panel | Contenido |
 |-------|-----------|
-| **Izquierda** | Visual SVG por nivel (`pointer-events: none`) + copy corto (sin kicker en niveles 0–4) + dots + CTA `/contacto`. |
-| **Derecha** | Panel glass sutil. Nivel 0 = Qué es Walpulse + explicabilidad (imagen con modal) + El proceso (`ProcessFlow`). Niveles 1–4 = «Qué analizamos» + lista + teaser del módulo Walcert con modal. |
+| **Izquierda** | Visual SVG por nivel (`pointer-events: none`) + copy corto + dots + CTA `/contacto`. |
+| **Derecha** | Panel glass sutil. Nivel 0 = Qué es Walpulse + explicabilidad (imagen con modal) + El proceso (`ProcessFlow`). Niveles 1–4 (Multichain / Portfolio / Origins / Activity) = narrativo Home (sin teaser). |
 
 Mobile: columna (etapas arriba, detalle abajo).
 
@@ -27,13 +27,13 @@ Mobile: columna (etapas arriba, detalle abajo).
 
 | Nivel | Izquierda (corto) | Derecha |
 |------:|-------------------|---------|
-| 0 | Señales on-chain para wallets | Intro + explicabilidad + modal caja negra + El proceso |
-| 1 | Origen de los fondos | Lista `analyzes` + teaser/modal Origins |
-| 2 | Actividad reciente (90 días) | Lista + teaser/modal Activity |
-| 3 | Presencia multi-cadena | Lista + teaser/modal Multichain |
-| 4 | Calidad del portafolio | Lista + teaser/modal Portfolio |
+| 0 | Tómele el pulso a una wallet | Intro + explicabilidad + modal caja negra + El proceso |
+| 1 | Señal · Presencia Ecosistema | Lead + bullets + «Alcance» + «Importancia»; sin teaser. Visual: badges de chains en rombo. |
+| 2 | Señal · Calidad del Portafolio | Lead + bullets + «Alcance» + «Importancia»; sin teaser. Visual: barras de composición / grade. |
+| 3 | Señal · Origen de los fondos | Lead + bullets + «Alcance» + «Importancia»; sin teaser. Visual: grafo 2 hops; wallets secundarias = cuadrados; flechas hop1 recortadas al rectángulo. |
+| 4 | Señal · Actividad reciente | Lead + bullets + «Alcance» + «Por qué es importante?»; sin teaser. Visual: contrapartes cuadradas + flujos (sin texto IN/OUT); flechas recortadas al rectángulo. |
 
-Fuente de listas: `certsByLocale` en `src/lib/signalCerts.ts`. Fuente de teasers/modales: módulos del JSON de ejemplo vía `RevealModuleExample`.
+Fuente niveles 1–4: mapas inline `multichainCopyByLocale` / `portfolioCopyByLocale` / `originsCopyByLocale` / `activityCopyByLocale` en `WalletRevealDetail.tsx`. Orden: Multichain → Portfolio → Origins → Activity (`SIGNAL_BY_LEVEL`).
 
 Copy corto i18n: `reveal.*` en `src/messages/{es,en,pt}.json`. Acento visual: **Primary Sky**.
 
@@ -41,15 +41,17 @@ Copy corto i18n: `reveal.*` en `src/messages/{es,en,pt}.json`. Acento visual: **
 
 SVG ligero en `WalletRevealVisual.tsx` (sin WebGL en el reveal). Fondo Void siempre visible en el stage (evita flash blanco). Paleta Void / Surface / Primary Sky.
 
+**Convención de formas:** cuadrado = wallet; círculo = tx/flujo (`FlowDot` y nodos de señal del slide 0); rombo = red/chain.
+
 Layout del panel izquierdo: **copy tipográfico ampliado a la izquierda**; composición SVG **anclada a la derecha** del mismo panel.
 
 | Nivel | Composición |
 |------:|-------------|
-| 0 | Wallet + 4 nodos = señales (Origen / Actividad / Presencia / Portafolio) con pulse |
-| 1 | Grafo Origins 2 hops con **flujos entrantes** hacia la wallet |
-| 2 | Contrapartes + flujos IN/OUT + label 90 días |
-| 3 | Wallet + badges PNG de `public/brand/chains/` (ETH, Base, Celo, Arbitrum, Polygon, BNB) |
-| 4 | Wallet + barras de composición / grade |
+| 0 | Wallet + 4 nodos = señales (Presencia / Portafolio / Origen / Actividad) con pulse |
+| 1 | Wallet + badges PNG en rombo (`public/brand/chains/`: ETH, Base, Celo, Arbitrum, Polygon, BNB) |
+| 2 | Wallet + barras de composición / grade |
+| 3 | Grafo Origins 2 hops; wallets secundarias = cuadrados; flujos entrantes hacia la wallet |
+| 4 | Contrapartes = cuadrados + flujos (dirección por flecha/color; sin label IN/OUT) + label 90 días |
 
 `prefers-reduced-motion`: sin SMIL; solo crossfade de capas.
 

@@ -1,4 +1,4 @@
-import { CONTACT_CHANNELS, CONTACT_EMAIL } from "@/lib/paths";
+import { CONTACT_CHANNELS, CONTACT_EMAIL, ORIGIN_LINKS } from "@/lib/paths";
 import { SITE_URL } from "@/lib/seo";
 
 type Props = {
@@ -13,7 +13,11 @@ export function SiteJsonLd({ locale }: Props) {
     url: SITE_URL,
     logo: `${SITE_URL}/brand/logo/Logo-Mark.png`,
     email: CONTACT_EMAIL,
-    sameAs: [CONTACT_CHANNELS.xUrl, CONTACT_CHANNELS.telegramUrl],
+    sameAs: [
+      CONTACT_CHANNELS.xUrl,
+      CONTACT_CHANNELS.telegramUrl,
+      ORIGIN_LINKS.linkedin,
+    ],
   };
 
   const website = {

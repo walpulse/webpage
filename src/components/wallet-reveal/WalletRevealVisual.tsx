@@ -1,15 +1,61 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import type { RevealLevel } from "@/lib/walletReveal";
 
 type Props = {
   level: RevealLevel;
   reducedMotion?: boolean;
+  onSelectLevel?: (level: RevealLevel) => void;
 };
 
 const LEVELS: RevealLevel[] = [0, 1, 2, 3, 4];
+
+/**
+ * Inline locale maps — next-intl can serve stale catalogs for newly added
+ * visual keys under Turbopack (same pattern as `signalCerts`).
+ */
+const visualLabelsByLocale: Record<
+  string,
+  {
+    analysis: string;
+    origins: string;
+    activity: string;
+    presence: string;
+    portfolio: string;
+    window90d: string;
+    inflowsLabel: string;
+  }
+> = {
+  es: {
+    analysis: "Análisis Walpulse",
+    origins: "Origen",
+    activity: "Actividad",
+    presence: "Presencia",
+    portfolio: "Portafolio",
+    window90d: "90 DÍAS",
+    inflowsLabel: "FONDOS → WALLET · 2 NIVELES",
+  },
+  en: {
+    analysis: "Walpulse Analysis",
+    origins: "Origin",
+    activity: "Activity",
+    presence: "Presence",
+    portfolio: "Portfolio",
+    window90d: "90 DAYS",
+    inflowsLabel: "FUNDS → WALLET · 2 LEVELS",
+  },
+  pt: {
+    analysis: "Análise Walpulse",
+    origins: "Origem",
+    activity: "Atividade",
+    presence: "Presença",
+    portfolio: "Portfólio",
+    window90d: "90 DIAS",
+    inflowsLabel: "FUNDOS → WALLET · 2 NÍVEIS",
+  },
+};
 
 /** Right of center so copy breathes; keep margin so nodes don't clip. */
 const CX = 408;
@@ -234,63 +280,175 @@ function MarkerArrow({ id }: { id: string }) {
   );
 }
 
+/** Shorten a segment so arrowheads sit clear of node centers (Level0 pattern). */
+function shortenLine(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  startPad: number,
+  endPad: number,
+) {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const len = Math.hypot(dx, dy) || 1;
+  const ux = dx / len;
+  const uy = dy / len;
+  return {
+    x1: x1 + ux * startPad,
+    y1: y1 + uy * startPad,
+    x2: x2 - ux * endPad,
+    y2: y2 - uy * endPad,
+  };
+}
+
+const WALLET_GLYPH_SCALE = 1.05;
+const WALLET_ARROW_GAP = 14;
+
+function walletHalfSize(scale: number) {
+  return {
+    halfW: (118 * scale) / 2,
+    halfH: (74 * scale) / 2,
+  };
+}
+
+/** Point just outside the wallet rectangle, on the line from (fromX, fromY) to center. */
+function pointOutsideWalletRect(fromX: number, fromY: number, scale = WALLET_GLYPH_SCALE) {
+  const { halfW, halfH } = walletHalfSize(scale);
+  const sx = fromX - CX;
+  const sy = fromY - CY;
+  const len = Math.hypot(sx, sy) || 1;
+  const ux = sx / len;
+  const uy = sy / len;
+  const distEdge = Math.min(
+    halfW / Math.max(Math.abs(ux), 1e-6),
+    halfH / Math.max(Math.abs(uy), 1e-6),
+  );
+  return {
+    x: CX + ux * (distEdge + WALLET_ARROW_GAP),
+    y: CY + uy * (distEdge + WALLET_ARROW_GAP),
+  };
+}
+
 function Level0Visual({
   motion,
   labels,
+  onSelectLevel,
 }: {
   motion: boolean;
   labels: {
+    analysis: string;
     origins: string;
     activity: string;
     presence: string;
     portfolio: string;
   };
+  onSelectLevel?: (level: RevealLevel) => void;
 }) {
+  /** Flow top → bottom: Wallet → Analysis → 4 signals in a row. */
+  const walletX = CX;
+  const walletY = 88;
+  const analysisX = CX;
+  const analysisY = 210;
+  const signalY = 400;
   const signals = [
-    { label: labels.origins, x: CX - 158, y: CY - 118 },
-    { label: labels.activity, x: CX + 158, y: CY - 118 },
-    { label: labels.presence, x: CX + 158, y: CY + 122 },
-    { label: labels.portfolio, x: CX - 158, y: CY + 122 },
+    { label: labels.presence, x: CX - 195, level: 1 as RevealLevel },
+    { label: labels.portfolio, x: CX - 65, level: 2 as RevealLevel },
+    { label: labels.origins, x: CX + 65, level: 3 as RevealLevel },
+    { label: labels.activity, x: CX + 195, level: 4 as RevealLevel },
   ] as const;
+  const analysisParts = labels.analysis.split(/\s+/);
+  const analysisLine1 = analysisParts[0] ?? labels.analysis;
+  const analysisLine2 = analysisParts.slice(1).join(" ");
 
   return (
     <g>
+      <line
+        x1={walletX}
+        y1={walletY + 42}
+        x2={analysisX}
+        y2={analysisY - 40}
+        stroke="rgba(56,189,248,0.55)"
+        strokeWidth={1.8}
+        markerEnd="url(#reveal-arrow)"
+      />
+      <FlowDot
+        enabled={motion}
+        x1={walletX}
+        y1={walletY + 42}
+        x2={analysisX}
+        y2={analysisY - 40}
+        dur="2.1s"
+        color="#38BDF8"
+      />
+
       {signals.map((s, i) => (
-        <g key={`${s.label}-${i}`}>
+        <g
+          key={`${s.label}-${i}`}
+          className={
+            onSelectLevel ? "reveal-visual__signal-hotspot" : undefined
+          }
+          onClick={
+            onSelectLevel
+              ? (e) => {
+                  e.stopPropagation();
+                  onSelectLevel(s.level);
+                }
+              : undefined
+          }
+        >
           <line
-            x1={CX}
-            y1={CY}
+            x1={analysisX}
+            y1={analysisY + 40}
             x2={s.x}
-            y2={s.y}
-            stroke="rgba(56,189,248,0.4)"
+            y2={signalY - 38}
+            stroke="rgba(125,211,252,0.4)"
             strokeWidth={1.5}
+            markerEnd="url(#reveal-arrow-soft)"
           />
-          <circle cx={s.x} cy={s.y} r={34} fill="#0F172A" stroke="#38BDF8" strokeWidth={1.7}>
+          <FlowDot
+            enabled={motion}
+            x1={analysisX}
+            y1={analysisY + 40}
+            x2={s.x}
+            y2={signalY - 38}
+            dur="2.4s"
+            delay={`${0.25 + i * 0.28}s`}
+            color="#7DD3FC"
+          />
+          <circle
+            cx={s.x}
+            cy={signalY}
+            r={34}
+            fill="#0F172A"
+            stroke="#38BDF8"
+            strokeWidth={1.7}
+          >
             <PulseOpacity
               enabled={motion}
               values="0.55;1;0.55"
               dur="3.2s"
-              begin={`${i * 0.55}s`}
+              begin={`${i * 0.45}s`}
             />
           </circle>
           <circle
             cx={s.x}
-            cy={s.y}
-            r={44}
+            cy={signalY}
+            r={42}
             fill="none"
-            stroke="rgba(125,211,252,0.3)"
-            strokeWidth={1.2}
+            stroke="rgba(125,211,252,0.28)"
+            strokeWidth={1.1}
           >
             <PulseOpacity
               enabled={motion}
-              values="0.2;0.75;0.2"
+              values="0.2;0.7;0.2"
               dur="3.2s"
-              begin={`${i * 0.55}s`}
+              begin={`${i * 0.45}s`}
             />
           </circle>
           <text
             x={s.x}
-            y={s.y + 4}
+            y={signalY + 4}
             textAnchor="middle"
             fill="#F8FAFC"
             fontFamily="ui-monospace, monospace"
@@ -301,17 +459,100 @@ function Level0Visual({
           </text>
         </g>
       ))}
-      <WalletGlyph x={CX} y={CY} scale={1.12} highlight />
+
+      <WalletGlyph x={walletX} y={walletY} scale={1.05} highlight />
+
+      <g>
+        <rect
+          x={analysisX - 72}
+          y={analysisY - 36}
+          width={144}
+          height={72}
+          rx={14}
+          fill="#0F172A"
+          stroke="#7DD3FC"
+          strokeWidth={2}
+        >
+          <PulseOpacity enabled={motion} values="0.7;1;0.7" dur="2.8s" />
+        </rect>
+        <rect
+          x={analysisX - 64}
+          y={analysisY - 28}
+          width={128}
+          height={56}
+          rx={10}
+          fill="#070B14"
+          stroke="rgba(56,189,248,0.35)"
+          strokeWidth={1}
+        />
+        <text
+          x={analysisX}
+          y={analysisLine2 ? analysisY - 2 : analysisY + 4}
+          textAnchor="middle"
+          fill="#F8FAFC"
+          fontFamily="ui-monospace, monospace"
+          fontSize={12}
+        >
+          {analysisLine1}
+        </text>
+        {analysisLine2 ? (
+          <text
+            x={analysisX}
+            y={analysisY + 16}
+            textAnchor="middle"
+            fill="#7DD3FC"
+            fontFamily="ui-monospace, monospace"
+            fontSize={11}
+          >
+            {analysisLine2}
+          </text>
+        ) : null}
+      </g>
     </g>
   );
 }
 
+/** Secondary wallet node — square (circle reserved for tx/flow). */
+function WalletNodeSquare({
+  x,
+  y,
+  size,
+  fill,
+  stroke,
+  strokeWidth = 0,
+  opacity = 1,
+}: {
+  x: number;
+  y: number;
+  size: number;
+  fill: string;
+  stroke?: string;
+  strokeWidth?: number;
+  opacity?: number;
+}) {
+  return (
+    <rect
+      x={x - size / 2}
+      y={y - size / 2}
+      width={size}
+      height={size}
+      rx={1}
+      fill={fill}
+      stroke={stroke}
+      strokeWidth={strokeWidth}
+      opacity={opacity}
+    />
+  );
+}
+
+function diamondPoints(cx: number, cy: number, halfDiag: number): string {
+  return `${cx},${cy - halfDiag} ${cx + halfDiag},${cy} ${cx},${cy + halfDiag} ${cx - halfDiag},${cy}`;
+}
+
 function Level1Visual({
   motion,
-  inflowsLabel,
 }: {
   motion: boolean;
-  inflowsLabel: string;
 }) {
   const hop1 = [
     { x: CX - 150, y: CY - 95 },
@@ -324,30 +565,39 @@ function Level1Visual({
     { x: CX + 130, y: CY - 185, parent: 1 },
     { x: CX + 220, y: CY - 100, parent: 2 },
   ] as const;
+  const hop1Size = 11;
+  const hop2Size = 8;
 
   return (
     <g>
       {hop2.map((n, i) => {
         const parent = hop1[n.parent];
+        const seg = shortenLine(n.x, n.y, parent.x, parent.y, hop2Size / 2 + 1, hop1Size / 2 + 2);
         return (
           <g key={`h2-${i}`}>
             <line
-              x1={n.x}
-              y1={n.y}
-              x2={parent.x}
-              y2={parent.y}
+              x1={seg.x1}
+              y1={seg.y1}
+              x2={seg.x2}
+              y2={seg.y2}
               stroke="rgba(125,211,252,0.35)"
               strokeWidth={1.2}
               strokeDasharray="3 4"
               markerEnd="url(#reveal-arrow-soft)"
             />
-            <circle cx={n.x} cy={n.y} r={5} fill="#7DD3FC" opacity={0.8} />
+            <WalletNodeSquare
+              x={n.x}
+              y={n.y}
+              size={hop2Size}
+              fill="#7DD3FC"
+              opacity={0.8}
+            />
             <FlowDot
               enabled={motion}
-              x1={n.x}
-              y1={n.y}
-              x2={parent.x}
-              y2={parent.y}
+              x1={seg.x1}
+              y1={seg.y1}
+              x2={seg.x2}
+              y2={seg.y2}
               dur="2.4s"
               delay={`${i * 0.35}s`}
               color="#7DD3FC"
@@ -355,62 +605,53 @@ function Level1Visual({
           </g>
         );
       })}
-      {hop1.map((n, i) => (
-        <g key={`h1-${i}`}>
-          <line
-            x1={n.x}
-            y1={n.y}
-            x2={CX}
-            y2={CY - 8}
-            stroke="rgba(56,189,248,0.65)"
-            strokeWidth={1.8}
-            markerEnd="url(#reveal-arrow)"
-          />
-          <circle cx={n.x} cy={n.y} r={7.5} fill="#38BDF8" />
-          <text
-            x={n.x}
-            y={n.y - 14}
-            textAnchor="middle"
-            fill="rgba(248,250,252,0.72)"
-            fontFamily="ui-monospace, monospace"
-            fontSize={8}
-          >
-            hop1
-          </text>
-          <FlowDot
-            enabled={motion}
-            x1={n.x}
-            y1={n.y}
-            x2={CX}
-            y2={CY - 8}
-            dur="1.9s"
-            delay={`${0.2 + i * 0.4}s`}
-            color="#38BDF8"
-          />
-        </g>
-      ))}
-      <WalletGlyph x={CX} y={CY} scale={1.05} highlight />
-      <text
-        x={CX}
-        y={CY + 58}
-        textAnchor="middle"
-        fill="rgba(125,211,252,0.9)"
-        fontFamily="ui-monospace, monospace"
-        fontSize={9}
-        letterSpacing="0.14em"
-      >
-        {inflowsLabel}
-      </text>
+      {hop1.map((n, i) => {
+        const end = pointOutsideWalletRect(n.x, n.y);
+        const seg = shortenLine(n.x, n.y, end.x, end.y, hop1Size / 2 + 2, 0);
+        return (
+          <g key={`h1-${i}`}>
+            <line
+              x1={seg.x1}
+              y1={seg.y1}
+              x2={seg.x2}
+              y2={seg.y2}
+              stroke="rgba(56,189,248,0.65)"
+              strokeWidth={1.8}
+              markerEnd="url(#reveal-arrow)"
+            />
+            <WalletNodeSquare x={n.x} y={n.y} size={hop1Size} fill="#38BDF8" />
+            <text
+              x={n.x}
+              y={n.y - 14}
+              textAnchor="middle"
+              fill="rgba(248,250,252,0.72)"
+              fontFamily="ui-monospace, monospace"
+              fontSize={8}
+            >
+              hop1
+            </text>
+            <FlowDot
+              enabled={motion}
+              x1={seg.x1}
+              y1={seg.y1}
+              x2={seg.x2}
+              y2={seg.y2}
+              dur="1.9s"
+              delay={`${0.2 + i * 0.4}s`}
+              color="#38BDF8"
+            />
+          </g>
+        );
+      })}
+      <WalletGlyph x={CX} y={CY} scale={WALLET_GLYPH_SCALE} highlight />
     </g>
   );
 }
 
 function Level2Visual({
   motion,
-  windowLabel,
 }: {
   motion: boolean;
-  windowLabel: string;
 }) {
   const peers = [
     { x: CX - 160, y: CY - 90, dir: "in" as const },
@@ -419,22 +660,24 @@ function Level2Visual({
     { x: CX - 155, y: CY + 100, dir: "out" as const },
     { x: CX + 20, y: CY - 145, dir: "in" as const },
   ];
+  const peerSize = 14;
 
   return (
     <g>
       {peers.map((p, i) => {
         const toWallet = p.dir === "in";
-        const x1 = toWallet ? p.x : CX;
-        const y1 = toWallet ? p.y : CY;
-        const x2 = toWallet ? CX : p.x;
-        const y2 = toWallet ? CY : p.y;
+        const walletEdge = pointOutsideWalletRect(p.x, p.y, 1);
+        const half = peerSize / 2 + 2;
+        const seg = toWallet
+          ? shortenLine(p.x, p.y, walletEdge.x, walletEdge.y, half, 0)
+          : shortenLine(walletEdge.x, walletEdge.y, p.x, p.y, 0, half + 4);
         return (
           <g key={`peer-${i}`}>
             <line
-              x1={p.x}
-              y1={p.y}
-              x2={CX}
-              y2={CY}
+              x1={seg.x1}
+              y1={seg.y1}
+              x2={seg.x2}
+              y2={seg.y2}
               stroke={
                 toWallet
                   ? "rgba(56,189,248,0.5)"
@@ -443,30 +686,20 @@ function Level2Visual({
               strokeWidth={1.5}
               markerEnd={toWallet ? "url(#reveal-arrow)" : "url(#reveal-arrow-soft)"}
             />
-            <circle
-              cx={p.x}
-              cy={p.y}
-              r={8}
+            <WalletNodeSquare
+              x={p.x}
+              y={p.y}
+              size={peerSize}
               fill="#0F172A"
               stroke="#38BDF8"
               strokeWidth={1.4}
             />
-            <text
-              x={p.x}
-              y={p.y + 3.5}
-              textAnchor="middle"
-              fill="#7DD3FC"
-              fontFamily="ui-monospace, monospace"
-              fontSize={7}
-            >
-              {toWallet ? "IN" : "OUT"}
-            </text>
             <FlowDot
               enabled={motion}
-              x1={x1}
-              y1={y1}
-              x2={x2}
-              y2={y2}
+              x1={seg.x1}
+              y1={seg.y1}
+              x2={seg.x2}
+              y2={seg.y2}
               dur={`${2.1 + (i % 3) * 0.35}s`}
               delay={`${i * 0.28}s`}
               color={toWallet ? "#38BDF8" : "#7DD3FC"}
@@ -475,17 +708,6 @@ function Level2Visual({
         );
       })}
       <WalletGlyph x={CX} y={CY} scale={1} highlight />
-      <text
-        x={CX}
-        y={CY + 58}
-        textAnchor="middle"
-        fill="rgba(125,211,252,0.9)"
-        fontFamily="ui-monospace, monospace"
-        fontSize={10}
-        letterSpacing="0.16em"
-      >
-        {windowLabel}
-      </text>
     </g>
   );
 }
@@ -501,6 +723,10 @@ function Level3Visual({ motion }: { motion: boolean }) {
         const x = CX + Math.cos(rad) * r;
         const y = CY + Math.sin(rad) * r;
         const size = 36;
+        const clipId = `reveal-chain-clip-${i}`;
+        const haloHalf = size / 2 + 10;
+        const fillHalf = size / 2 + 4;
+        const clipHalf = size / 2;
         return (
           <g key={chain.label}>
             <line
@@ -514,27 +740,28 @@ function Level3Visual({ motion }: { motion: boolean }) {
             >
               <ChaseGlow enabled={motion} index={i} count={n} />
             </line>
-            <circle
-              cx={x}
-              cy={y}
-              r={size / 2 + 10}
+            <polygon
+              points={diamondPoints(x, y, haloHalf)}
               fill="none"
               stroke="#7DD3FC"
               strokeWidth={1.4}
               opacity={motion ? 0.28 : 0.35}
             >
               <ChaseGlow enabled={motion} index={i} count={n} />
-            </circle>
+            </polygon>
             <g opacity={motion ? 0.45 : 1}>
               <ChaseGlow enabled={motion} index={i} count={n} />
-              <circle
-                cx={x}
-                cy={y}
-                r={size / 2 + 4}
+              <polygon
+                points={diamondPoints(x, y, fillHalf)}
                 fill="#0F172A"
                 stroke="#38BDF8"
                 strokeWidth={1.6}
               />
+              <defs>
+                <clipPath id={clipId}>
+                  <polygon points={diamondPoints(x, y, clipHalf)} />
+                </clipPath>
+              </defs>
               <image
                 href={chain.src}
                 x={x - size / 2}
@@ -542,6 +769,7 @@ function Level3Visual({ motion }: { motion: boolean }) {
                 width={size}
                 height={size}
                 preserveAspectRatio="xMidYMid meet"
+                clipPath={`url(#${clipId})`}
               />
             </g>
           </g>
@@ -613,10 +841,12 @@ function SceneForLevel({
   level,
   motion,
   labels,
+  onSelectLevel,
 }: {
   level: RevealLevel;
   motion: boolean;
   labels: {
+    analysis: string;
     origins: string;
     activity: string;
     presence: string;
@@ -624,32 +854,36 @@ function SceneForLevel({
     window90d: string;
     inflowsLabel: string;
   };
+  onSelectLevel?: (level: RevealLevel) => void;
 }): ReactNode {
   switch (level) {
     case 0:
-      return <Level0Visual motion={motion} labels={labels} />;
+      return (
+        <Level0Visual
+          motion={motion}
+          labels={labels}
+          onSelectLevel={onSelectLevel}
+        />
+      );
     case 1:
-      return <Level1Visual motion={motion} inflowsLabel={labels.inflowsLabel} />;
-    case 2:
-      return <Level2Visual motion={motion} windowLabel={labels.window90d} />;
-    case 3:
       return <Level3Visual motion={motion} />;
-    case 4:
+    case 2:
       return <Level4Visual motion={motion} />;
+    case 3:
+      return <Level1Visual motion={motion} />;
+    case 4:
+      return <Level2Visual motion={motion} />;
   }
 }
 
-export function WalletRevealVisual({ level, reducedMotion = false }: Props) {
+export function WalletRevealVisual({
+  level,
+  reducedMotion = false,
+  onSelectLevel,
+}: Props) {
   const motion = !reducedMotion;
-  const t = useTranslations("reveal.visual");
-  const labels = {
-    origins: t("origins"),
-    activity: t("activity"),
-    presence: t("presence"),
-    portfolio: t("portfolio"),
-    window90d: t("window90d"),
-    inflowsLabel: t("inflowsLabel"),
-  };
+  const locale = useLocale();
+  const labels = visualLabelsByLocale[locale] ?? visualLabelsByLocale.es;
 
   return (
     <div className="reveal-visual" aria-hidden>
@@ -684,7 +918,12 @@ export function WalletRevealVisual({ level, reducedMotion = false }: Props) {
             key={id}
             className={`reveal-visual__layer${id === level ? " is-active" : ""}`}
           >
-            <SceneForLevel level={id} motion={motion} labels={labels} />
+            <SceneForLevel
+              level={id}
+              motion={motion}
+              labels={labels}
+              onSelectLevel={id === 0 ? onSelectLevel : undefined}
+            />
           </g>
         ))}
       </svg>

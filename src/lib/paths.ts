@@ -54,14 +54,14 @@ export const headerNavItems: HeaderNavItem[] = [
     labelKey: "whoUses",
     children: [
       {
-        href: routes.criptoExchangesInternacional,
-        labelKey: "cryptoExchanges",
-        region: "row",
-      },
-      {
         href: routes.criptoExchangesUruguay,
         labelKey: "cryptoExchangesPsav",
         region: "uy",
+      },
+      {
+        href: routes.criptoExchangesInternacional,
+        labelKey: "cryptoExchanges",
+        region: "row",
       },
     ],
   },

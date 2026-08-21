@@ -31,7 +31,7 @@ Redirect legacy: `/para-psav` → `/cripto-exchanges/uruguay` (también con loca
 ### Nav / shell
 
 - Header: logo + menú (Inicio, Análisis, Para quienes, Nosotros, Hablemos) + selector de idioma.
-- Para quienes (dropdown): `/cripto-exchanges/internacional` y `/cripto-exchanges/uruguay`.
+- Para quienes (dropdown): `/cripto-exchanges/uruguay` y `/cripto-exchanges/internacional` (orden: Uruguay primero).
 - Footer: logo + link a contacto; sin menú completo ni disclaimer PSAV/KYC/UIAF en el pie.
 
 ## Catálogo (tiers)

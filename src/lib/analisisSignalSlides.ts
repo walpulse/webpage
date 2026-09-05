@@ -22,14 +22,14 @@ export type AnalisisSignalsCopy = {
 };
 
 /**
- * Internal signals as business copy (vault Catálogo de servicios).
+ * Internal signals as business copy (vault Catálogo + Señales v1.0).
  * No field names, providers, or formula jargon.
  */
 export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
   es: {
     title: "Qué miramos dentro de cada señal",
     intro:
-      "Cada parte del análisis se construye con señales internas que el receptor puede leer y auditar. A continuación explicamos qué miden y qué información transmiten para que el receptor tome una decisión informada.",
+      "Cada parte del análisis se construye con señales internas que el receptor puede leer y auditar. La cobertura (redes, ventana, hops) escala con Básica, Estándar o Experta.",
     prev: "Señal anterior",
     next: "Señal siguiente",
     tabsLabel: "Partes del análisis",
@@ -39,7 +39,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
       {
         id: "multichain",
         title: "Presencia del ecosistema",
-        lead: "Mapa de en qué redes aparece la billetera, con qué continuidad y con cuánta intensidad opera entre cadenas.",
+        lead: "Mapa de en qué redes aparece la billetera, con qué continuidad y —en Estándar/Experta— con cuánta intensidad opera entre cadenas. Entra en las tres profundidades.",
         rows: [
           {
             name: "Cantidad de redes con actividad",
@@ -54,7 +54,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Redes activas recientes",
             meaning:
-              "En cuáles redes hubo movimiento en ventanas cortas (por ejemplo 30 o 90 días). Separa presencia histórica de uso actual.",
+              "En cuáles redes hubo movimiento en ventanas de 30 y 90 días. Separa presencia histórica de uso actual.",
           },
           {
             name: "Proporción de redes dormidas",
@@ -64,7 +64,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Consistencia entre redes",
             meaning:
-              "Si el comportamiento se reparte de forma estable o se concentra de manera irregular entre cadenas.",
+              "Si el comportamiento se reparte de forma estable entre cadenas. En Básica no siempre está disponible (solo footprint de presencia).",
           },
           {
             name: "Recencia de la última actividad",
@@ -89,14 +89,14 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Intensidad de uso entre redes",
             meaning:
-              "En profundidades Estándar y Experta: volumen e intensidad de transacciones entre cadenas, red principal y peso relativo. En Básica el foco es el footprint de presencia.",
+              "En Estándar y Experta: volumen e intensidad de transacciones entre cadenas y peso relativo. En Básica el foco es el footprint de presencia.",
           },
         ],
       },
       {
         id: "portfolio",
         title: "Calidad del portafolio",
-        lead: "Foto económica de lo que sostiene la wallet: valor, liquidez, composición y señales de riesgo asociadas a los holdings.",
+        lead: "Foto económica de lo que sostiene la wallet: valor, liquidez y composición. Solo entra en Estándar y Experta (no en Básica).",
         rows: [
           {
             name: "Valor total usable y creíble",
@@ -126,7 +126,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Exposición DeFi y liquidez proveída",
             meaning:
-              "Participación en protocolos y posiciones de liquidez. Informa complejidad operativa y riesgos de smart contract / IL.",
+              "Participación en protocolos y posiciones de liquidez. Informa complejidad operativa y riesgos de smart contract.",
           },
           {
             name: "Polvo y spam",
@@ -148,22 +148,17 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
             meaning:
               "Qué tan comprometido está el capital en posiciones no líquidas a corto plazo.",
           },
-          {
-            name: "Exposición a sanciones conocidas",
-            meaning:
-              "Si la wallet objetivo aparece asociada a labels/direcciones OFAC conocidos. Es señal de exposición, no screening oficial ni veredicto.",
-          },
         ],
       },
       {
         id: "origins",
         title: "Origen de los fondos",
-        lead: "De dónde vinieron los fondos, con qué diversidad y con qué indicios de riesgo en la procedencia.",
+        lead: "De dónde vinieron los fondos, con qué diversidad y con qué indicios de riesgo en la procedencia. La profundidad de hops (0 / 1 / 2) depende del tier.",
         rows: [
           {
             name: "Composición por tipo de origen",
             meaning:
-              "Qué porcentaje llega desde exchanges, bridges, mixers, direcciones sancionadas, airdrops u origen orgánico. Define el “sabor” del fondeo.",
+              "Qué porcentaje llega desde exchanges, bridges, mixers, direcciones asociadas a sanciones conocidas, airdrops u origen orgánico.",
           },
           {
             name: "Remitentes únicos",
@@ -173,17 +168,12 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Concentración del fondeo",
             meaning:
-              "Si el valor entrante está repartido o dominado por pocas fuentes. Concentración alta eleva el peso de cada fondeador.",
-          },
-          {
-            name: "Peso de los principales fondeadores",
-            meaning:
-              "Cuánto aportan el mayor fondeador y el top de remitentes. Útil para ver si una sola fuente explica la wallet.",
+              "Si el valor entrante está repartido o dominado por pocas fuentes (HHI y peso del top-1 / top-3).",
           },
           {
             name: "Calidad de los exchanges de origen",
             meaning:
-              "Cuando el fondeo pasa por CEX, qué tan sólidos o conocidos son esos venues. Aporta contexto de reputación del canal.",
+              "Cuando el fondeo pasa por CEX, qué tan sólidos o conocidos son esos venues.",
           },
           {
             name: "Ritmo temporal del fondeo",
@@ -193,7 +183,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Exposición a mixers y sanciones",
             meaning:
-              "Indicios de contacto con mixers o direcciones asociadas a listas OFAC conocidas. Señal de exposición, no determinación.",
+              "Indicios de contacto con mixers o direcciones asociadas a listas OFAC conocidas. Señal de exposición, no screening oficial.",
           },
           {
             name: "Orgánico vs. sintético",
@@ -205,12 +195,22 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
             meaning:
               "Hace cuánto recibió los primeros fondos relevantes. Contextúa wallets recién fondeadas vs. trayectorias maduras.",
           },
+          {
+            name: "Cobertura de pricing",
+            meaning:
+              "Qué proporción del valor entrante pudo valuarse en USD. Baja cobertura hace más prudente la lectura de concentración.",
+          },
+          {
+            name: "Hops / fondeadores analizados",
+            meaning:
+              "Según profundidad: Básica sin hops; Estándar hop-1 sobre top fondeadores; Experta hops a dos niveles. Contexto de procedencia, no veredicto.",
+          },
         ],
       },
       {
         id: "activity",
         title: "Actividad reciente",
-        lead: "Cómo se comporta la wallet en el día a día: con quién opera, con qué ritmo y con qué patrones de riesgo operativo.",
+        lead: "Cómo se comporta la wallet en la ventana del tier (15 / 45 / 90 días): con quién opera, con qué ritmo y con qué calidad de interacción. En Experta se suma Activity light sobre top contrapartes.",
         rows: [
           {
             name: "Contrapartes únicas",
@@ -220,7 +220,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Concentración de contrapartes",
             meaning:
-              "Si el flujo se reparte entre muchos peers o se concentra en pocos. Concentración alta aumenta dependencia de esas relaciones.",
+              "Si el flujo se reparte entre muchos peers o se concentra en pocos (HHI).",
           },
           {
             name: "Interacción con exchanges",
@@ -230,7 +230,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Reciprocidad de flujos",
             meaning:
-              "Cuánto del movimiento es ida-y-vuelta con las mismas contrapartes. Puede sugerir relaciones estables o patrones circulares.",
+              "Cuánto del movimiento es ida-y-vuelta con las mismas contrapartes.",
           },
           {
             name: "Balance neto vs. volumen bruto",
@@ -238,14 +238,9 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
               "Si hay mucho movimiento con poco cambio neto. Útil para detectar rotación intensa sin acumulación clara.",
           },
           {
-            name: "Velocidad de transacciones",
+            name: "Velocidad y ráfagas",
             meaning:
-              "Ritmo diario de operaciones. Ayuda a separar uso ocasional de actividad muy intensa.",
-          },
-          {
-            name: "Ráfagas de actividad",
-            meaning:
-              "Si las transacciones llegan en ráfagas concentradas. Puede indicar automatización o campañas puntuales.",
+              "Ritmo diario de operaciones y si llegan en ráfagas concentradas (posible automatización o campañas).",
           },
           {
             name: "Diversidad de tokens",
@@ -253,19 +248,29 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
               "Variedad de activos en los movimientos. Perfiles mono-token vs. operatorias más amplias.",
           },
           {
-            name: "Patrones wash / circulares",
+            name: "Patrones wash / circulares / bot-like",
             meaning:
-              "Indicios de lavado de volumen o circuitos cerrados entre wallets. Señales de alerta temprana, no prueba forense.",
-          },
-          {
-            name: "Comportamiento tipo bot",
-            meaning:
-              "Patrones que se parecen a automatización (ritmo, repetición, estructura). Informa riesgo operativo y autenticidad del uso.",
+              "Indicios de lavado de volumen, circuitos cerrados o automatización. Señales de alerta temprana, no prueba forense.",
           },
           {
             name: "Mix NFT vs. tokens fungibles",
             meaning:
-              "Cuánto del flujo es NFT frente a fungibles. Cambia el contexto de uso (coleccionismo, trading, tesorería, etc.).",
+              "Cuánto del flujo es NFT frente a fungibles. Cambia el contexto de uso.",
+          },
+          {
+            name: "Exposiciones por categoría de contraparte",
+            meaning:
+              "Peso del valor hacia OFAC / mixer / bridge / airdrop / protocolo conocidos. Señal histórica de exposición, no screening oficial.",
+          },
+          {
+            name: "Calidad de contratos (Sourcify)",
+            meaning:
+              "Qué proporción de contratos tocados está verificada en Sourcify vs. no verificados.",
+          },
+          {
+            name: "Etiquetas Kleros / Spellbook",
+            meaning:
+              "Qué parte de las contrapartes lleva etiquetas de reputación on-chain conocidas. Contexto informativo, no screening oficial.",
           },
         ],
       },
@@ -274,7 +279,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
   en: {
     title: "What we look at inside each signal",
     intro:
-      "Each part of the analysis is built from internal signals the recipient can read and audit. Below we explain what they measure and what information they convey so the recipient can make an informed decision.",
+      "Each part of the analysis is built from internal signals the recipient can read and audit. Coverage (networks, window, hops) scales with Basic, Standard, or Expert.",
     prev: "Previous signal",
     next: "Next signal",
     tabsLabel: "Analysis parts",
@@ -284,7 +289,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
       {
         id: "multichain",
         title: "Ecosystem presence",
-        lead: "A map of which networks the wallet appears on, how continuous that presence is, and how intensely it operates across chains.",
+        lead: "A map of which networks the wallet appears on, how continuous that presence is, and —in Standard/Expert— how intensely it operates across chains. Included in all three depths.",
         rows: [
           {
             name: "Number of networks with activity",
@@ -299,7 +304,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Recently active networks",
             meaning:
-              "Which networks show movement in short windows (e.g. 30 or 90 days). Separates historical presence from current use.",
+              "Which networks show movement in 30- and 90-day windows. Separates historical presence from current use.",
           },
           {
             name: "Share of dormant networks",
@@ -309,7 +314,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Consistency across networks",
             meaning:
-              "Whether behavior is stably distributed or unevenly concentrated across chains.",
+              "Whether behavior is stably distributed across chains. In Basic it is not always available (presence footprint only).",
           },
           {
             name: "Recency of latest activity",
@@ -334,24 +339,24 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Cross-network intensity",
             meaning:
-              "In Standard and Expert: transaction intensity across chains, primary network, and relative weight. Basic focuses on presence footprint.",
+              "In Standard and Expert: transaction intensity across chains and relative weight. Basic focuses on presence footprint.",
           },
         ],
       },
       {
         id: "portfolio",
         title: "Portfolio quality",
-        lead: "An economic snapshot of what the wallet holds: value, liquidity, composition, and risk signals tied to holdings.",
+        lead: "An economic snapshot of what the wallet holds: value, liquidity, and composition. Only in Standard and Expert (not Basic).",
         rows: [
           {
             name: "Total usable and credible value",
             meaning:
-              "Observed economic value, distinguishing usable totals from “credible” readings that filter absurd valuations.",
+              "How much economic value is observed, separating usable totals from “credible” readings that filter absurd valuations.",
           },
           {
-            name: "Liquid vs locked",
+            name: "Liquid vs. locked",
             meaning:
-              "How much is immediately available versus committed or locked.",
+              "How much of the holdings is immediately available versus committed or locked.",
           },
           {
             name: "Holdings concentration",
@@ -361,7 +366,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Effective positions",
             meaning:
-              "How many positions truly matter in the economic picture, beyond micro-holding noise.",
+              "How many positions truly matter in the economic picture beyond micro-holding noise.",
           },
           {
             name: "Stablecoin / bluechip / memecoin mix",
@@ -369,14 +374,14 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
               "Portfolio risk profile: more stable and bluechip versus more speculative.",
           },
           {
-            name: "DeFi and LP exposure",
+            name: "DeFi and provided liquidity",
             meaning:
-              "Participation in protocols and liquidity positions. Signals operational complexity and protocol risk.",
+              "Participation in protocols and LP positions. Informs operational complexity and smart-contract risk.",
           },
           {
             name: "Dust and spam",
             meaning:
-              "Share of irrelevant or junk holdings. Avoids inflating the reading with useless tokens.",
+              "Share of irrelevant or junk holdings. Avoids inflating the reading with tokens of little use.",
           },
           {
             name: "Protocols touched",
@@ -386,185 +391,190 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Native gas buffer",
             meaning:
-              "Whether enough native balance remains to operate. A “rich” wallet without gas can be operationally stuck.",
+              "Whether it keeps enough native balance to operate. A “rich” wallet without gas can be operationally limited.",
           },
           {
             name: "Locked commitment",
             meaning:
-              "How committed capital is in positions that are not short-term liquid.",
-          },
-          {
-            name: "Known sanctions exposure",
-            meaning:
-              "Whether the target wallet is associated with known OFAC labels/addresses. Exposure signal, not official screening or a verdict.",
+              "How committed capital is in positions that are not liquid in the short term.",
           },
         ],
       },
       {
         id: "origins",
         title: "Origin of funds",
-        lead: "Where funds came from, how diverse that provenance is, and what risk hints appear in the funding path.",
+        lead: "Where funds came from, how diverse that provenance is, and what risk indicators appear. Hop depth (0 / 1 / 2) depends on the tier.",
         rows: [
           {
-            name: "Origin mix by category",
+            name: "Composition by origin type",
             meaning:
-              "Share arriving from exchanges, bridges, mixers, sanctioned addresses, airdrops, or organic sources.",
+              "What share arrives from exchanges, bridges, mixers, addresses tied to known sanctions, airdrops, or organic sources.",
           },
           {
             name: "Unique senders",
             meaning:
-              "How many distinct wallets contributed funds. Few versus many changes dependency reading.",
+              "How many distinct wallets contributed funds. Few versus many changes the dependency reading.",
           },
           {
             name: "Funding concentration",
             meaning:
-              "Whether inbound value is spread out or dominated by a few sources.",
+              "Whether inbound value is spread out or dominated by a few sources (HHI and top-1 / top-3 weight).",
           },
           {
-            name: "Weight of top funders",
+            name: "Origin exchange quality",
             meaning:
-              "How much the top funder and top senders contribute. Shows if one source explains the wallet.",
+              "When funding flows through CEX venues, how solid or well-known those venues look.",
           },
           {
-            name: "CEX origin quality",
+            name: "Temporal funding pattern",
             meaning:
-              "When funding flows through centralized exchanges, how solid or well-known those venues look.",
-          },
-          {
-            name: "Funding timing pattern",
-            meaning:
-              "Whether funds arrived in a lump, in waves, or gradually. Abrupt patterns may deserve closer review.",
+              "Whether funds arrived in a burst, in waves, or gradually.",
           },
           {
             name: "Mixer and sanctions exposure",
             meaning:
-              "Hints of contact with mixers or addresses linked to known OFAC lists. Exposure signal, not a determination.",
+              "Signs of contact with mixers or addresses tied to known OFAC lists. Exposure signal, not official screening.",
           },
           {
-            name: "Organic vs synthetic",
+            name: "Organic vs. synthetic",
             meaning:
               "Weight of real economic activity versus more synthetic origins (airdrops, NFTs, etc.).",
           },
           {
             name: "Age of first funding",
             meaning:
-              "How long ago the first relevant funds arrived. Context for freshly funded versus mature wallets.",
+              "How long ago the first relevant funds arrived. Context for newly funded wallets versus mature trajectories.",
+          },
+          {
+            name: "Pricing coverage",
+            meaning:
+              "What share of inbound value could be priced in USD. Low coverage makes concentration readings more conservative.",
+          },
+          {
+            name: "Hops / analyzed funders",
+            meaning:
+              "By depth: Basic has no hops; Standard hop-1 on top funders; Expert two-level hops. Provenance context, not a verdict.",
           },
         ],
       },
       {
         id: "activity",
         title: "Recent activity",
-        lead: "How the wallet behaves day to day: who it transacts with, at what pace, and with which operational risk patterns.",
+        lead: "How the wallet behaves in the tier window (15 / 45 / 90 days): who it deals with, at what pace, and with what interaction quality. Expert adds Activity light on top counterparties.",
         rows: [
           {
             name: "Unique counterparties",
             meaning:
-              "How many distinct wallets it interacts with. Broad network versus closed operation.",
+              "How many distinct wallets it interacts with. Speaks to contact network versus closed operation.",
           },
           {
             name: "Counterparty concentration",
             meaning:
-              "Whether flow is spread across many peers or concentrated in a few.",
+              "Whether flow is spread across many peers or concentrated in a few (HHI).",
           },
           {
             name: "Exchange interaction",
             meaning:
-              "Share of value and transactions touching CEXs. Speaks to on/off-ramp and centralized venue use.",
+              "What share of value and transactions touches CEX venues.",
           },
           {
             name: "Flow reciprocity",
             meaning:
-              "How much movement is back-and-forth with the same counterparties.",
+              "How much movement is round-trip with the same counterparties.",
           },
           {
-            name: "Net vs gross flow",
+            name: "Net vs. gross volume",
             meaning:
-              "Whether there is heavy movement with little net change. Helps spot intense rotation without clear accumulation.",
+              "Whether there is heavy movement with little net change.",
           },
           {
-            name: "Transaction velocity",
+            name: "Velocity and bursts",
             meaning:
-              "Daily pace of operations. Separates occasional use from very intense activity.",
-          },
-          {
-            name: "Activity bursts",
-            meaning:
-              "Whether transactions arrive in concentrated bursts. May indicate automation or short campaigns.",
+              "Daily transaction pace and whether activity arrives in concentrated bursts.",
           },
           {
             name: "Token diversity",
             meaning:
-              "Variety of assets in movements. Mono-token profiles versus broader operations.",
+              "Variety of assets in the movements.",
           },
           {
-            name: "Wash / circular patterns",
+            name: "Wash / circular / bot-like patterns",
             meaning:
-              "Hints of volume washing or closed circuits between wallets. Early-warning signals, not forensic proof.",
+              "Signs of volume washing, closed circuits, or automation. Early-warning signals, not forensic proof.",
           },
           {
-            name: "Bot-like behavior",
+            name: "NFT vs. fungible mix",
             meaning:
-              "Patterns that look automated (pace, repetition, structure).",
+              "How much of the flow is NFT versus fungible tokens.",
           },
           {
-            name: "NFT vs fungible mix",
+            name: "Counterparty category exposures",
             meaning:
-              "How much flow is NFT versus fungible tokens. Changes the usage context.",
+              "Value weight toward known OFAC / mixer / bridge / airdrop / protocol labels. Historical exposure signal, not official screening.",
+          },
+          {
+            name: "Contract quality (Sourcify)",
+            meaning:
+              "What share of touched contracts is verified on Sourcify versus unverified.",
+          },
+          {
+            name: "Kleros / Spellbook labels",
+            meaning:
+              "What share of counterparties carries known on-chain reputation labels. Informational context, not official screening.",
           },
         ],
       },
     ],
   },
   pt: {
-    title: "O que olhamos dentro de cada sinal",
+    title: "O que observamos dentro de cada sinal",
     intro:
-      "Cada parte da análise é construída com sinais internos que o receptor pode ler e auditar. A seguir explicamos o que medem e que informação transmitem para que o receptor tome uma decisão informada.",
+      "Cada parte da análise é construída com sinais internos que o receptor pode ler e auditar. A cobertura (redes, janela, hops) escala com Básica, Standard ou Expert.",
     prev: "Sinal anterior",
-    next: "Sinal seguinte",
+    next: "Próximo sinal",
     tabsLabel: "Partes da análise",
     nameCol: "Sinal interno",
-    meaningCol: "O que acrescenta à decisão",
+    meaningCol: "O que aporta à decisão",
     slides: [
       {
         id: "multichain",
         title: "Presença do ecossistema",
-        lead: "Mapa de em quais redes a carteira aparece, com que continuidade e com quanta intensidade opera entre cadeias.",
+        lead: "Mapa de em quais redes a carteira aparece, com que continuidade e —em Standard/Expert— com quanta intensidade opera entre cadeias. Entra nas três profundidades.",
         rows: [
           {
             name: "Quantidade de redes com atividade",
             meaning:
-              "Quantas blockchains distintas mostram pegada da wallet. Mais redes podem indicar operação diversificada ou maior superfície a rever.",
+              "Quantas blockchains distintas mostram pegada da wallet. Mais redes podem indicar operação diversificada ou maior superfície a revisar.",
           },
           {
             name: "Antiguidade da atividade multi-rede",
             meaning:
-              "Há quanto tempo existe rasto on-chain no conjunto de redes. Ajuda a distinguir wallets novas de trajetórias longas.",
+              "Desde quando há rastros on-chain no conjunto de redes. Ajuda a distinguir wallets novas de trajetórias longas.",
           },
           {
             name: "Redes ativas recentes",
             meaning:
-              "Em quais redes houve movimento em janelas curtas (por exemplo 30 ou 90 dias). Separa presença histórica de uso atual.",
+              "Em quais redes houve movimento nas janelas de 30 e 90 dias. Separa presença histórica de uso atual.",
           },
           {
             name: "Proporção de redes dormentes",
             meaning:
-              "Quanta parte do footprint está inativa. Evita sobreinterpretar redes antigas sem movimento recente.",
+              "Quanto do footprint está inativo. Evita sobreinterpretar redes antigas sem movimento recente.",
           },
           {
             name: "Consistência entre redes",
             meaning:
-              "Se o comportamento se reparte de forma estável ou se concentra de maneira irregular entre cadeias.",
+              "Se o comportamento se reparte de forma estável entre cadeias. Em Básica nem sempre está disponível (só footprint de presença).",
           },
           {
             name: "Recência da última atividade",
             meaning:
-              "Quão recente é o último rasto relevante. Indica se a wallet continua operativa ou parece abandonada.",
+              "Quão recente é o último rastro relevante. Indica se a wallet ainda parece operativa ou abandonada.",
           },
           {
             name: "Presença em ecossistemas centrais",
             meaning:
-              "Se opera em redes de referência do mercado. Acrescenta contexto de maturidade e tipo de ambiente.",
+              "Se opera em redes de referência do mercado. Aporta contexto de maturidade e tipo de ambiente.",
           },
           {
             name: "Concentração do footprint",
@@ -574,29 +584,29 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Longevidade por rede",
             meaning:
-              "Sinais de permanência em cadeias concretas versus comportamento de passagem.",
+              "Sinais de permanência em cadeias concretas: wallets “de passagem” vs. presença sustentada.",
           },
           {
             name: "Intensidade de uso entre redes",
             meaning:
-              "Em Standard e Expert: volume e intensidade de transações entre cadeias, rede principal e peso relativo. Na Básica o foco é o footprint de presença.",
+              "Em Standard e Expert: volume e intensidade de transações entre cadeias. Em Básica o foco é o footprint de presença.",
           },
         ],
       },
       {
         id: "portfolio",
         title: "Qualidade do portfólio",
-        lead: "Foto econômica do que a wallet detém: valor, liquidez, composição e sinais de risco associados aos holdings.",
+        lead: "Foto econômica do que a wallet sustenta: valor, liquidez e composição. Só entra em Standard e Expert (não em Básica).",
         rows: [
           {
-            name: "Valor total usable e credível",
+            name: "Valor total utilizável e credível",
             meaning:
-              "Quanto valor econômico se observa, distinguindo totais usáveis de leituras “credíveis” que filtram valuations absurdas.",
+              "Quanto valor econômico se observa, distinguindo totais utilizáveis de leituras “credíveis” que filtram valorações absurdas.",
           },
           {
-            name: "Líquido vs bloqueado",
+            name: "Líquido vs. bloqueado",
             meaning:
-              "Que parte do património está disponível de imediato e que parte está comprometida ou locked.",
+              "Que parte do patrimônio está disponível de imediato e que parte está comprometida ou locked.",
           },
           {
             name: "Concentração de holdings",
@@ -611,12 +621,12 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Mix stablecoins / bluechips / memecoins",
             meaning:
-              "Perfil de risco do portfólio: mais estável e bluechip versus mais especulativo.",
+              "Perfil de risco do portfólio: mais estável e bluechip vs. mais especulativo.",
           },
           {
-            name: "Exposição DeFi e liquidez fornecida",
+            name: "Exposição DeFi e liquidez provida",
             meaning:
-              "Participação em protocolos e posições de liquidez. Informa complexidade operativa e risco de protocolo.",
+              "Participação em protocolos e posições de liquidez. Informa complexidade operativa e risco de smart contract.",
           },
           {
             name: "Poeira e spam",
@@ -631,44 +641,34 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Buffer de gas nativo",
             meaning:
-              "Se mantém saldo nativo suficiente para operar. Uma wallet “rica” sem gas pode ficar limitada.",
+              "Se mantém saldo nativo suficiente para operar.",
           },
           {
             name: "Compromisso em ativos locked",
             meaning:
-              "Quão comprometido está o capital em posições não líquidas no curto prazo.",
-          },
-          {
-            name: "Exposição a sanções conhecidas",
-            meaning:
-              "Se a wallet alvo aparece associada a labels/endereços OFAC conhecidos. Sinal de exposição, não screening oficial nem veredito.",
+              "Quão comprometido está o capital em posições pouco líquidas no curto prazo.",
           },
         ],
       },
       {
         id: "origins",
         title: "Origem dos fundos",
-        lead: "De onde vieram os fundos, com que diversidade e com que indícios de risco na proveniência.",
+        lead: "De onde vieram os fundos, com que diversidade e com que indícios de risco na procedência. A profundidade de hops (0 / 1 / 2) depende do tier.",
         rows: [
           {
             name: "Composição por tipo de origem",
             meaning:
-              "Que percentagem chega de exchanges, bridges, mixers, endereços sancionados, airdrops ou origem orgânica.",
+              "Que percentagem chega de exchanges, bridges, mixers, endereços associados a sanções conhecidas, airdrops ou origem orgânica.",
           },
           {
             name: "Remetentes únicos",
             meaning:
-              "Quantas wallets distintas aportaram fundos. Poucos versus muitos muda a leitura de dependência.",
+              "Quantas wallets distintas aportaram fundos.",
           },
           {
             name: "Concentração do funding",
             meaning:
-              "Se o valor entrante está repartido ou dominado por poucas fontes.",
-          },
-          {
-            name: "Peso dos principais financiadores",
-            meaning:
-              "Quanto aportam o maior financiador e o top de remetentes.",
+              "Se o valor entrante está repartido ou dominado por poucas fontes (HHI e peso do top-1 / top-3).",
           },
           {
             name: "Qualidade dos exchanges de origem",
@@ -683,10 +683,10 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Exposição a mixers e sanções",
             meaning:
-              "Indícios de contacto com mixers ou endereços associados a listas OFAC conhecidas. Sinal de exposição, não determinação.",
+              "Indícios de contacto com mixers ou endereços associados a listas OFAC conhecidas. Sinal de exposição, não screening oficial.",
           },
           {
-            name: "Orgânico vs sintético",
+            name: "Orgânico vs. sintético",
             meaning:
               "Peso de atividade econômica real frente a origens mais sintéticas (airdrops, NFT, etc.).",
           },
@@ -695,22 +695,32 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
             meaning:
               "Há quanto tempo recebeu os primeiros fundos relevantes.",
           },
+          {
+            name: "Cobertura de pricing",
+            meaning:
+              "Que proporção do valor entrante pôde ser valuada em USD. Baixa cobertura torna a leitura de concentração mais prudente.",
+          },
+          {
+            name: "Hops / financiadores analisados",
+            meaning:
+              "Segundo a profundidade: Básica sem hops; Standard hop-1 sobre top financiadores; Expert hops em dois níveis. Contexto de procedência, não veredito.",
+          },
         ],
       },
       {
         id: "activity",
         title: "Atividade recente",
-        lead: "Como a wallet se comporta no dia a dia: com quem opera, com que ritmo e com que padrões de risco operativo.",
+        lead: "Como a wallet se comporta na janela do tier (15 / 45 / 90 dias): com quem opera, com que ritmo e com que qualidade de interação. Em Expert soma-se Activity light sobre top contrapartes.",
         rows: [
           {
             name: "Contrapartes únicas",
             meaning:
-              "Com quantas wallets distintas interage. Rede ampla versus operação fechada.",
+              "Com quantas wallets distintas interage.",
           },
           {
             name: "Concentração de contrapartes",
             meaning:
-              "Se o fluxo se reparte entre muitos peers ou se concentra em poucos.",
+              "Se o fluxo se reparte entre muitos peers ou se concentra em poucos (HHI).",
           },
           {
             name: "Interação com exchanges",
@@ -723,19 +733,14 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
               "Quanto do movimento é ida-e-volta com as mesmas contrapartes.",
           },
           {
-            name: "Saldo líquido vs volume bruto",
+            name: "Saldo líquido vs. volume bruto",
             meaning:
               "Se há muito movimento com pouca mudança líquida.",
           },
           {
-            name: "Velocidade de transações",
+            name: "Velocidade e rajadas",
             meaning:
-              "Ritmo diário de operações. Separa uso ocasional de atividade muito intensa.",
-          },
-          {
-            name: "Rajadas de atividade",
-            meaning:
-              "Se as transações chegam em rajadas concentradas.",
+              "Ritmo diário de operações e se chegam em rajadas concentradas.",
           },
           {
             name: "Diversidade de tokens",
@@ -743,19 +748,29 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
               "Variedade de ativos nos movimentos.",
           },
           {
-            name: "Padrões wash / circulares",
+            name: "Padrões wash / circulares / bot-like",
             meaning:
-              "Indícios de lavagem de volume ou circuitos fechados entre wallets. Sinais de alerta precoce, não prova forense.",
+              "Indícios de lavagem de volume, circuitos fechados ou automação. Sinais de alerta precoce, não prova forense.",
           },
           {
-            name: "Comportamento tipo bot",
-            meaning:
-              "Padrões que se parecem com automação (ritmo, repetição, estrutura).",
-          },
-          {
-            name: "Mix NFT vs fungíveis",
+            name: "Mix NFT vs. fungíveis",
             meaning:
               "Quanto do fluxo é NFT frente a fungíveis.",
+          },
+          {
+            name: "Exposições por categoria de contraparte",
+            meaning:
+              "Peso do valor para OFAC / mixer / bridge / airdrop / protocolo conhecidos. Sinal histórico de exposição, não screening oficial.",
+          },
+          {
+            name: "Qualidade de contratos (Sourcify)",
+            meaning:
+              "Que proporção dos contratos tocados está verificada no Sourcify vs. não verificados.",
+          },
+          {
+            name: "Etiquetas Kleros / Spellbook",
+            meaning:
+              "Que parte das contrapartes leva etiquetas de reputação on-chain conhecidas. Contexto informativo, não screening oficial.",
           },
         ],
       },

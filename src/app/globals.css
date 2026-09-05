@@ -3620,3 +3620,119 @@ body {
     animation: none;
   }
 }
+
+/* —— Data providers grid —— */
+.providers-grid-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.providers-group__title {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--pure);
+}
+
+.providers-group__role {
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.providers-group__role-label {
+  display: inline-block;
+  margin-right: 0.45rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--primary) 85%, white);
+}
+
+.providers-group__extra {
+  color: color-mix(in oklab, var(--muted) 85%, transparent);
+}
+
+.providers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+  gap: 1rem;
+  margin-top: 1.15rem;
+  list-style: none;
+  padding: 0;
+}
+
+.providers-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.15rem 1rem 1.1rem;
+  text-align: center;
+  text-decoration: none;
+  color: var(--pure);
+  border: 1px solid color-mix(in oklab, var(--glass) 55%, transparent);
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, var(--void) 55%, transparent);
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.providers-card:hover {
+  border-color: color-mix(in oklab, var(--primary) 45%, var(--glass));
+  background: color-mix(in oklab, var(--surface) 70%, transparent);
+  color: var(--primary);
+}
+
+.providers-card__logo {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1.35 / 1;
+  max-height: 6.5rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 0.5rem;
+  /* Plate claro: logos oscuros (Ankr, EtherScan, etc.) se leen en void */
+  background: color-mix(in oklab, white 92%, var(--primary) 8%);
+}
+
+.providers-card__logo--dark {
+  background: #0a0a0c;
+}
+
+.providers-card__img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 4.75rem;
+  object-fit: contain;
+}
+
+.providers-card__name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+@media (min-width: 700px) {
+  .providers-grid {
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    gap: 1.15rem;
+  }
+
+  .providers-card__logo {
+    max-height: 7.25rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .providers-card__img {
+    max-height: 5.5rem;
+  }
+}

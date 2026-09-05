@@ -10,6 +10,8 @@ export const SITE_URL = (
 export const INDEXABLE_PATHS: readonly AppRoute[] = [
   routes.home,
   routes.analisis,
+  routes.demo,
+  routes.proveedoresDeDatos,
   routes.criptoExchangesInternacional,
   routes.criptoExchangesUruguay,
   routes.nosotros,

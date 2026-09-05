@@ -92,7 +92,7 @@ const activityCopyByLocale: Record<string, NarrativeCopy> = {
     ],
     scopeTitle: "Alcance",
     depthNote:
-      "La cantidad de redes y la cantidad de transacciones varía dependiendo del tipo de análisis solicitado, partiendo en la versión básica en 2 redes y los últimos 15 días y llegando hasta más de +10 redes y últimos 90 días en la versión experto. También en los análisis más sofisticados se hace un análisis en las 5 billeteras con más interacción.",
+      "La cantidad de redes y la ventana de Activity varían según el tipo de análisis: Básica (top 2 redes, últimos 15 días), Estándar (top 5, 45 días) y Experta (top 10, 90 días). En Experta también se hace un análisis light en las 5 billeteras con más interacción.",
     whyTitle: "Por qué es importante?",
     whyBody:
       "La actividad de una wallet permite al receptor entender el comportamiento de la wallet en las transacciones diarias, permitiendo evaluar el perfil de reputación y confianza que se puede llegar a tener sobre una wallet e incluso detectar alertas tempranas ante riesgos que podrían permanecer ocultos.",
@@ -108,7 +108,7 @@ const activityCopyByLocale: Record<string, NarrativeCopy> = {
     ],
     scopeTitle: "Scope",
     depthNote:
-      "The number of networks and transactions varies depending on the type of analysis requested, starting in the basic version at 2 networks and the last 15 days and reaching more than +10 networks and the last 90 days in the expert version. In more sophisticated analyses, an analysis is also run on the 5 wallets with the most interaction.",
+      "The number of networks and the Activity window vary by analysis type: Basic (top 2 networks, last 15 days), Standard (top 5, 45 days), and Expert (top 10, 90 days). In Expert, a light analysis is also run on the 5 wallets with the most interaction.",
     whyTitle: "Why does it matter?",
     whyBody:
       "A wallet’s activity lets the recipient understand the wallet’s behavior in daily transactions, helping assess the reputation and trust profile that can be formed about a wallet and even detect early warnings of risks that could otherwise remain hidden.",
@@ -124,7 +124,7 @@ const activityCopyByLocale: Record<string, NarrativeCopy> = {
     ],
     scopeTitle: "Alcance",
     depthNote:
-      "A quantidade de redes e a quantidade de transações varia conforme o tipo de análise solicitada, partindo na versão básica em 2 redes e os últimos 15 dias e chegando a mais de +10 redes e últimos 90 dias na versão expert. Também nas análises mais sofisticadas faz-se uma análise nas 5 carteiras com mais interação.",
+      "A quantidade de redes e a janela de Activity variam conforme o tipo de análise: Básica (top 2 redes, últimos 15 dias), Standard (top 5, 45 dias) e Expert (top 10, 90 dias). Em Expert também se faz uma análise light nas 5 carteiras com mais interação.",
     whyTitle: "Por que é importante?",
     whyBody:
       "A atividade de uma wallet permite ao receptor entender o comportamento da wallet nas transações diárias, permitindo avaliar o perfil de reputação e confiança que se pode chegar a ter sobre uma wallet e até detectar alertas precoces perante riscos que poderiam permanecer ocultos.",
@@ -193,7 +193,7 @@ const portfolioCopyByLocale: Record<string, NarrativeCopy> = {
     ],
     scopeTitle: "Alcance",
     depthNote:
-      "Ejecutamos un análisis usando herramientas profesionales que permiten medir el portafolio de una billetera en más de 38 cadenas (incluido Solana) en cualquiera de los tipos de análisis.",
+      "Ejecutamos un análisis usando herramientas profesionales que miden el portafolio en más de 38 cadenas (incluido Solana). Portfolio entra en Estándar y Experta; no en Básica.",
     whyTitle: "Importancia",
     whyBody:
       "Permite crear una visión completa del portafolio de la wallet, conocer el valor total económico y la sanidad de los fondos. Una foto general que ayuda a que el receptor entienda el tipo de billetera con la cual va a interactuar.",
@@ -208,7 +208,7 @@ const portfolioCopyByLocale: Record<string, NarrativeCopy> = {
     ],
     scopeTitle: "Scope",
     depthNote:
-      "We run an analysis using professional tools that measure a wallet’s portfolio across more than 38 chains (including Solana) in any of the analysis types.",
+      "We run an analysis using professional tools that measure a wallet’s portfolio across more than 38 chains (including Solana). Portfolio is included in Standard and Expert; not in Basic.",
     whyTitle: "Why it matters",
     whyBody:
       "It creates a complete view of the wallet’s portfolio, the total economic value, and the health of the holdings — a general snapshot that helps the recipient understand the type of wallet they will interact with.",
@@ -223,7 +223,7 @@ const portfolioCopyByLocale: Record<string, NarrativeCopy> = {
     ],
     scopeTitle: "Alcance",
     depthNote:
-      "Executamos uma análise usando ferramentas profissionais que permitem medir o portfólio de uma carteira em mais de 38 cadeias (incluindo Solana) em qualquer um dos tipos de análise.",
+      "Executamos uma análise usando ferramentas profissionais que medem o portfólio em mais de 38 cadeias (incluindo Solana). Portfolio entra em Standard e Expert; não em Básica.",
     whyTitle: "Importância",
     whyBody:
       "Permite criar uma visão completa do portfólio da wallet, conhecer o valor total econômico e a sanidade dos fundos. Uma foto geral que ajuda o receptor a entender o tipo de carteira com a qual vai interagir.",

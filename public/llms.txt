@@ -3,7 +3,7 @@
 > Walpulse creates and analyzes on-chain reputation signals for blockchain wallets.
 > The product sold is a **wallet analysis** in three depths: Basic, Standard, Expert (ES: Básica / Estándar / Experta).
 > Origins, Activity, Multichain, and Portfolio are **parts** of that analysis, not standalone SKUs.
-> All four parts are included in every depth; coverage (networks, activity window, origin hops) scales with the tier.
+> Coverage (networks, activity window, origin hops, whether Portfolio is included) scales with the tier.
 > A–F grades are a secondary synthesis tied to the tier. The recipient interprets and decides.
 > Walpulse does not perform KYC, Travel Rule, UIAF reporting, or compliance decisions.
 
@@ -18,6 +18,8 @@ Canonical site: https://www.walpulse.com
 ## Key pages
 
 - Analysis catalog (Basic / Standard / Expert): https://www.walpulse.com/es/analisis
+- Live analysis demo: https://www.walpulse.com/es/demo
+- Data providers (logos + roles): https://www.walpulse.com/es/proveedores-de-datos
 - Crypto exchanges — International: https://www.walpulse.com/es/cripto-exchanges/internacional
 - Crypto exchanges — Uruguay (PSAV / BCU frame): https://www.walpulse.com/es/cripto-exchanges/uruguay
 - How it works: https://www.walpulse.com/es/como-funciona
@@ -27,18 +29,18 @@ Canonical site: https://www.walpulse.com
 
 ## Catalog (what is sold)
 
-- Basic (ES: Básica): all four signal parts. Ecosystem presence on 15 networks; Portfolio across 38+ networks; Origins + Activity on the top 2 networks (Activity 15 days; Origins first 100 inbound txs by value).
-- Standard (ES: Estándar): all four parts with deeper Origins (top 5 networks / 250 inbound + funder read) and Activity 45 days; ecosystem presence on 100 networks.
-- Expert (ES: Experta): all four parts at maximum published depth (top 10 networks; Activity 90 days; Origins 500 inbound + 2-hop / counterparty reads).
+- Basic (ES: Básica): Multichain (~15 networks), Origins + Activity on top 2 networks (Activity 15 days; Origins ≤100 inbound by value, no hops). **No Portfolio.** OFAC compliance screen = exposure signal (not official screening). Sync delivery.
+- Standard (ES: Estándar): Multichain (~100 networks), Portfolio (Zerion), Origins top 5 / ≤250 by value + hop-1, Activity 45 days. Async + PDF + email.
+- Expert (ES: Experta): Same Multichain/Portfolio as Standard; Origins top 10 / ≤500 by value + 2-level hops; Activity 90 days + Activity light on top counterparties. Async + PDF + email.
 
-Coverage depth is commercial; API provider endpoints and synthesis weights are not published.
+Coverage depth is commercial; synthesis weights are not published. External data providers are listed on /proveedores-de-datos.
 
 ## Signal parts (engines inside an analysis)
 
 - Origins: source of funds; hop depth and tx cap depend on the tier
 - Activity: flow behavior; 15 / 45 / 90-day window by tier; sanctions exposure as a signal (not official screening)
-- Multichain: multi-network presence and maturity (all tiers); intensity scales with the tier
-- Portfolio: economic quality and on-chain composition (all tiers)
+- Multichain: multi-network presence and maturity; intensity scales with the tier
+- Portfolio: economic quality and on-chain composition (**Standard / Expert only**)
 
 ## Principle
 

@@ -50,7 +50,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       activity: {
         name: "Actividad",
         summary:
-          "Comportamiento de flujos. Ventana de 15 o 90 días según el tier; exposición a sanciones como señal, no screening oficial.",
+          "Comportamiento de flujos. Ventana de 15, 45 o 90 días según el tier; exposición a sanciones como señal, no screening oficial.",
         value:
           "Perfil de comportamiento on-chain de mediano plazo y señal de exposición histórica a contrapartes sensibles.",
         analyzes: [
@@ -84,7 +84,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       portfolio: {
         name: "Portafolio",
         summary:
-          "Calidad y composición económica del portafolio. Entra en Básica, Estándar y Experta.",
+          "Calidad y composición económica del portafolio. Solo Estándar y Experta (no en Básica).",
         value: "Calidad y sustancia económica del portafolio.",
         analyzes: [
           "Valor total usable vs credible",
@@ -122,7 +122,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       activity: {
         name: "Activity",
         summary:
-          "Flow behavior. 15- or 90-day window depending on the tier; sanctions exposure as a signal, not official screening.",
+          "Flow behavior. 15-, 45-, or 90-day window depending on the tier; sanctions exposure as a signal, not official screening.",
         value:
           "Medium-term on-chain behavior profile and a historical exposure signal to sensitive counterparties.",
         analyzes: [
@@ -156,7 +156,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       portfolio: {
         name: "Portfolio",
         summary:
-          "Economic quality and composition of the portfolio. Included in Basic, Standard, and Expert.",
+          "Economic quality and composition of the portfolio. Standard and Expert only (not in Basic).",
         value: "Economic quality and substance of the portfolio.",
         analyzes: [
           "Total value usable vs credible",
@@ -194,7 +194,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       activity: {
         name: "Atividade",
         summary:
-          "Comportamento de fluxos. Janela de 15 ou 90 dias conforme o tier; exposição a sanções como sinal, não screening oficial.",
+          "Comportamento de fluxos. Janela de 15, 45 ou 90 dias conforme o tier; exposição a sanções como sinal, não screening oficial.",
         value:
           "Perfil de comportamento on-chain de médio prazo e sinal de exposição histórica a contrapartes sensíveis.",
         analyzes: [
@@ -228,7 +228,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       portfolio: {
         name: "Portfólio",
         summary:
-          "Qualidade e composição econômica do portfólio. Entra em Básica, Standard e Expert.",
+          "Qualidade e composição econômica do portfólio. Só Standard e Expert (não em Básica).",
         value: "Qualidade e substância econômica do portfólio.",
         analyzes: [
           "Valor total usable vs credible",

@@ -2,6 +2,8 @@ export const routes = {
   home: "/",
   senales: "/senales",
   analisis: "/analisis",
+  demo: "/demo",
+  proveedoresDeDatos: "/proveedores-de-datos",
   criptoExchanges: "/cripto-exchanges",
   criptoExchangesInternacional: "/cripto-exchanges/internacional",
   criptoExchangesUruguay: "/cripto-exchanges/uruguay",
@@ -30,7 +32,13 @@ export function criptoExchangesPath(region: ExchangeRegion): string {
 export type HeaderNavLink = {
   type: "link";
   href: AppRoute;
-  labelKey: "senales" | "analisis" | "nosotros" | "earlyAccess";
+  labelKey:
+    | "senales"
+    | "analisis"
+    | "demo"
+    | "proveedores"
+    | "nosotros"
+    | "earlyAccess";
 };
 
 export type HeaderNavDropdown = {
@@ -45,10 +53,16 @@ export type HeaderNavDropdown = {
 
 export type HeaderNavItem = HeaderNavLink | HeaderNavDropdown;
 
-/** Primary header — Inicio, Análisis, Para quienes, Nosotros, Hablemos. */
+/** Primary header — Inicio, Análisis, Demo, Proveedores, Para quienes, Nosotros, Hablemos. */
 export const headerNavItems: HeaderNavItem[] = [
   { type: "link", href: routes.home, labelKey: "senales" },
   { type: "link", href: routes.analisis, labelKey: "analisis" },
+  { type: "link", href: routes.demo, labelKey: "demo" },
+  {
+    type: "link",
+    href: routes.proveedoresDeDatos,
+    labelKey: "proveedores",
+  },
   {
     type: "dropdown",
     labelKey: "whoUses",

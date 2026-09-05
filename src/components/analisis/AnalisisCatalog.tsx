@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/Button";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { AnalisisSignalsCarousel } from "@/components/analisis/AnalisisSignalsCarousel";
 import { analisisSignalsForLocale } from "@/lib/analisisSignalSlides";
+import { providersPageForLocale } from "@/lib/dataProviders";
 import { routes } from "@/lib/paths";
 import {
   catalogForLocale,
@@ -71,6 +72,7 @@ function formatCoverParagraph(text: string) {
 
 export function AnalisisCatalog({ locale }: Props) {
   const copy = catalogForLocale(locale);
+  const providersCopy = providersPageForLocale(locale);
   const signals = analisisSignalsForLocale(locale);
   const talk = TALK_BY_LOCALE[locale] ?? TALK_BY_LOCALE.es;
   const coversLabel =
@@ -229,8 +231,22 @@ export function AnalisisCatalog({ locale }: Props) {
           <h2 className="font-display text-3xl font-semibold tracking-tight text-pure md:text-4xl md:leading-[1.15]">
             {copy.ctaTitle}
           </h2>
-          <div className="mt-8 flex justify-center">
-            <Button href={routes.contacto} className="btn-premium">
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Button href={routes.demo} className="btn-premium">
+              {locale === "en"
+                ? "Try the demo"
+                : locale === "pt"
+                  ? "Experimentar a demo"
+                  : "Probar la demo"}
+            </Button>
+            <Button
+              href={routes.proveedoresDeDatos}
+              variant="secondary"
+              className="btn-premium"
+            >
+              {providersCopy.ctaProvidersFromAnalisis}
+            </Button>
+            <Button href={routes.contacto} variant="secondary" className="btn-premium">
               {talk}
             </Button>
           </div>

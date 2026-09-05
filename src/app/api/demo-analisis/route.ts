@@ -36,6 +36,21 @@ function asTrimmedString(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
+/** Map Edge Function failures to stable demo error codes. */
+function mapUpstreamError(json: Record<string, unknown>): string {
+  const err = typeof json.error === "string" ? json.error : "upstream_error";
+  const detail = typeof json.detail === "string" ? json.detail : "";
+  if (
+    detail.includes("origins_missing_chains") ||
+    detail.includes("missing_chains") ||
+    detail.includes("no_onchain_footprint")
+  ) {
+    return "no_onchain_footprint";
+  }
+  if (err === "analisis_failed") return "analisis_failed";
+  return err;
+}
+
 function demoEnv() {
   const apiKey = process.env.WALPULSE_DEMO_API_KEY?.trim() ?? "";
   const clienteId = process.env.WALPULSE_DEMO_CLIENTE_ID?.trim() ?? "";
@@ -170,10 +185,15 @@ export async function POST(request: Request) {
 
     if (tier === "basica") {
       if (status >= 400) {
-        const err =
-          typeof json.error === "string" ? json.error : "upstream_error";
+        const err = mapUpstreamError(json);
         return NextResponse.json(
-          { ok: false, error: err, request_id: json.request_id ?? null },
+          {
+            ok: false,
+            error: err,
+            request_id: json.request_id ?? null,
+            detail:
+              typeof json.detail === "string" ? json.detail : undefined,
+          },
           { status: status >= 500 ? 502 : status },
         );
       }

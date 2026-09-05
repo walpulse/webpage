@@ -93,6 +93,8 @@ export function DemoAnalisisForm() {
         "invalid_api_key",
         "client_disabled",
         "upstream_error",
+        "analisis_failed",
+        "no_onchain_footprint",
         "server_misconfigured",
         "not_found",
         "db_error",

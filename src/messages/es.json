@@ -226,6 +226,8 @@
       "invalid_api_key": "La demo no está autorizada. Probá más tarde.",
       "client_disabled": "La demo está temporalmente deshabilitada.",
       "upstream_error": "El análisis no pudo completarse. Probá otra wallet o más tarde.",
+      "analisis_failed": "El análisis no pudo completarse para esta wallet. Probá otra profundidad u otra wallet.",
+      "no_onchain_footprint": "No detectamos actividad on-chain en las redes de Básica para esta wallet. Probá Estándar/Experta u otra wallet.",
       "server_misconfigured": "La demo no está configurada en el servidor.",
       "not_found": "No encontramos esa petición.",
       "db_error": "Error al consultar el estado. Reintentá en unos segundos.",

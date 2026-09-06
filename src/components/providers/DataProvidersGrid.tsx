@@ -70,6 +70,9 @@ export function DataProvidersGrid({ locale }: Props) {
                 </li>
               ))}
             </ul>
+            {group === "ofac" ? (
+              <p className="providers-ofac-note">{copy.disclaimer}</p>
+            ) : null}
           </section>
         );
       })}

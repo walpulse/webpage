@@ -5,7 +5,7 @@ export type DataProviderId =
   | "blockscout"
   | "ankr"
   | "zerion"
-  | "nsgood"
+  | "nsgoods"
   | "kleros"
   | "sourcify"
   | "coingecko"
@@ -113,8 +113,8 @@ export const dataProviders: readonly DataProvider[] = [
     },
   },
   {
-    id: "nsgood",
-    name: "Nsgood",
+    id: "nsgoods",
+    name: "Nsgoods",
     href: "https://x402.nsgoods.org/proof/vendor-sanctions-screen.html",
     logoSrc: "/brand/providers/nsgoods.png",
     roleGroup: "ofac",

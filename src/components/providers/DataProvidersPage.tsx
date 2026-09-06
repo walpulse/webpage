@@ -56,9 +56,6 @@ export function DataProvidersPage({ locale }: Props) {
 
       <Section className="section-band-surface border-t border-glass/30">
         <DataProvidersGrid locale={locale} />
-        <p className="mx-auto mt-10 max-w-3xl text-sm leading-relaxed text-muted md:text-base">
-          {copy.disclaimer}
-        </p>
       </Section>
 
       <Section className="section-band-cta border-t border-glass/30">

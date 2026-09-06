@@ -3721,6 +3721,14 @@ body {
   line-height: 1.25;
 }
 
+.providers-ofac-note {
+  margin-top: 0.85rem;
+  max-width: 36rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
 @media (min-width: 700px) {
   .providers-grid {
     grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
@@ -3734,5 +3742,9 @@ body {
 
   .providers-card__img {
     max-height: 5.5rem;
+  }
+
+  .providers-ofac-note {
+    font-size: 0.95rem;
   }
 }

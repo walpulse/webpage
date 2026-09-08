@@ -38,10 +38,13 @@ export async function verifyTurnstileToken(
     );
     const json = (await res.json()) as TurnstileVerifyResponse;
     if (!json.success) {
+      const codes = json["error-codes"] ?? [];
       console.error(
         "turnstile siteverify failed",
-        json["error-codes"]?.join(",") ?? "unknown",
+        codes.length ? codes.join(",") : "unknown",
       );
+      // Common misconfig: site key / secret from different widgets → invalid-input-response
+      // or invalid-input-secret. Check Cloudflare Turnstile ↔ Vercel env pair.
     }
     return json.success ? "ok" : "failed";
   } catch {

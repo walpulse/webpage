@@ -268,7 +268,15 @@ export function DemoAnalisisForm() {
       };
 
       if (!res.ok || !data.ok) {
-        setErrorKey(data.error ?? "generic");
+        // 403 is only used for Turnstile failure; surface it even if the body is odd.
+        const code =
+          data.error ??
+          (res.status === 403
+            ? "captcha_failed"
+            : res.status === 429
+              ? "rate_limited"
+              : "generic");
+        setErrorKey(code);
         setPhase("error");
         setTurnstileToken(null);
         resetTurnstileWidgets();

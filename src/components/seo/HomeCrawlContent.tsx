@@ -34,6 +34,9 @@ export async function HomeCrawlContent({ locale }: Props) {
           <Link href={routes.analisis}>{nav("analisis")}</Link>
         </li>
         <li>
+          <Link href={routes.walpulseEngineRisk}>{nav("engineRisk")}</Link>
+        </li>
+        <li>
           <Link href={routes.demo}>{nav("demo")}</Link>
         </li>
         <li>

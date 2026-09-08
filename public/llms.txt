@@ -3,9 +3,10 @@
 > Walpulse creates and analyzes on-chain reputation signals for blockchain wallets.
 > The product sold is a **wallet analysis** in three depths: Basic, Standard, Expert (ES: Básica / Estándar / Experta).
 > Origins, Activity, Multichain, and Portfolio are **parts** of that analysis, not standalone SKUs.
-> Coverage (networks, activity window, origin hops, whether Portfolio is included) scales with the tier.
+> Coverage (networks, activity window, funder risk hops, whether Portfolio is included) scales with the tier.
 > A–F grades are a secondary synthesis tied to the tier. The recipient interprets and decides.
-> Walpulse does not perform KYC, Travel Rule, UIAF reporting, or compliance decisions.
+> **Walpulse Motor de Riesgos / Risk Engine** (coming soon): a fully client-parametrizable risk score built on those signals; the client owns the score and the decision.
+> Walpulse does not perform KYC, Travel Rule, UIAF reporting, or compliance decisions. It is not a compliance tool.
 
 Canonical site: https://www.walpulse.com
 
@@ -18,26 +19,37 @@ Canonical site: https://www.walpulse.com
 ## Key pages
 
 - Analysis catalog (Basic / Standard / Expert): https://www.walpulse.com/es/analisis
+- Walpulse Motor de Riesgos / Risk Engine (parametrizable risk score — coming soon):
+  - ES: https://www.walpulse.com/es/walpulse-engine-risk
+  - EN: https://www.walpulse.com/en/walpulse-engine-risk
+  - PT: https://www.walpulse.com/pt/walpulse-engine-risk
 - Live analysis demo: https://www.walpulse.com/es/demo
 - Data providers (logos + roles): https://www.walpulse.com/es/proveedores-de-datos
 - Crypto exchanges — International: https://www.walpulse.com/es/cripto-exchanges/internacional
 - Crypto exchanges — Uruguay (PSAV / BCU frame): https://www.walpulse.com/es/cripto-exchanges/uruguay
 - How it works: https://www.walpulse.com/es/como-funciona
 - Illustrative full report: https://www.walpulse.com/es/ejemplo
-- About: https://www.walpulse.com/es/nosotros
+- About (team): https://www.walpulse.com/es/nosotros
 - Contact: https://www.walpulse.com/es/contacto
 
 ## Catalog (what is sold)
 
 - Basic (ES: Básica): Multichain (~15 networks), Origins + Activity on top 2 networks (Activity 15 days; Origins ≤100 inbound by value, no hops). **No Portfolio.** OFAC compliance screen = exposure signal (not official screening). Sync delivery.
-- Standard (ES: Estándar): Multichain (~100 networks), Portfolio (Zerion), Origins top 5 / ≤250 by value + hop-1, Activity 45 days. Async + PDF + email.
-- Expert (ES: Experta): Same Multichain/Portfolio as Standard; Origins top 10 / ≤500 by value + 2-level hops; Activity 90 days + Activity light on top counterparties. Async + PDF + email.
+- Standard (ES: Estándar): Multichain (~100 networks), Portfolio (Zerion), Origins top 5 / ≤250 by value + funder risk screen hop-1 (top 2 funders, 1 dominant chain). Activity 45 days. Async + PDF + email.
+- Expert (ES: Experta): Same Multichain/Portfolio as Standard; Origins top 10 / ≤500 by value + funder risk hops (top 5; hop-2 only if hop-1 is a normal wallet). Activity 90 days + Activity light on top counterparties. Async + PDF + email.
 
 Coverage depth is commercial; synthesis weights are not published. External data providers are listed on /proveedores-de-datos.
 
+## Walpulse Motor de Riesgos / Risk Engine (upcoming)
+
+- Client-parametrizable risk score: each compliance officer/department defines rules, thresholds, and weights using **any internal signal** from the four analyses (Ecosystem Presence / Multichain, Portfolio Quality, Source of Funds / Origins, Recent Activity).
+- On each analysis request (when available), Walpulse applies the client’s math to already-computed on-chain data and can deliver an additional Risk Score report with auditable traceability under the client’s framework.
+- Availability (planned): Walpulse clients only, via dashboard, for **Standard / Expert** analyses — not Basic. Marketing page live; product not GA yet.
+- Not a Walpulse verdict or compliance product: Walpulse does not decide, approve, or report to any public authority; the client decides whether to interact with a wallet.
+
 ## Signal parts (engines inside an analysis)
 
-- Origins: source of funds; hop depth and tx cap depend on the tier
+- Origins: source of funds; funder risk hops and tx cap depend on the tier (not a second full Origins on funders)
 - Activity: flow behavior; 15 / 45 / 90-day window by tier; sanctions exposure as a signal (not official screening)
 - Multichain: multi-network presence and maturity; intensity scales with the tier
 - Portfolio: economic quality and on-chain composition (**Standard / Expert only**)

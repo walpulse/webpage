@@ -151,7 +151,7 @@ export const catalogByLocale: Record<string, CatalogCopy> = {
         id: "standard",
         name: "Estándar",
         paragraphs: [
-          "Análisis completo de las cuatro partes de señal, con un hop de origen sobre los principales fondeadores.",
+          "Análisis completo de las cuatro partes de señal, con screening de riesgo sobre los principales fondeadores.",
           "Recomendado para debida diligencia cotidiana, onboarding o montos mayores que un pre-filtro.",
         ],
         covers: [
@@ -159,7 +159,7 @@ export const catalogByLocale: Record<string, CatalogCopy> = {
           "Señal de Calidad del Portafolio en 30–50 redes (incluye Solana), vía Zerion.",
           [
             "Señal de Origen de Fondos en las cinco redes con mayor actividad; hasta 250 ingresos por valor en cada una.",
-            "Hop de origen (nivel 1) sobre las dos billeteras que más fondos aportaron a la wallet analizada.",
+            "Screening de riesgo (hop-1) sobre las dos billeteras que más fondos aportaron: 1 red dominante por fondeador; señales OFAC, mixer, CEX y bridge. Contexto de procedencia, no un segundo Origins ni screening oficial.",
           ],
           "Señal de Actividad Reciente de los últimos 45 días en esas cinco redes (sin re-análisis de contrapartes).",
           "Compliance screen OFAC de la wallet objetivo: señal de exposición on-chain a listas conocidas. No es screening oficial ni determinación de compliance.",
@@ -176,15 +176,15 @@ export const catalogByLocale: Record<string, CatalogCopy> = {
         id: "expert",
         name: "Experta",
         paragraphs: [
-          "Máxima profundidad publicada: más redes, más grafo de origen y Activity light sobre las contrapartes top.",
-          "Pensada para investigación, alto valor o casos que requieren más contexto de hops y peers.",
+          "Máxima profundidad publicada: más redes, screening de fondeadores en más profundidad y Activity light sobre las contrapartes top.",
+          "Pensada para investigación, alto valor o casos que requieren más contexto de fondeo y peers.",
         ],
         covers: [
           "Señal de Presencia del Ecosistema en ~100 redes (incluyendo: eth, polygon, bsc, avalanche, arbitrum, gnosis, base, optimism, entre otras).",
           "Señal de Calidad del Portafolio en 30–50 redes (incluye Solana), vía Zerion.",
           [
             "Señal de Origen de Fondos en las diez redes con mayor actividad; hasta 500 ingresos por valor en cada una.",
-            "Hops de origen a dos niveles sobre las cinco billeteras que más fondos aportaron a la wallet analizada.",
+            "Screening de riesgo sobre las cinco billeteras que más fondos aportaron (1 red dominante): hop-1 siempre; hop-2 solo si el fondeador hop-1 es wallet normal (no CEX, bridge, mixer ni OFAC). Contexto de procedencia, no Origins completo ni screening oficial.",
           ],
           [
             "Señal de Actividad Reciente de los últimos 90 días en esas diez redes.",
@@ -244,7 +244,7 @@ export const catalogByLocale: Record<string, CatalogCopy> = {
         id: "standard",
         name: "Standard",
         paragraphs: [
-          "A full analysis of all four signal parts, with one origin hop on the main funders.",
+          "A full analysis of all four signal parts, with risk screening on the main funders.",
           "Recommended for everyday due diligence, onboarding, or amounts beyond a pre-filter.",
         ],
         covers: [
@@ -252,7 +252,7 @@ export const catalogByLocale: Record<string, CatalogCopy> = {
           "Portfolio Quality signal across 30–50 networks (including Solana), via Zerion.",
           [
             "Origin of Funds signal on the five networks with the most activity; up to 250 inbound transfers by value on each.",
-            "Origin hop (level 1) on the two wallets that funded the analyzed wallet the most.",
+            "Risk screening (hop-1) on the two wallets that funded the analyzed wallet the most: one dominant chain per funder; OFAC, mixer, CEX, and bridge signals. Provenance context — not a second Origins run or official screening.",
           ],
           "Recent Activity signal for the last 45 days on those five networks (no counterparty re-analysis).",
           "OFAC compliance screen of the target wallet: on-chain exposure signal to known lists. Not official screening or a compliance determination.",
@@ -269,15 +269,15 @@ export const catalogByLocale: Record<string, CatalogCopy> = {
         id: "expert",
         name: "Expert",
         paragraphs: [
-          "Maximum published depth: more networks, deeper origin graph, and Activity light on top counterparties.",
-          "Built for investigations, high-value cases, or when hop and peer context matters.",
+          "Maximum published depth: more networks, deeper funder risk screening, and Activity light on top counterparties.",
+          "Built for investigations, high-value cases, or when funding and peer context matters.",
         ],
         covers: [
           "Ecosystem Presence signal across ~100 networks (including: eth, polygon, bsc, avalanche, arbitrum, gnosis, base, optimism, among others).",
           "Portfolio Quality signal across 30–50 networks (including Solana), via Zerion.",
           [
             "Origin of Funds signal on the ten networks with the most activity; up to 500 inbound transfers by value on each.",
-            "Two-level origin hops on the five wallets that funded the analyzed wallet the most.",
+            "Risk screening on the five wallets that funded the analyzed wallet the most (one dominant chain): hop-1 always; hop-2 only if the hop-1 funder is a normal wallet (not CEX, bridge, mixer, or OFAC). Provenance context — not a full Origins run or official screening.",
           ],
           [
             "Recent Activity signal for the last 90 days on those ten networks.",
@@ -337,7 +337,7 @@ export const catalogByLocale: Record<string, CatalogCopy> = {
         id: "standard",
         name: "Standard",
         paragraphs: [
-          "Análise completa das quatro partes de sinal, com um hop de origem sobre os principais financiadores.",
+          "Análise completa das quatro partes de sinal, com screening de risco sobre os principais financiadores.",
           "Recomendada para due diligence cotidiana, onboarding ou montantes maiores que um pré-filtro.",
         ],
         covers: [
@@ -345,7 +345,7 @@ export const catalogByLocale: Record<string, CatalogCopy> = {
           "Sinal de Qualidade do Portfólio em 30–50 redes (inclui Solana), via Zerion.",
           [
             "Sinal de Origem dos Fundos nas cinco redes com maior atividade; até 250 ingressos por valor em cada uma.",
-            "Hop de origem (nível 1) sobre as duas carteiras que mais fundos enviaram à wallet analisada.",
+            "Screening de risco (hop-1) sobre as duas carteiras que mais fundos enviaram: 1 rede dominante por financiador; sinais OFAC, mixer, CEX e bridge. Contexto de procedência — não um segundo Origins nem screening oficial.",
           ],
           "Sinal de Atividade Recente dos últimos 45 dias nessas cinco redes (sem reanálise de contrapartes).",
           "Compliance screen OFAC da wallet objetivo: sinal de exposição on-chain a listas conhecidas. Não é screening oficial nem determinação de compliance.",
@@ -362,15 +362,15 @@ export const catalogByLocale: Record<string, CatalogCopy> = {
         id: "expert",
         name: "Expert",
         paragraphs: [
-          "Máxima profundidade publicada: mais redes, mais grafo de origem e Activity light sobre as principais contrapartes.",
-          "Pensada para investigação, alto valor ou casos que precisam de mais contexto de hops e peers.",
+          "Máxima profundidade publicada: mais redes, screening de financiadores em maior profundidade e Activity light sobre as principais contrapartes.",
+          "Pensada para investigação, alto valor ou casos que precisam de mais contexto de financiamento e peers.",
         ],
         covers: [
           "Sinal de Presença do Ecossistema em ~100 redes (incluindo: eth, polygon, bsc, avalanche, arbitrum, gnosis, base, optimism, entre outras).",
           "Sinal de Qualidade do Portfólio em 30–50 redes (inclui Solana), via Zerion.",
           [
             "Sinal de Origem dos Fundos nas dez redes com maior atividade; até 500 ingressos por valor em cada uma.",
-            "Hops de origem em dois níveis sobre as cinco carteiras que mais fundos enviaram à wallet analisada.",
+            "Screening de risco sobre as cinco carteiras que mais fundos enviaram (1 rede dominante): hop-1 sempre; hop-2 só se o financiador hop-1 for wallet normal (não CEX, bridge, mixer nem OFAC). Contexto de procedência — não Origins completo nem screening oficial.",
           ],
           [
             "Sinal de Atividade Recente dos últimos 90 dias nessas dez redes.",

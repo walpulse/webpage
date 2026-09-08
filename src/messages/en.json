@@ -16,7 +16,7 @@
     "criptoExchangesUruguayTitle": "Crypto Exchanges — Uruguay",
     "criptoExchangesUruguayDescription": "On-chain signals for Uruguay exchanges: wallet risk assessment and monitoring under the VASP / BCU framework.",
     "nosotrosTitle": "About",
-    "nosotrosDescription": "Walpulse origin, founder, and related projects. On-chain reputation signals; the recipient decides.",
+    "nosotrosDescription": "Walpulse origin, team, and related projects. On-chain reputation signals; the recipient decides.",
     "comoFuncionaTitle": "From wallet to analysis",
     "comoFuncionaDescription": "How Walpulse receives a wallet and a tier, computes the included signal parts, and delivers a secondary A–F synthesis for the recipient to decide.",
     "contactoTitle": "Contact",
@@ -26,12 +26,15 @@
     "demoTitle": "Analysis demo",
     "demoDescription": "Try a live wallet analysis in Basic (instant on-page result), Standard or Expert (async processing and email delivery).",
     "proveedoresTitle": "Data Providers",
-    "proveedoresDescription": "External providers Walpulse queries for on-chain signals: presence, transactions, portfolio, OFAC (exposure), contracts, and catalogs. The recipient interprets and decides."
+    "proveedoresDescription": "External providers Walpulse queries for on-chain signals: presence, transactions, portfolio, OFAC (exposure), contracts, and catalogs. The recipient interprets and decides.",
+    "engineRiskTitle": "Walpulse Risk Engine",
+    "engineRiskDescription": "Fully client-parametrizable risk score on Walpulse on-chain signals. Compliance teams set the rules; Standard/Expert via dashboard. Coming soon. Walpulse does not decide and is not a compliance tool."
   },
   "nav": {
     "home": "Home",
     "senales": "Home",
     "analisis": "Analysis",
+    "engineRisk": "Risk Engine",
     "demo": "Demo",
     "proveedores": "Providers",
     "whoUses": "For whom",
@@ -69,7 +72,7 @@
     "whatBody": "We are a platform that produces on-chain reputation and analysis signals for wallets.",
     "whatIntro": "It provides verifiable, explainable intelligence on:",
     "whatPoints": {
-      "origins": "Source of funds (hops depend on the tier)",
+      "origins": "Source of funds (funder risk screening by tier)",
       "activity": "Behavior and activity (15-, 45-, or 90-day window by tier)",
       "multichain": "Maturity and multi-chain presence (all depths)",
       "portfolio": "Portfolio quality and composition (Standard and Expert)"
@@ -82,22 +85,22 @@
     "signals": {
       "origins": {
         "name": "Origins",
-        "desc": "Source of funds with 2-level depth and top counterparties",
+        "desc": "Source of funds; Standard/Expert add funder risk screening",
         "grade": "B"
       },
       "activity": {
         "name": "Activity",
-        "desc": "Flow behavior over a 90-day window",
+        "desc": "Flow behavior over a 15-, 45-, or 90-day window by tier",
         "grade": "A"
       },
       "multichain": {
         "name": "Multichain",
-        "desc": "Multi-network presence and maturity",
+        "desc": "Multi-network presence and maturity (all depths)",
         "grade": "C"
       },
       "portfolio": {
         "name": "Portfolio",
-        "desc": "Portfolio quality and composition",
+        "desc": "Portfolio quality and composition (Standard and Expert)",
         "grade": "B"
       }
     },
@@ -251,9 +254,9 @@
       "origins": {
         "name": "Origins",
         "version": "origins-v2.2",
-        "summary": "Source of funds, with 2-level depth and origins of top counterparties",
+        "summary": "Source of funds; Standard/Expert add funder risk screening",
         "provider": "Alchemy + DefiLlama + labels",
-        "value": "On-chain evidence of funding origins — direct and through the wallets that financed the target.",
+        "value": "On-chain evidence of funding origins — direct plus risk context on who financed the target.",
         "analyzes": [
           "% by origin category (CEX, bridge, mixer, OFAC, airdrop, organic…)",
           "Unique senders",
@@ -263,7 +266,7 @@
           "Mixer / OFAC exposure",
           "Organic vs synthetic (NFT / airdrop)",
           "Age of first funding",
-          "2-level origins (multi-hop)",
+          "Funder risk screening (hops)",
           "Origins of the top 5 counterparties"
         ]
       },
@@ -420,10 +423,17 @@
     "originBody": "At the Ethereum Uruguay Hackathon 2026 (3rd edition), the ORIGO project — verifiable analysis of wallet source of funds — won 1st place in the Startup category. The final pitch and awards ceremony took place at Blockchain Summit Global 2026 (Montevideo).",
     "originBody2": "It did not stay a demo: source-of-funds signals were integrated into production as Walcert Origins. Walpulse is the independent project that continues and expands that approach.",
     "originTeam": "Hackathon team (public coverage): Jair Valenzuela and Rodrigo Médica.",
-    "founderTitle": "Founder",
-    "founderName": "Ibzan Jair Valenzuela Suarez",
-    "founderRole": "Founder of Walpulse · Montevideo, Uruguay",
-    "founderBio": "Data Engineer with over 12 years of experience in databases, data warehousing, and large-scale data transformation. He leads Walpulse product vision and the definition of on-chain reputation signals.",
+    "teamTitle": "Team",
+    "team": {
+      "jair": {
+        "name": "Ibzan Jair Valenzuela Suarez",
+        "bio": "Data Engineer with over 12 years of experience in databases, data warehousing, and large-scale data transformation. He leads Walpulse product vision and the definition of on-chain reputation signals."
+      },
+      "carolina": {
+        "name": "Carolina Rodriguez Conde",
+        "bio": "Lawyer graduated from Universidad Católica del Uruguay, current lead of the legal roundtable of Cámara Blockchain del Uruguay and collaborator with Ethereum Uruguay; her professional path has specialized in the convergence of law and technology, focusing on Web3 ecosystems and normative regulation. She has extensive experience in legal compliance, advising on comprehensive security standards (such as ISO 27001), legal structuring of smart contracts, and intellectual property protection. Her track record designing legal architectures for innovative technology projects provides the solid normative base that enables transforming on-chain data analysis into institutional regulatory intelligence and risk-mitigation tools."
+      }
+    },
     "projectsTitle": "Related projects",
     "projectsIntro": "Walpulse is part of a line of work on on-chain reputation signals.",
     "projects": {
@@ -464,7 +474,7 @@
       },
       "analysis": {
         "title": "On-chain analysis",
-        "body": "The parts included in that tier (Origins, Activity, Multichain, Portfolio) are computed with the matching coverage."
+        "body": "The signals included in each tier are computed with the matching coverage."
       },
       "signals": {
         "title": "Signals + synthesis",
@@ -536,7 +546,7 @@
         "amongOthers": "Among others…"
       },
       "scopeTitle": "Scope",
-      "depthNote": "The number of networks and origin transactions varies depending on the type of analysis requested, starting in the basic version at 2 networks and 100 origin transactions and reaching more than +10 networks and 500 transactions in the expert version. In more sophisticated analyses, an origins analysis is also applied to direct funders.",
+      "depthNote": "The number of networks and origin transactions varies depending on the type of analysis requested, starting in the basic version at 2 networks and 100 origin transactions and reaching more than +10 networks and 500 transactions in the expert version. Standard/Expert also add funder risk screening (provenance context, not a second Origins run).",
       "whyTitle": "Why it matters",
       "whyBody": "The origin of funds is one of the first questions when evaluating a wallet. Understanding where the first funds came from helps define a clear context for a wallet’s behavior and lets the signal recipient assess, within their own decision framework, the level of trust they will have when interacting with that wallet."
     },
@@ -586,7 +596,7 @@
     },
     "intro": {
       "title": "What is Walpulse?",
-      "body": "We produce a wallet analysis at three depths: Basic, Standard, or Expert, based on on-chain signals (ecosystem presence, source of funds, recent activity, and — in Standard/Expert — portfolio).",
+      "body": "We produce a wallet analysis at three depths: Basic, Standard, or Expert, based on on-chain signals (ecosystem presence, source of funds, recent activity, and — in Standard/Expert — portfolio). Coming soon: Risk Engine — a client-parametrizable score on those signals.",
       "explainLead": "The analysis is not a black box, nor a final rating. We prioritize that the recipient understands the signals tied to each element analyzed and, based on them, makes informed decisions when interacting with the wallet.",
       "explainGoal": "Our goal is that the recipient understands:",
       "explainPoints": {
@@ -635,17 +645,17 @@
       "2": {
         "kicker": "Signal",
         "title": "Portfolio quality",
-        "body": "Multi-chain analysis of the wallet’s economic composition."
+        "body": "Multi-chain analysis of economic composition (Standard and Expert)."
       },
       "3": {
         "kicker": "Signal",
         "title": "Origin of funds",
-        "body": "We analyze the transactions that originated the funds in the wallet."
+        "body": "We analyze source of funds; Standard/Expert also add funder risk screening."
       },
       "4": {
         "kicker": "Signal",
         "title": "Recent activity",
-        "body": "We analyze the behavior and flow of recent on-chain transactions."
+        "body": "On-chain behavior and flows over a 15-, 45-, or 90-day window by tier."
       }
     },
     "visual": {
@@ -654,8 +664,8 @@
       "activity": "Activity",
       "presence": "Presence",
       "portfolio": "Portfolio",
-      "window90d": "90 DAYS",
-      "inflowsLabel": "FUNDS → WALLET · 2 LEVELS"
+      "window90d": "15 / 45 / 90 DAYS",
+      "inflowsLabel": "FUNDS → WALLET · FUNDER RISK"
     }
   }
 }

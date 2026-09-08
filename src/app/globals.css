@@ -2109,13 +2109,19 @@ body {
   }
 }
 
-/* Nosotros — fundador */
-.founder-layout {
+/* Nosotros — equipo */
+.team-roster {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.team-layout {
   display: grid;
   gap: 1.25rem;
 }
 
-.founder-card {
+.team-card {
   position: relative;
   overflow: hidden;
   border-radius: 1.35rem;
@@ -2132,7 +2138,7 @@ body {
     0 0 48px color-mix(in oklab, var(--primary) 10%, transparent);
 }
 
-.founder-card::before {
+.team-card::before {
   content: "";
   pointer-events: none;
   position: absolute;
@@ -2146,7 +2152,7 @@ body {
   );
 }
 
-.founder-card__name {
+.team-card__name {
   position: relative;
   font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(1.35rem, 2.5vw, 1.75rem);
@@ -2155,14 +2161,7 @@ body {
   color: var(--pure);
 }
 
-.founder-card__role {
-  position: relative;
-  margin-top: 0.45rem;
-  font-size: 0.92rem;
-  color: var(--primary-soft);
-}
-
-.founder-card__bio {
+.team-card__bio {
   position: relative;
   margin-top: 1.1rem;
   font-size: 1rem;
@@ -2170,7 +2169,7 @@ body {
   color: var(--muted);
 }
 
-.founder-card__actions {
+.team-card__actions {
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -2178,7 +2177,7 @@ body {
   margin-top: 1.4rem;
 }
 
-.founder-photo {
+.team-photo {
   overflow: hidden;
   justify-self: center;
   width: min(100%, 14.5rem);
@@ -2189,7 +2188,7 @@ body {
   box-shadow: 0 20px 50px color-mix(in oklab, var(--void) 45%, transparent);
 }
 
-.founder-photo__img {
+.team-photo__img {
   display: block;
   width: 100%;
   height: 100%;
@@ -2290,17 +2289,17 @@ body {
 }
 
 @media (min-width: 768px) {
-  .founder-layout {
+  .team-layout {
     grid-template-columns: minmax(0, 1.45fr) minmax(12rem, 15.5rem);
     align-items: center;
     gap: 1.75rem;
   }
 
-  .founder-card {
+  .team-card {
     padding: 1.75rem 1.7rem 1.8rem;
   }
 
-  .founder-photo {
+  .team-photo {
     width: 100%;
     max-width: 15.5rem;
     justify-self: end;
@@ -2575,6 +2574,8 @@ body {
   height: calc(100svh - 4rem);
   overflow: hidden;
   background: var(--void);
+  /* Vertical page scroll; horizontal swipes handled in JS for level changes. */
+  touch-action: pan-y;
 }
 
 .wallet-reveal__left {

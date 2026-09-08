@@ -163,7 +163,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
       {
         id: "origins",
         title: "Origen de los fondos",
-        lead: "De dónde vinieron los fondos, con qué diversidad y con qué indicios de riesgo en la procedencia. La profundidad de hops (0 / 1 / 2) depende del tier.",
+        lead: "De dónde vinieron los fondos, con qué diversidad y con qué indicios de riesgo en la procedencia. En Estándar/Experta se suma un screening de riesgo de fondeadores (no un segundo Origins).",
         rows: [
           {
             name: "Composición por tipo de origen",
@@ -216,9 +216,9 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
               "Qué proporción del valor entrante pudo valuarse en USD. Baja cobertura hace más prudente la lectura de concentración.",
           },
           {
-            name: "Hops / fondeadores analizados",
+            name: "Hops / screening de fondeadores",
             meaning:
-              "Según profundidad: Básica sin hops; Estándar hop-1 sobre top fondeadores; Experta hops a dos niveles. Contexto de procedencia, no veredicto.",
+              "Básica sin hops. Estándar: screen de riesgo hop-1 sobre top 2 fondeadores (1 red dominante). Experta: top 5; hop-2 solo si hop-1 es wallet normal (no CEX/bridge/mixer/OFAC). Contexto de quién fondeó, no Origins completo ni screening oficial.",
           },
         ],
       },
@@ -423,7 +423,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
       {
         id: "origins",
         title: "Origin of funds",
-        lead: "Where funds came from, how diverse that provenance is, and what risk indicators appear. Hop depth (0 / 1 / 2) depends on the tier.",
+        lead: "Where funds came from, how diverse that provenance is, and what risk indicators appear. Standard/Expert add funder risk screening (not a second Origins run).",
         rows: [
           {
             name: "Composition by origin type",
@@ -476,9 +476,9 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
               "What share of inbound value could be priced in USD. Low coverage makes concentration readings more conservative.",
           },
           {
-            name: "Hops / analyzed funders",
+            name: "Hops / funder risk screening",
             meaning:
-              "By depth: Basic has no hops; Standard hop-1 on top funders; Expert two-level hops. Provenance context, not a verdict.",
+              "Basic has no hops. Standard: hop-1 risk screen on top 2 funders (one dominant chain). Expert: top 5; hop-2 only if hop-1 is a normal wallet (not CEX/bridge/mixer/OFAC). Who funded the subject — not a full Origins run or official screening.",
           },
         ],
       },
@@ -683,7 +683,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
       {
         id: "origins",
         title: "Origem dos fundos",
-        lead: "De onde vieram os fundos, com que diversidade e com que indícios de risco na procedência. A profundidade de hops (0 / 1 / 2) depende do tier.",
+        lead: "De onde vieram os fundos, com que diversidade e com que indícios de risco na procedência. Em Standard/Expert soma-se screening de risco de financiadores (não um segundo Origins).",
         rows: [
           {
             name: "Composição por tipo de origem",
@@ -736,9 +736,9 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
               "Que proporção do valor entrante pôde ser valuada em USD. Baixa cobertura torna a leitura de concentração mais prudente.",
           },
           {
-            name: "Hops / financiadores analisados",
+            name: "Hops / screening de financiadores",
             meaning:
-              "Segundo a profundidade: Básica sem hops; Standard hop-1 sobre top financiadores; Expert hops em dois níveis. Contexto de procedência, não veredito.",
+              "Básica sem hops. Standard: screen de risco hop-1 sobre top 2 financiadores (1 rede dominante). Expert: top 5; hop-2 só se hop-1 for wallet normal (não CEX/bridge/mixer/OFAC). Contexto de quem financiou — não Origins completo nem screening oficial.",
           },
         ],
       },

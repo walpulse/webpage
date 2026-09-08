@@ -2,6 +2,7 @@ export const routes = {
   home: "/",
   senales: "/senales",
   analisis: "/analisis",
+  walpulseEngineRisk: "/walpulse-engine-risk",
   demo: "/demo",
   proveedoresDeDatos: "/proveedores-de-datos",
   criptoExchanges: "/cripto-exchanges",
@@ -35,6 +36,7 @@ export type HeaderNavLink = {
   labelKey:
     | "senales"
     | "analisis"
+    | "engineRisk"
     | "demo"
     | "proveedores"
     | "nosotros"
@@ -53,10 +55,15 @@ export type HeaderNavDropdown = {
 
 export type HeaderNavItem = HeaderNavLink | HeaderNavDropdown;
 
-/** Primary header — Inicio, Análisis, Demo, Proveedores, Para quienes, Nosotros, Hablemos. */
+/** Primary header — Inicio, Análisis, Engine Risk, Demo, Proveedores, Para quienes, Nosotros, Hablemos. */
 export const headerNavItems: HeaderNavItem[] = [
   { type: "link", href: routes.home, labelKey: "senales" },
   { type: "link", href: routes.analisis, labelKey: "analisis" },
+  {
+    type: "link",
+    href: routes.walpulseEngineRisk,
+    labelKey: "engineRisk",
+  },
   { type: "link", href: routes.demo, labelKey: "demo" },
   {
     type: "link",
@@ -99,4 +106,18 @@ export const ORIGIN_LINKS = {
   dorahacks: "https://dorahacks.io/hackathon/urugwei-2026/report",
   linkedin: "https://www.linkedin.com/in/ibzanjairvalenzuelasuarez",
   x: CONTACT_CHANNELS.xUrl,
+} as const;
+
+export const TEAM_LINKS = {
+  jair: {
+    linkedin: ORIGIN_LINKS.linkedin,
+    x: ORIGIN_LINKS.x,
+    email: "ibzan.valenzuela@walpulse.com",
+    photo: "/jair.jpeg",
+  },
+  carolina: {
+    linkedin: "https://www.linkedin.com/in/carolina-rodriguez-conde/",
+    email: "carolina.rodriguez@walpulse.com",
+    photo: "/carolina.jpeg",
+  },
 } as const;

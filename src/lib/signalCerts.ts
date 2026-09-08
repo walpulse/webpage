@@ -31,9 +31,9 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       origins: {
         name: "Orígenes",
         summary:
-          "Origen de los fondos. La profundidad (0, 1 o 2 hops) depende del tier del análisis.",
+          "Origen de los fondos. En Estándar/Experta se suma screening de riesgo de fondeadores (no un segundo Origins).",
         value:
-          "Evidencia on-chain del origen de los fondos — directa y a través de las wallets que financiaron a la objetivo.",
+          "Evidencia on-chain del origen de los fondos — directa y contexto de riesgo de quién financió a la objetivo.",
         analyzes: [
           "% por categoría de origen (CEX, bridge, mixer, OFAC, airdrop, orgánico…)",
           "Remitentes únicos",
@@ -43,8 +43,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
           "Exposición mixer / OFAC",
           "Orgánico vs sintético (NFT / airdrop)",
           "Antigüedad del primer funding",
-          "Orígenes a 2 niveles (multi-hop)",
-          "Origins de las top 5 contrapartes",
+          "Screening de riesgo de fondeadores (hops)",
         ],
       },
       activity: {
@@ -103,9 +102,9 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       origins: {
         name: "Origins",
         summary:
-          "Source of funds. Depth (0, 1, or 2 hops) depends on the analysis tier.",
+          "Source of funds. Standard/Expert add funder risk screening (not a second Origins run).",
         value:
-          "On-chain evidence of funding origins — direct and through the wallets that financed the target.",
+          "On-chain evidence of funding origins — direct plus risk context on who financed the target.",
         analyzes: [
           "% by origin category (CEX, bridge, mixer, OFAC, airdrop, organic…)",
           "Unique senders",
@@ -115,8 +114,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
           "Mixer / OFAC exposure",
           "Organic vs synthetic (NFT / airdrop)",
           "Age of first funding",
-          "2-level origins (multi-hop)",
-          "Origins of the top 5 counterparties",
+          "Funder risk screening (hops)",
         ],
       },
       activity: {
@@ -175,9 +173,9 @@ export const certsByLocale: Record<string, LocaleCerts> = {
       origins: {
         name: "Origens",
         summary:
-          "Origem dos fundos. A profundidade (0, 1 ou 2 hops) depende do tier da análise.",
+          "Origem dos fundos. Em Standard/Expert soma-se screening de risco de financiadores (não um segundo Origins).",
         value:
-          "Evidência on-chain da origem dos fundos — direta e através das wallets que financiaram a alvo.",
+          "Evidência on-chain da origem dos fundos — direta e contexto de risco de quem financiou a alvo.",
         analyzes: [
           "% por categoria de origem (CEX, bridge, mixer, OFAC, airdrop, orgânico…)",
           "Remetentes únicos",
@@ -187,8 +185,7 @@ export const certsByLocale: Record<string, LocaleCerts> = {
           "Exposição mixer / OFAC",
           "Orgânico vs sintético (NFT / airdrop)",
           "Idade do primeiro funding",
-          "Origens em 2 níveis (multi-hop)",
-          "Origins das top 5 contrapartes",
+          "Screening de risco de financiadores (hops)",
         ],
       },
       activity: {

@@ -12,6 +12,7 @@ import {
   REVEAL_LEVEL_COUNT,
   type RevealLevel,
 } from "@/lib/walletReveal";
+import { useHorizontalSwipe } from "./useHorizontalSwipe";
 import { WalletRevealCopy } from "./WalletRevealCopy";
 import { WalletRevealDetail } from "./WalletRevealDetail";
 import { WalletRevealProgress } from "./WalletRevealProgress";
@@ -36,6 +37,8 @@ function readProgress(el: HTMLElement) {
 
 export function WalletReveal() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const levelRef = useRef<RevealLevel>(0);
   const [level, setLevel] = useState<RevealLevel>(0);
   const reducedMotion = useSyncExternalStore(
     subscribeReducedMotion,
@@ -61,6 +64,10 @@ export function WalletReveal() {
     };
   }, []);
 
+  useEffect(() => {
+    levelRef.current = level;
+  }, [level]);
+
   const scrollToLevel = useCallback((next: RevealLevel) => {
     const el = rootRef.current;
     if (!el) return;
@@ -77,9 +84,26 @@ export function WalletReveal() {
     });
   }, []);
 
+  const goNext = useCallback(() => {
+    const current = levelRef.current;
+    if (current >= REVEAL_LEVEL_COUNT - 1) return;
+    scrollToLevel((current + 1) as RevealLevel);
+  }, [scrollToLevel]);
+
+  const goPrev = useCallback(() => {
+    const current = levelRef.current;
+    if (current <= 0) return;
+    scrollToLevel((current - 1) as RevealLevel);
+  }, [scrollToLevel]);
+
+  useHorizontalSwipe(stickyRef, {
+    onSwipeLeft: goNext,
+    onSwipeRight: goPrev,
+  });
+
   return (
     <div id="senales" ref={rootRef} className="wallet-reveal">
-      <div className="wallet-reveal__sticky">
+      <div ref={stickyRef} className="wallet-reveal__sticky">
         <div className="wallet-reveal__left">
           <div className="wallet-reveal__stage" aria-hidden>
             <div className="wallet-reveal__stage-bg" />

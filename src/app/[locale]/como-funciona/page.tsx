@@ -4,11 +4,10 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ProcessFlow } from "@/components/como-funciona/ProcessFlow";
 import { Section } from "@/components/ui/Section";
 import { routes } from "@/lib/paths";
+import { processFlowForLocale } from "@/lib/processFlowSteps";
 import { pageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
-
-const stepKeys = ["input", "analysis", "signals", "use"] as const;
 
 const eyebrowByLocale: Record<string, string> = {
   es: "Flujo",
@@ -134,11 +133,7 @@ export default async function ComoFuncionaPage({ params }: Props) {
   const explainImage =
     explainImageByLocale[locale] ?? explainImageByLocale.es;
   const b2b = b2bByLocale[locale] ?? b2bByLocale.es;
-
-  const steps = stepKeys.map((key) => ({
-    title: t(`steps.${key}.title`),
-    body: t(`steps.${key}.body`),
-  }));
+  const processCopy = processFlowForLocale(locale);
 
   return (
     <>
@@ -157,9 +152,9 @@ export default async function ComoFuncionaPage({ params }: Props) {
 
       <Section className="section-atmosphere-alt section-atmosphere border-t border-glass/30">
         <h2 className="mb-10 font-display text-2xl font-semibold text-pure md:text-3xl">
-          {t("stepsTitle")}
+          {processCopy.stepsTitle}
         </h2>
-        <ProcessFlow steps={steps} />
+        <ProcessFlow steps={processCopy.steps} />
       </Section>
 
       <Section className="section-atmosphere border-t border-glass/30">

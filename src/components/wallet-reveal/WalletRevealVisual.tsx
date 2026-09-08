@@ -24,8 +24,9 @@ const visualLabelsByLocale: Record<
     activity: string;
     presence: string;
     portfolio: string;
-    window90d: string;
+    windowByTier: string;
     inflowsLabel: string;
+    funderHop: string;
   }
 > = {
   es: {
@@ -34,8 +35,9 @@ const visualLabelsByLocale: Record<
     activity: "Actividad",
     presence: "Presencia",
     portfolio: "Portafolio",
-    window90d: "90 DÍAS",
-    inflowsLabel: "FONDOS → WALLET · 2 NIVELES",
+    windowByTier: "15 / 45 / 90 DÍAS",
+    inflowsLabel: "FONDOS → WALLET · RIESGO FONDEADORES",
+    funderHop: "fondeo",
   },
   en: {
     analysis: "Walpulse Analysis",
@@ -43,8 +45,9 @@ const visualLabelsByLocale: Record<
     activity: "Activity",
     presence: "Presence",
     portfolio: "Portfolio",
-    window90d: "90 DAYS",
-    inflowsLabel: "FUNDS → WALLET · 2 LEVELS",
+    windowByTier: "15 / 45 / 90 DAYS",
+    inflowsLabel: "FUNDS → WALLET · FUNDER RISK",
+    funderHop: "funder",
   },
   pt: {
     analysis: "Análise Walpulse",
@@ -52,8 +55,9 @@ const visualLabelsByLocale: Record<
     activity: "Atividade",
     presence: "Presença",
     portfolio: "Portfólio",
-    window90d: "90 DIAS",
-    inflowsLabel: "FUNDOS → WALLET · 2 NÍVEIS",
+    windowByTier: "15 / 45 / 90 DIAS",
+    inflowsLabel: "FUNDOS → WALLET · RISCO FINANCIADORES",
+    funderHop: "funding",
   },
 };
 
@@ -549,10 +553,14 @@ function diamondPoints(cx: number, cy: number, halfDiag: number): string {
   return `${cx},${cy - halfDiag} ${cx + halfDiag},${cy} ${cx},${cy + halfDiag} ${cx - halfDiag},${cy}`;
 }
 
+type VisualLabels = (typeof visualLabelsByLocale)[string];
+
 function Level1Visual({
   motion,
+  labels,
 }: {
   motion: boolean;
+  labels: VisualLabels;
 }) {
   const hop1 = [
     { x: CX - 150, y: CY - 95 },
@@ -628,7 +636,7 @@ function Level1Visual({
               fontFamily="ui-monospace, monospace"
               fontSize={8}
             >
-              hop1
+              {labels.funderHop}
             </text>
             <FlowDot
               enabled={motion}
@@ -644,14 +652,27 @@ function Level1Visual({
         );
       })}
       <WalletGlyph x={CX} y={CY} scale={WALLET_GLYPH_SCALE} highlight />
+      <text
+        x={CX}
+        y={CY + 78}
+        textAnchor="middle"
+        fill="rgba(148,163,184,0.95)"
+        fontFamily="ui-monospace, monospace"
+        fontSize={9}
+        letterSpacing="0.04em"
+      >
+        {labels.inflowsLabel}
+      </text>
     </g>
   );
 }
 
 function Level2Visual({
   motion,
+  labels,
 }: {
   motion: boolean;
+  labels: VisualLabels;
 }) {
   const peers = [
     { x: CX - 160, y: CY - 90, dir: "in" as const },
@@ -708,6 +729,17 @@ function Level2Visual({
         );
       })}
       <WalletGlyph x={CX} y={CY} scale={1} highlight />
+      <text
+        x={CX}
+        y={CY + 78}
+        textAnchor="middle"
+        fill="rgba(148,163,184,0.95)"
+        fontFamily="ui-monospace, monospace"
+        fontSize={9}
+        letterSpacing="0.04em"
+      >
+        {labels.windowByTier}
+      </text>
     </g>
   );
 }
@@ -845,15 +877,7 @@ function SceneForLevel({
 }: {
   level: RevealLevel;
   motion: boolean;
-  labels: {
-    analysis: string;
-    origins: string;
-    activity: string;
-    presence: string;
-    portfolio: string;
-    window90d: string;
-    inflowsLabel: string;
-  };
+  labels: VisualLabels;
   onSelectLevel?: (level: RevealLevel) => void;
 }): ReactNode {
   switch (level) {
@@ -870,9 +894,9 @@ function SceneForLevel({
     case 2:
       return <Level4Visual motion={motion} />;
     case 3:
-      return <Level1Visual motion={motion} />;
+      return <Level1Visual motion={motion} labels={labels} />;
     case 4:
-      return <Level2Visual motion={motion} />;
+      return <Level2Visual motion={motion} labels={labels} />;
   }
 }
 

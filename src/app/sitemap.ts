@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     if (path === "/") return 1;
     if (
       path === "/analisis" ||
+      path === "/walpulse-engine-risk" ||
       path === "/demo" ||
       path === "/proveedores-de-datos"
     ) {

@@ -16,7 +16,7 @@
     "criptoExchangesUruguayTitle": "Cripto Exchanges — Uruguai",
     "criptoExchangesUruguayDescription": "Sinais on-chain para exchanges no Uruguai: avaliação de risco e monitoramento de wallets no marco PSAV / BCU.",
     "nosotrosTitle": "Sobre nós",
-    "nosotrosDescription": "Origem da Walpulse, fundador e projetos associados. Sinais on-chain de reputação; o receptor decide.",
+    "nosotrosDescription": "Origem da Walpulse, equipe e projetos associados. Sinais on-chain de reputação; o receptor decide.",
     "comoFuncionaTitle": "Da wallet à análise",
     "comoFuncionaDescription": "Como a Walpulse recebe uma wallet e um tier, calcula as partes de sinal incluídas e entrega uma síntese A–F secundária para o receptor decidir.",
     "contactoTitle": "Contato",
@@ -26,12 +26,15 @@
     "demoTitle": "Demo de análise",
     "demoDescription": "Experimente uma análise de wallet em Básica (resultado na página), Standard ou Expert (processamento async e entrega por e-mail).",
     "proveedoresTitle": "Provedores de dados",
-    "proveedoresDescription": "Provedores externos que a Walpulse consulta para sinais on-chain: presença, transações, portfólio, OFAC (exposição), contratos e catálogos. O receptor interpreta e decide."
+    "proveedoresDescription": "Provedores externos que a Walpulse consulta para sinais on-chain: presença, transações, portfólio, OFAC (exposição), contratos e catálogos. O receptor interpreta e decide.",
+    "engineRiskTitle": "Walpulse Motor de Riscos",
+    "engineRiskDescription": "Pontuação de risco totalmente parametrizável pelo cliente sobre sinais on-chain da Walpulse. Regras da área de compliance; Standard/Expert no dashboard. Em breve. A Walpulse não decide e não é ferramenta de compliance."
   },
   "nav": {
     "home": "Início",
     "senales": "Início",
     "analisis": "Análise",
+    "engineRisk": "Motor de Riscos",
     "demo": "Demo",
     "proveedores": "Provedores",
     "whoUses": "Para quem",
@@ -69,7 +72,7 @@
     "whatBody": "Somos uma plataforma que produz sinais de reputação e análise on-chain para wallets.",
     "whatIntro": "Oferece inteligência verificável e explicável sobre:",
     "whatPoints": {
-      "origins": "Origem dos fundos (hops conforme o tier)",
+      "origins": "Origem dos fundos (screening de financiadores conforme o tier)",
       "activity": "Comportamento e atividade (15, 45 ou 90 dias conforme o tier)",
       "multichain": "Maturidade e presença multi-cadeia (todas as profundidades)",
       "portfolio": "Qualidade e composição do portfólio (Standard e Expert)"
@@ -82,22 +85,22 @@
     "signals": {
       "origins": {
         "name": "Origens",
-        "desc": "Origem dos fundos com profundidade em 2 níveis e top contrapartes",
+        "desc": "Origem dos fundos; Standard/Expert somam screening de risco de financiadores",
         "grade": "B"
       },
       "activity": {
         "name": "Atividade",
-        "desc": "Comportamento de fluxos em janela de 90 dias",
+        "desc": "Comportamento de fluxos em janela de 15, 45 ou 90 dias conforme o tier",
         "grade": "A"
       },
       "multichain": {
         "name": "Multichain",
-        "desc": "Presença e maturidade multi-rede",
+        "desc": "Presença e maturidade multi-rede (todas as profundidades)",
         "grade": "C"
       },
       "portfolio": {
         "name": "Portfólio",
-        "desc": "Qualidade e composição do portfólio",
+        "desc": "Qualidade e composição do portfólio (Standard e Expert)",
         "grade": "B"
       }
     },
@@ -251,9 +254,9 @@
       "origins": {
         "name": "Origens",
         "version": "origins-v2.2",
-        "summary": "Origem dos fundos, com profundidade em 2 níveis e origens das top contrapartes",
+        "summary": "Origem dos fundos; em Standard/Expert, screening de risco de financiadores",
         "provider": "Alchemy + DefiLlama + labels",
-        "value": "Evidência on-chain da origem dos fundos — direta e através das wallets que financiaram a alvo.",
+        "value": "Evidência on-chain da origem dos fundos — direta e contexto de risco de quem financiou a alvo.",
         "analyzes": [
           "% por categoria de origem (CEX, bridge, mixer, OFAC, airdrop, orgânico…)",
           "Remetentes únicos",
@@ -263,7 +266,7 @@
           "Exposição mixer / OFAC",
           "Orgânico vs sintético (NFT / airdrop)",
           "Idade do primeiro funding",
-          "Origens em 2 níveis (multi-hop)",
+          "Screening de risco de financiadores (hops)",
           "Origins das top 5 contrapartes"
         ]
       },
@@ -420,10 +423,17 @@
     "originBody": "Na Ethereum Uruguay Hackathon 2026 (3ª edição) o projeto ORIGO — análise verificável da origem de fundos de wallets — obteve o 1º lugar na categoria Startup. O pitch final e a cerimônia de prêmios ocorreram no Blockchain Summit Global 2026 (Montevidéu).",
     "originBody2": "O construído não ficou como demo: os sinais de origem de fundos foram integrados em produção como parte do Walcert Origins. A Walpulse é o projeto independente que continua e amplia esse foco.",
     "originTeam": "Equipe da hackathon (cobertura pública): Jair Valenzuela e Rodrigo Médica.",
-    "founderTitle": "Fundador",
-    "founderName": "Ibzan Jair Valenzuela Suarez",
-    "founderRole": "Fundador da Walpulse · Montevidéu, Uruguai",
-    "founderBio": "Data Engineer com mais de 12 anos de experiência em bancos de dados, data warehousing e transformação de dados em larga escala. Lidera a visão de produto da Walpulse e a definição dos sinais on-chain de reputação.",
+    "teamTitle": "Equipe",
+    "team": {
+      "jair": {
+        "name": "Ibzan Jair Valenzuela Suarez",
+        "bio": "Data Engineer com mais de 12 anos de experiência em bancos de dados, data warehousing e transformação de dados em larga escala. Lidera a visão de produto da Walpulse e a definição dos sinais on-chain de reputação."
+      },
+      "carolina": {
+        "name": "Carolina Rodriguez Conde",
+        "bio": "Advogada formada pela Universidad Católica del Uruguay, atual referente da mesa de legais da Cámara Blockchain del Uruguay e colaboradora da Ethereum Uruguay; sua trajetória profissional se especializou na convergência entre o direito e a tecnologia, com foco em ecossistemas Web3 e regulações normativas. Conta com ampla experiência em compliance jurídico, assessoria em normas de segurança integral (como a ISO 27001), estruturação legal de smart contracts e proteção de propriedade intelectual. Seu histórico desenhando arquiteturas legais para projetos tecnológicos inovadores fornece a base normativa sólida que permite transformar a análise de dados on-chain em inteligência regulatória institucional e ferramentas de mitigação de riscos."
+      }
+    },
     "projectsTitle": "Projetos associados",
     "projectsIntro": "A Walpulse faz parte de uma linha de trabalho de sinais on-chain de reputação.",
     "projects": {
@@ -464,7 +474,7 @@
       },
       "analysis": {
         "title": "Análise on-chain",
-        "body": "Calculam-se as partes incluídas nesse tier (Origins, Activity, Multichain, Portfolio) com a cobertura correspondente."
+        "body": "Calculam-se os sinais incluídos em cada tier com a cobertura correspondente."
       },
       "signals": {
         "title": "Sinais + síntese",
@@ -536,7 +546,7 @@
         "amongOthers": "Entre outros…"
       },
       "scopeTitle": "Alcance",
-      "depthNote": "A quantidade de redes e quantidade de transações de origem varia conforme o tipo de análise solicitada, partindo na versão básica em 2 redes e 100 transações de origem e chegando a mais de +10 redes e 500 transações na versão expert. Também nas análises mais sofisticadas aplica-se uma análise de origens aos financiadores diretos.",
+      "depthNote": "A quantidade de redes e quantidade de transações de origem varia conforme o tipo de análise solicitada, partindo na versão básica em 2 redes e 100 transações de origem e chegando a mais de +10 redes e 500 transações na versão expert. Em Standard/Expert soma-se screening de risco de financiadores (contexto de procedência, não um segundo Origins).",
       "whyTitle": "Importância",
       "whyBody": "A origem dos fundos é uma das primeiras perguntas ao avaliar uma wallet. Entender de onde vieram os primeiros fundos permite definir um contexto claro sobre o comportamento de uma wallet e ao receptor do sinal avaliar, dentro do seu próprio marco decisório, o nível de confiança que terá ao interagir com essa wallet."
     },
@@ -586,7 +596,7 @@
     },
     "intro": {
       "title": "O que é a Walpulse?",
-      "body": "Produzimos uma análise de wallet em três profundidades: Básica, Standard ou Expert, com base em sinais on-chain (presença no ecossistema, origem dos fundos, atividade recente e, em Standard/Expert, portfólio).",
+      "body": "Produzimos uma análise de wallet em três profundidades: Básica, Standard ou Expert, com base em sinais on-chain (presença no ecossistema, origem dos fundos, atividade recente e, em Standard/Expert, portfólio). Em breve: Motor de Riscos — pontuação parametrizável pelo cliente sobre esses sinais.",
       "explainLead": "A análise não é uma caixa-preta e também não é uma classificação final. Priorizamos que o receptor entenda os sinais associados a cada elemento analisado e que, com base neles, tome decisões informadas ao interagir com a wallet.",
       "explainGoal": "Nosso objetivo é que o receptor entenda:",
       "explainPoints": {
@@ -635,17 +645,17 @@
       "2": {
         "kicker": "Sinal",
         "title": "Qualidade do Portfólio",
-        "body": "Análise multi-cadeia da composição econômica da wallet."
+        "body": "Análise multi-cadeia da composição econômica (Standard e Expert)."
       },
       "3": {
         "kicker": "Sinal",
         "title": "Origem dos fundos",
-        "body": "Analisamos as transações que originaram os fundos na wallet."
+        "body": "Analisamos a origem dos fundos; em Standard/Expert somamos screening de risco de financiadores."
       },
       "4": {
         "kicker": "Sinal",
         "title": "Atividade recente",
-        "body": "Analisamos o comportamento e o fluxo das transações on-chain recentes."
+        "body": "Comportamento e fluxos on-chain em janela de 15, 45 ou 90 dias conforme o tier."
       }
     },
     "visual": {
@@ -654,8 +664,8 @@
       "activity": "Atividade",
       "presence": "Presença",
       "portfolio": "Portfólio",
-      "window90d": "90 DIAS",
-      "inflowsLabel": "FUNDOS → WALLET · 2 NÍVEIS"
+      "window90d": "15 / 45 / 90 DIAS",
+      "inflowsLabel": "FUNDOS → WALLET · RISCO FINANCIADORES"
     }
   }
 }

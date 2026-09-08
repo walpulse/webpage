@@ -5,6 +5,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ProcessFlow } from "@/components/como-funciona/ProcessFlow";
 import { type RevealLevel } from "@/lib/walletReveal";
+import { processFlowForLocale } from "@/lib/processFlowSteps";
 
 type Props = {
   level: RevealLevel;
@@ -15,8 +16,6 @@ const explainImageByLocale: Record<string, string> = {
   en: "/caja_negra_en.jpg",
   pt: "/caja_negra_pt.jpg",
 };
-
-const processStepKeys = ["input", "analysis", "signals", "use"] as const;
 
 type NarrativeCopy = {
   lead: string;
@@ -41,7 +40,7 @@ const originsCopyByLocale: Record<string, NarrativeCopy> = {
     ],
     scopeTitle: "Alcance",
     depthNote:
-      "La cantidad de redes y cantidad de transacciones de origen varía dependiendo del tipo de análisis solicitado, partiendo en la versión básica en 2 redes y 100 transacciones de origen y llegando hasta más de +10 redes y 500 transacciones en la versión experto. También en los análisis más sofisticados se aplica un análisis de orígenes a los fondeadores directos.",
+      "La cantidad de redes y cantidad de transacciones de origen varía dependiendo del tipo de análisis solicitado, partiendo en la versión básica en 2 redes y 100 transacciones de origen y llegando hasta más de +10 redes y 500 transacciones en la versión experto. En Estándar/Experta se suma un screening de riesgo de fondeadores (contexto de procedencia, no un segundo Origins).",
     whyTitle: "Importancia",
     whyBody:
       "El origen de los fondos es una de las primeras preguntas al evaluar una wallet. Entender de dónde vinieron los primeros fondos permite definir un contexto claro sobre el comportamiento de una wallet y al receptor de la señal evaluar dentro de su propio marco decisorio el nivel de confianza que tendrá al interactuar con dicha wallet.",
@@ -57,7 +56,7 @@ const originsCopyByLocale: Record<string, NarrativeCopy> = {
     ],
     scopeTitle: "Scope",
     depthNote:
-      "The number of networks and origin transactions varies depending on the type of analysis requested, starting in the basic version at 2 networks and 100 origin transactions and reaching more than +10 networks and 500 transactions in the expert version. In more sophisticated analyses, an origins analysis is also applied to direct funders.",
+      "The number of networks and origin transactions varies depending on the type of analysis requested, starting in the basic version at 2 networks and 100 origin transactions and reaching more than +10 networks and 500 transactions in the expert version. Standard/Expert also add funder risk screening (provenance context, not a second Origins run).",
     whyTitle: "Why it matters",
     whyBody:
       "The origin of funds is one of the first questions when evaluating a wallet. Understanding where the first funds came from helps define a clear context for a wallet’s behavior and lets the signal recipient assess, within their own decision framework, the level of trust they will have when interacting with that wallet.",
@@ -73,7 +72,7 @@ const originsCopyByLocale: Record<string, NarrativeCopy> = {
     ],
     scopeTitle: "Alcance",
     depthNote:
-      "A quantidade de redes e quantidade de transações de origem varia conforme o tipo de análise solicitada, partindo na versão básica em 2 redes e 100 transações de origem e chegando a mais de +10 redes e 500 transações na versão expert. Também nas análises mais sofisticadas aplica-se uma análise de origens aos financiadores diretos.",
+      "A quantidade de redes e quantidade de transações de origem varia conforme o tipo de análise solicitada, partindo na versão básica em 2 redes e 100 transações de origem e chegando a mais de +10 redes e 500 transações na versão expert. Em Standard/Expert soma-se screening de risco de financiadores (contexto de procedência, não um segundo Origins).",
     whyTitle: "Importância",
     whyBody:
       "A origem dos fundos é uma das primeiras perguntas ao avaliar uma wallet. Entender de onde vieram os primeiros fundos permite definir um contexto claro sobre o comportamento de uma wallet e ao receptor do sinal avaliar, dentro do seu próprio marco decisório, o nível de confiança que terá ao interagir com essa wallet.",
@@ -232,19 +231,14 @@ const portfolioCopyByLocale: Record<string, NarrativeCopy> = {
 
 function WhatIsPanel() {
   const t = useTranslations("reveal.intro");
-  const process = useTranslations("comoFunciona");
   const locale = useLocale();
   const explainImage = explainImageByLocale[locale] ?? explainImageByLocale.es;
+  const processCopy = processFlowForLocale(locale);
   const dialogTitleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
   const [imageOpen, setImageOpen] = useState(false);
 
   const points = [t("explainPoints.variables"), t("explainPoints.factors")];
-
-  const steps = processStepKeys.map((key) => ({
-    title: process(`steps.${key}.title`),
-    body: process(`steps.${key}.body`),
-  }));
 
   useEffect(() => {
     if (!imageOpen) return;
@@ -298,8 +292,8 @@ function WhatIsPanel() {
       </div>
 
       <section className="reveal-process">
-        <h3 className="reveal-process__title">{process("stepsTitle")}</h3>
-        <ProcessFlow steps={steps} />
+        <h3 className="reveal-process__title">{processCopy.stepsTitle}</h3>
+        <ProcessFlow steps={processCopy.steps} />
       </section>
 
       {imageOpen ? (

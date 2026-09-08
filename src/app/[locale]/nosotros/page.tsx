@@ -4,7 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { OriginRecognitionMedia } from "@/components/nosotros/OriginRecognitionMedia";
 import { Button } from "@/components/ui/Button";
 import { Section, SectionHeading } from "@/components/ui/Section";
-import { ORIGIN_LINKS, routes } from "@/lib/paths";
+import { ORIGIN_LINKS, TEAM_LINKS, routes } from "@/lib/paths";
 import { pageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -37,6 +37,7 @@ type NosotrosExtras = {
   closeMedia: string;
   linkedinCta: string;
   xCta: string;
+  emailCta: string;
   principlesTitle: string;
   principles: string[];
   projects: {
@@ -63,6 +64,7 @@ const extrasByLocale: Record<string, NosotrosExtras> = {
     closeMedia: "Cerrar",
     linkedinCta: "LinkedIn",
     xCta: "X",
+    emailCta: "Email",
     principlesTitle: "Principios Walpulse",
     principles: [
       "Creamos y analizamos señales on-chain de reputación.",
@@ -100,6 +102,7 @@ const extrasByLocale: Record<string, NosotrosExtras> = {
     closeMedia: "Close",
     linkedinCta: "LinkedIn",
     xCta: "X",
+    emailCta: "Email",
     principlesTitle: "Walpulse Principles",
     principles: [
       "We create and analyze on-chain reputation signals.",
@@ -137,6 +140,7 @@ const extrasByLocale: Record<string, NosotrosExtras> = {
     closeMedia: "Fechar",
     linkedinCta: "LinkedIn",
     xCta: "X",
+    emailCta: "Email",
     principlesTitle: "Princípios Walpulse",
     principles: [
       "Criamos e analisamos sinais on-chain de reputação.",
@@ -264,41 +268,81 @@ export default async function NosotrosPage({ params }: Props) {
       </Section>
 
       <Section className="section-band-void border-t border-glass/30">
-        <SectionHeading title={t("founderTitle")} />
-        <div className="founder-layout">
-          <article className="founder-card">
-            <h3 className="founder-card__name">{t("founderName")}</h3>
-            <p className="founder-card__role">{t("founderRole")}</p>
-            <p className="founder-card__bio">{t("founderBio")}</p>
-            <div className="founder-card__actions">
-              <a
-                href={ORIGIN_LINKS.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className={socialBtn}
-              >
-                {extras.linkedinCta}
-              </a>
-              <a
-                href={ORIGIN_LINKS.x}
-                target="_blank"
-                rel="noreferrer"
-                className={`${socialBtn} border-glass/70 bg-surface/60 text-pure hover:border-primary/40`}
-              >
-                {extras.xCta}
-              </a>
-            </div>
-          </article>
-          <figure className="founder-photo">
-            <Image
-              src="/jair.jpeg"
-              alt={t("founderName")}
-              width={900}
-              height={1100}
-              sizes="(max-width: 768px) 90vw, 40vw"
-              className="founder-photo__img"
-            />
-          </figure>
+        <SectionHeading title={t("teamTitle")} />
+        <div className="team-roster">
+          <div className="team-layout">
+            <article className="team-card">
+              <h3 className="team-card__name">{t("team.jair.name")}</h3>
+              <p className="team-card__bio">{t("team.jair.bio")}</p>
+              <div className="team-card__actions">
+                <a
+                  href={TEAM_LINKS.jair.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={socialBtn}
+                >
+                  {extras.linkedinCta}
+                </a>
+                <a
+                  href={TEAM_LINKS.jair.x}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`${socialBtn} border-glass/70 bg-surface/60 text-pure hover:border-primary/40`}
+                >
+                  {extras.xCta}
+                </a>
+                <a
+                  href={`mailto:${TEAM_LINKS.jair.email}`}
+                  className={`${socialBtn} border-glass/70 bg-surface/60 text-pure hover:border-primary/40`}
+                >
+                  {extras.emailCta}
+                </a>
+              </div>
+            </article>
+            <figure className="team-photo">
+              <Image
+                src={TEAM_LINKS.jair.photo}
+                alt={t("team.jair.name")}
+                width={900}
+                height={1100}
+                sizes="(max-width: 768px) 90vw, 40vw"
+                className="team-photo__img"
+              />
+            </figure>
+          </div>
+
+          <div className="team-layout">
+            <article className="team-card">
+              <h3 className="team-card__name">{t("team.carolina.name")}</h3>
+              <p className="team-card__bio">{t("team.carolina.bio")}</p>
+              <div className="team-card__actions">
+                <a
+                  href={TEAM_LINKS.carolina.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={socialBtn}
+                >
+                  {extras.linkedinCta}
+                </a>
+                <a
+                  href={`mailto:${TEAM_LINKS.carolina.email}`}
+                  className={`${socialBtn} border-glass/70 bg-surface/60 text-pure hover:border-primary/40`}
+                >
+                  {extras.emailCta}
+                </a>
+              </div>
+            </article>
+            <figure className="team-photo">
+              <Image
+                src={TEAM_LINKS.carolina.photo}
+                alt={t("team.carolina.name")}
+                width={900}
+                height={1100}
+                sizes="(max-width: 768px) 90vw, 40vw"
+                className="team-photo__img"
+              />
+            </figure>
+          </div>
         </div>
       </Section>
 

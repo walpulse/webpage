@@ -25,7 +25,9 @@ function getLimiter(kind: RateLimitKind): Ratelimit | null {
     if (!submitLimiter) {
       submitLimiter = new Ratelimit({
         redis: Redis.fromEnv(),
-        limiter: Ratelimit.slidingWindow(5, "15 m"),
+        // 15 successful submits / IP / 15 min — applied after Turnstile so
+        // captcha failures do not burn quota.
+        limiter: Ratelimit.slidingWindow(15, "15 m"),
         prefix: "walpulse:demo:submit",
         analytics: false,
       });

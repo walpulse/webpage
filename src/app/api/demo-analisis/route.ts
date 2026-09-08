@@ -119,8 +119,6 @@ async function callEdgeFunction(
 /** Submit: Básica sync or Estándar/Experta accept. */
 export async function POST(request: Request) {
   const ip = clientIpFromRequest(request);
-  const limited = rateLimitResponse(await enforceDemoRateLimit("submit", ip));
-  if (limited) return limited;
 
   const { apiKey, serviceRole, supabaseUrl } = demoEnv();
   if (!apiKey || !serviceRole || !supabaseUrl) {
@@ -150,6 +148,10 @@ export async function POST(request: Request) {
       { status: 403 },
     );
   }
+
+  // After Turnstile: failed captchas must not consume submit quota.
+  const limited = rateLimitResponse(await enforceDemoRateLimit("submit", ip));
+  if (limited) return limited;
 
   const tierRaw = asTrimmedString(body.tier).toLowerCase();
   if (!isDemoTier(tierRaw)) {

@@ -111,7 +111,7 @@ Canales públicos: Telegram, `hello@walpulse.com`, X — ver `src/lib/paths.ts`.
 - Submit: `POST /api/demo-analisis` → Edge Functions `analisis-basica` (sync) / `analisis-estandar` / `analisis-experta` (202 + `request_id`); reenvía IP del visitante a la Edge (guard in-flight wallet+tier+IP; 409 `analisis_in_progress`)
 - Poll: `GET /api/demo-analisis?request_id=` → RPC `get_analisis_request`, **filtrado** a `WALPULSE_DEMO_CLIENTE_ID`
 - Helpers: `src/lib/demoAnalisis.ts` (subset público: grades + summaries + CIDs; sin evidencia)
-- Abuse: rate limit por IP (Upstash: 5 POST / 15 min, 60 GET / min) + Cloudflare Turnstile en submit (`src/lib/demoRateLimit.ts`, `src/lib/turnstile.ts`, `DemoTurnstile`)
+- Abuse: rate limit por IP (Upstash: **15 POST / 15 min** tras Turnstile OK, 60 GET / min) + Cloudflare Turnstile en submit (`src/lib/demoRateLimit.ts`, `src/lib/turnstile.ts`, `DemoTurnstile`)
 - `maxDuration` 120s en el route (Básica puede tardar ~1 min)
 - Estándar/Experta: email + idioma obligatorios en UI; correo post-PDF vía worker (prioridad `request.email`)
 

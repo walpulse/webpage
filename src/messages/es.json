@@ -227,6 +227,7 @@
       "client_disabled": "La demo está temporalmente deshabilitada.",
       "upstream_error": "El análisis no pudo completarse. Probá otra wallet o más tarde.",
       "analisis_failed": "El análisis no pudo completarse para esta wallet. Probá otra profundidad u otra wallet.",
+      "analisis_in_progress": "Ya hay un análisis en curso para esta wallet y profundidad desde tu red. Esperá a que termine o consultá el estado de la petición anterior.",
       "no_onchain_footprint": "No detectamos actividad on-chain en las redes de Básica para esta wallet. Probá Estándar/Experta u otra wallet.",
       "server_misconfigured": "La demo no está configurada en el servidor.",
       "not_found": "No encontramos esa petición.",

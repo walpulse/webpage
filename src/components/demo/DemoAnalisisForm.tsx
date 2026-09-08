@@ -94,6 +94,7 @@ export function DemoAnalisisForm() {
         "client_disabled",
         "upstream_error",
         "analisis_failed",
+        "analisis_in_progress",
         "no_onchain_footprint",
         "server_misconfigured",
         "not_found",

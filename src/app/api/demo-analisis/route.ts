@@ -85,15 +85,25 @@ async function callEdgeFunction(
   body: Record<string, unknown>,
   apiKey: string,
   serviceRole: string,
+  visitorIp?: string | null,
 ): Promise<{ status: number; json: Record<string, unknown> }> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${serviceRole}`,
+    apikey: serviceRole,
+    "X-Api-Key": apiKey,
+  };
+  // Forward visitor IP so accept Edge can guard wallet+tier+IP (not the BFF egress IP).
+  const ip = visitorIp?.trim().toLowerCase();
+  if (ip && ip !== "unknown") {
+    headers["x-forwarded-for"] = ip;
+    headers["x-real-ip"] = ip;
+    headers["cf-connecting-ip"] = ip;
+  }
+
   const res = await fetch(`${FUNCTIONS_BASE}/functions/v1/${slug}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${serviceRole}`,
-      apikey: serviceRole,
-      "X-Api-Key": apiKey,
-    },
+    headers,
     body: JSON.stringify(body),
   });
 
@@ -181,6 +191,7 @@ export async function POST(request: Request) {
       payload,
       apiKey,
       serviceRole,
+      ip,
     );
 
     if (tier === "basica") {
@@ -223,8 +234,16 @@ export async function POST(request: Request) {
     if (status !== 202 && status !== 200) {
       const err =
         typeof json.error === "string" ? json.error : "upstream_error";
+      const existingId =
+        typeof json.existing_request_id === "string"
+          ? json.existing_request_id
+          : null;
       return NextResponse.json(
-        { ok: false, error: err },
+        {
+          ok: false,
+          error: err,
+          ...(existingId ? { existing_request_id: existingId } : {}),
+        },
         { status: status >= 500 ? 502 : status },
       );
     }

@@ -227,6 +227,7 @@
       "client_disabled": "Demo is temporarily disabled.",
       "upstream_error": "Analysis could not complete. Try another wallet or later.",
       "analisis_failed": "Analysis could not complete for this wallet. Try another depth or another wallet.",
+      "analisis_in_progress": "An analysis is already in progress for this wallet and depth from your network. Wait for it to finish or check the previous request status.",
       "no_onchain_footprint": "No on-chain activity detected on Basic-tier networks for this wallet. Try Standard/Expert or another wallet.",
       "server_misconfigured": "Demo is not configured on the server.",
       "not_found": "We could not find that request.",

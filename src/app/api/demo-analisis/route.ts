@@ -48,6 +48,7 @@ function mapUpstreamError(json: Record<string, unknown>): string {
     return "no_onchain_footprint";
   }
   if (err === "analisis_failed") return "analisis_failed";
+  if (err === "invalid_upstream_json") return "upstream_error";
   return err;
 }
 
@@ -93,12 +94,12 @@ async function callEdgeFunction(
     apikey: serviceRole,
     "X-Api-Key": apiKey,
   };
-  // Forward visitor IP so accept Edge can guard wallet+tier+IP (not the BFF egress IP).
+  // Do NOT set x-forwarded-for / cf-connecting-ip / x-real-ip here: spoofing them
+  // against api.walpulse.com (Cloudflare) returns 403 HTML → invalid_upstream_json.
+  // Custom header for accept in-flight guard (Edges read this; missing IP → wallet+tier).
   const ip = visitorIp?.trim().toLowerCase();
   if (ip && ip !== "unknown") {
-    headers["x-forwarded-for"] = ip;
-    headers["x-real-ip"] = ip;
-    headers["cf-connecting-ip"] = ip;
+    headers["x-walpulse-client-ip"] = ip;
   }
 
   const res = await fetch(`${FUNCTIONS_BASE}/functions/v1/${slug}`, {

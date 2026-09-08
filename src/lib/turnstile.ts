@@ -6,10 +6,14 @@ type TurnstileVerifyResponse = {
 /**
  * Verify a Cloudflare Turnstile token server-side.
  * Dev without secret: fail-open. Prod without secret: fail-closed.
+ *
+ * Note: we intentionally omit `remoteip`. Passing a mismatched IP (common
+ * behind Vercel/CDN multi-hop `x-forwarded-for`) makes siteverify return
+ * success=false → demo POST 403 `captcha_failed`.
  */
 export async function verifyTurnstileToken(
   token: string,
-  remoteIp?: string,
+  _remoteIp?: string,
 ): Promise<"ok" | "failed" | "misconfigured"> {
   const secret = process.env.TURNSTILE_SECRET_KEY?.trim() ?? "";
   if (!secret) {
@@ -22,9 +26,6 @@ export async function verifyTurnstileToken(
   const body = new URLSearchParams();
   body.set("secret", secret);
   body.set("response", trimmed);
-  if (remoteIp && remoteIp !== "unknown") {
-    body.set("remoteip", remoteIp);
-  }
 
   try {
     const res = await fetch(
@@ -36,6 +37,12 @@ export async function verifyTurnstileToken(
       },
     );
     const json = (await res.json()) as TurnstileVerifyResponse;
+    if (!json.success) {
+      console.error(
+        "turnstile siteverify failed",
+        json["error-codes"]?.join(",") ?? "unknown",
+      );
+    }
     return json.success ? "ok" : "failed";
   } catch {
     return "failed";

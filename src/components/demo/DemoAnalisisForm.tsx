@@ -13,6 +13,7 @@ import {
   type DemoPublicResult,
   type DemoTier,
 } from "@/lib/demoAnalisis";
+import { turnstileSiteKey as getTurnstileSiteKey } from "@/lib/turnstile";
 
 type Phase =
   | "idle"
@@ -69,8 +70,7 @@ export function DemoAnalisisForm() {
   const pollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const startedAt = useRef<number>(0);
 
-  const turnstileSiteKey =
-    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? "";
+  const turnstileSiteKey = getTurnstileSiteKey();
   const needsCaptcha = Boolean(turnstileSiteKey);
 
   const needsAsyncFields = tier === "estandar" || tier === "experta";

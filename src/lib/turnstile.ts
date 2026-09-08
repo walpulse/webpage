@@ -3,6 +3,12 @@ type TurnstileVerifyResponse = {
   "error-codes"?: string[];
 };
 
+/** Temporary test bypass — set NEXT_PUBLIC_DEMO_SKIP_TURNSTILE=1 (must also skip UI). */
+export function isTurnstileSkipped(): boolean {
+  const raw = process.env.NEXT_PUBLIC_DEMO_SKIP_TURNSTILE?.trim().toLowerCase();
+  return raw === "1" || raw === "true" || raw === "yes";
+}
+
 /**
  * Verify a Cloudflare Turnstile token server-side.
  * Dev without secret: fail-open. Prod without secret: fail-closed.
@@ -15,6 +21,8 @@ export async function verifyTurnstileToken(
   token: string,
   _remoteIp?: string,
 ): Promise<"ok" | "failed" | "misconfigured"> {
+  if (isTurnstileSkipped()) return "ok";
+
   const secret = process.env.TURNSTILE_SECRET_KEY?.trim() ?? "";
   if (!secret) {
     return process.env.NODE_ENV === "development" ? "ok" : "misconfigured";
@@ -53,5 +61,6 @@ export async function verifyTurnstileToken(
 }
 
 export function turnstileSiteKey(): string {
+  if (isTurnstileSkipped()) return "";
   return process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? "";
 }

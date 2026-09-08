@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/Button";
 import { Section, SectionHeading } from "@/components/ui/Section";
+import { AnalisisCustodyBlock } from "@/components/analisis/AnalisisCustodyBlock";
 import { AnalisisSignalsCarousel } from "@/components/analisis/AnalisisSignalsCarousel";
-import { analisisSignalsForLocale } from "@/lib/analisisSignalSlides";
+import {
+  analisisCustodyForLocale,
+  analisisSignalsForLocale,
+} from "@/lib/analisisSignalSlides";
 import { providersPageForLocale } from "@/lib/dataProviders";
 import { routes } from "@/lib/paths";
 import {
@@ -74,6 +78,7 @@ export function AnalisisCatalog({ locale }: Props) {
   const copy = catalogForLocale(locale);
   const providersCopy = providersPageForLocale(locale);
   const signals = analisisSignalsForLocale(locale);
+  const custody = analisisCustodyForLocale(locale);
   const talk = TALK_BY_LOCALE[locale] ?? TALK_BY_LOCALE.es;
   const coversLabel =
     COVERS_LABEL_BY_LOCALE[locale] ?? COVERS_LABEL_BY_LOCALE.es;
@@ -211,11 +216,19 @@ export function AnalisisCatalog({ locale }: Props) {
         wide
         className="section-band-void section-atmosphere border-t border-glass/30"
       >
+        <SectionHeading title={custody.title} intro={custody.intro} />
+        <AnalisisCustodyBlock copy={custody} />
+      </Section>
+
+      <Section
+        wide
+        className="section-band-surface section-atmosphere border-t border-glass/30"
+      >
         <SectionHeading title={signals.title} intro={signals.intro} />
         <AnalisisSignalsCarousel copy={signals} />
       </Section>
 
-      <Section className="section-band-surface border-t border-glass/30">
+      <Section className="section-band-void border-t border-glass/30">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-display text-2xl font-semibold text-pure md:text-3xl">
             {copy.synthesisTitle}

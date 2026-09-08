@@ -21,6 +21,16 @@ export type AnalisisSignalsCopy = {
   slides: AnalisisSignalSlide[];
 };
 
+/** Root-level custody signal (sibling of synthesis; not a fifth SKU). */
+export type AnalisisCustodyCopy = {
+  title: string;
+  intro: string;
+  nameCol: string;
+  meaningCol: string;
+  lead: string;
+  rows: AnalisisSignalRow[];
+};
+
 /**
  * Internal signals as business copy (vault Catálogo + Señales v1.0).
  * No field names, providers, or formula jargon.
@@ -158,7 +168,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Composición por tipo de origen",
             meaning:
-              "Qué porcentaje llega desde exchanges, bridges, mixers, direcciones asociadas a sanciones conocidas, airdrops u origen orgánico.",
+              "Qué porcentaje llega desde exchanges, bridges, mixers, direcciones asociadas a sanciones conocidas, airdrops u origen orgánico. El informe también resume el mix por clase de entidad etiquetada (exchange etiquetado, DeFi, mixer, sanciones conocidas, bridge, airdrop, sin etiqueta) — etiquetado de catálogo, no «exchange regulado».",
           },
           {
             name: "Remitentes únicos",
@@ -173,7 +183,12 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Calidad de los exchanges de origen",
             meaning:
-              "Cuando el fondeo pasa por CEX, qué tan sólidos o conocidos son esos venues.",
+              "Cuando el fondeo pasa por CEX etiquetado, qué tan sólidos o conocidos son esos venues.",
+          },
+          {
+            name: "Depósitos CEX inferidos (Estándar/Experta)",
+            meaning:
+              "Fondeadores que no están en el catálogo CEX pero consolidan hacia una hot wallet curada: se señalan aparte del CEX ya etiquetado. Habla de procedencia del fondeo, no de la wallet objetivo.",
           },
           {
             name: "Ritmo temporal del fondeo",
@@ -268,9 +283,14 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
               "Qué proporción de contratos tocados está verificada en Sourcify vs. no verificados.",
           },
           {
-            name: "Etiquetas Kleros / Spellbook",
+            name: "Contrapartes etiquetadas (Kleros / Spellbook)",
             meaning:
-              "Qué parte de las contrapartes lleva etiquetas de reputación on-chain conocidas. Contexto informativo, no screening oficial.",
+              "Qué parte de las contrapartes (peers) lleva etiquetas de reputación on-chain conocidas. Solo Estándar y Experta para Kleros. Contexto informativo, no screening oficial.",
+          },
+          {
+            name: "Contratos tocados etiquetados (Kleros Scout)",
+            meaning:
+              "Qué proporción de contratos tocados (routers, tokens, protocolos) está etiquetada en Scout. Distinto de las contrapartes y de la verificación de código (Sourcify). Solo Estándar y Experta.",
           },
         ],
       },
@@ -408,7 +428,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Composition by origin type",
             meaning:
-              "What share arrives from exchanges, bridges, mixers, addresses tied to known sanctions, airdrops, or organic sources.",
+              "What share arrives from exchanges, bridges, mixers, addresses tied to known sanctions, airdrops, or organic sources. The report also summarizes the mix by labeled entity class (labeled exchange, DeFi, mixer, known sanctions, bridge, airdrop, unlabeled) — catalog labels, not a “regulated exchange” claim.",
           },
           {
             name: "Unique senders",
@@ -423,7 +443,12 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Origin exchange quality",
             meaning:
-              "When funding flows through CEX venues, how solid or well-known those venues look.",
+              "When funding flows through labeled CEX venues, how solid or well-known those venues look.",
+          },
+          {
+            name: "Inferred CEX deposits (Standard/Expert)",
+            meaning:
+              "Funders not in the CEX catalog that consolidate toward a curated hot wallet: flagged separately from already-labeled CEX. About funding provenance, not the subject wallet.",
           },
           {
             name: "Temporal funding pattern",
@@ -518,9 +543,14 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
               "What share of touched contracts is verified on Sourcify versus unverified.",
           },
           {
-            name: "Kleros / Spellbook labels",
+            name: "Labeled counterparties (Kleros / Spellbook)",
             meaning:
-              "What share of counterparties carries known on-chain reputation labels. Informational context, not official screening.",
+              "What share of counterparties (peers) carries known on-chain reputation labels. Kleros only in Standard and Expert. Informational context, not official screening.",
+          },
+          {
+            name: "Labeled touched contracts (Kleros Scout)",
+            meaning:
+              "What share of touched contracts (routers, tokens, protocols) is labeled in Scout. Distinct from counterparties and from code verification (Sourcify). Standard and Expert only.",
           },
         ],
       },
@@ -658,7 +688,7 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Composição por tipo de origem",
             meaning:
-              "Que percentagem chega de exchanges, bridges, mixers, endereços associados a sanções conhecidas, airdrops ou origem orgânica.",
+              "Que percentagem chega de exchanges, bridges, mixers, endereços associados a sanções conhecidas, airdrops ou origem orgânica. O relatório também resume o mix por classe de entidade etiquetada (exchange etiquetado, DeFi, mixer, sanções conhecidas, bridge, airdrop, sem etiqueta) — etiquetagem de catálogo, não «exchange regulado».",
           },
           {
             name: "Remetentes únicos",
@@ -673,7 +703,12 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
           {
             name: "Qualidade dos exchanges de origem",
             meaning:
-              "Quando o funding passa por CEX, quão sólidos ou conhecidos são esses venues.",
+              "Quando o funding passa por CEX etiquetado, quão sólidos ou conhecidos são esses venues.",
+          },
+          {
+            name: "Depósitos CEX inferidos (Standard/Expert)",
+            meaning:
+              "Financiadores que não estão no catálogo CEX mas consolidam para uma hot wallet curada: sinalizados à parte do CEX já etiquetado. Fala da procedência do funding, não da wallet objetivo.",
           },
           {
             name: "Ritmo temporal do funding",
@@ -768,9 +803,14 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
               "Que proporção dos contratos tocados está verificada no Sourcify vs. não verificados.",
           },
           {
-            name: "Etiquetas Kleros / Spellbook",
+            name: "Contrapartes etiquetadas (Kleros / Spellbook)",
             meaning:
-              "Que parte das contrapartes leva etiquetas de reputação on-chain conhecidas. Contexto informativo, não screening oficial.",
+              "Que parte das contrapartes (peers) leva etiquetas de reputação on-chain conhecidas. Kleros só em Standard e Expert. Contexto informativo, não screening oficial.",
+          },
+          {
+            name: "Contratos tocados etiquetados (Kleros Scout)",
+            meaning:
+              "Que proporção dos contratos tocados (routers, tokens, protocolos) está etiquetada no Scout. Distinto das contrapartes e da verificação de código (Sourcify). Só Standard e Expert.",
           },
         ],
       },
@@ -780,4 +820,86 @@ export const analisisSignalsByLocale: Record<string, AnalisisSignalsCopy> = {
 
 export function analisisSignalsForLocale(locale: string): AnalisisSignalsCopy {
   return analisisSignalsByLocale[locale] ?? analisisSignalsByLocale.es;
+}
+
+const analisisCustodyByLocale: Record<string, AnalisisCustodyCopy> = {
+  es: {
+    title: "Clasificación de custodia",
+    intro:
+      "Señal aparte de las cuatro partes del análisis: lectura probabilística de si la wallet analizada parece hosted (CEX / depósito inferido) o unhosted (autocustodia aparente). No es un quinto SKU ni parte de Portafolio.",
+    nameCol: "Señal interna",
+    meaningCol: "Qué aporta a la decisión",
+    lead: "Complementa el origen de los fondos con una lectura del tipo de wallet objetivo. El receptor interpreta; no es prueba de quién controla las claves.",
+    rows: [
+      {
+        name: "Clase y probabilidad hosted / unhosted",
+        meaning:
+          "Clases como hosted conocido, depósito inferido, unhosted aparente o desconocido, con porcentajes de confianza. Señal explicable, no veredicto binario.",
+      },
+      {
+        name: "Profundidad según el tier",
+        meaning:
+          "Básica: lookup del sujeto en el catálogo CEX. Estándar y Experta: más barrido hacia hot wallets CEX y score comportamental residual.",
+      },
+      {
+        name: "Distinto de depósitos CEX de fondeadores",
+        meaning:
+          "La custodia habla de la wallet analizada. Los depósitos CEX inferidos en Orígenes etiquetan a quienes la fondearon, no al sujeto.",
+      },
+    ],
+  },
+  en: {
+    title: "Custody classification",
+    intro:
+      "A signal apart from the four analysis parts: a probabilistic read of whether the analyzed wallet looks hosted (CEX / inferred deposit) or unhosted (apparent self-custody). Not a fifth SKU and not part of Portfolio.",
+    nameCol: "Internal signal",
+    meaningCol: "How it informs the decision",
+    lead: "Complements fund origins with a read of the subject wallet type. The recipient interprets; it is not proof of who controls the keys.",
+    rows: [
+      {
+        name: "Hosted / unhosted class and probability",
+        meaning:
+          "Classes such as known hosted, inferred deposit, likely unhosted, or unknown, with confidence percentages. An explainable signal, not a binary verdict.",
+      },
+      {
+        name: "Depth by tier",
+        meaning:
+          "Basic: CEX-catalog lookup of the subject. Standard and Expert: plus sweep toward CEX hot wallets and a residual behavioral score.",
+      },
+      {
+        name: "Distinct from funders’ inferred CEX deposits",
+        meaning:
+          "Custody is about the analyzed wallet. Inferred CEX deposits in Origins label who funded it, not the subject.",
+      },
+    ],
+  },
+  pt: {
+    title: "Classificação de custódia",
+    intro:
+      "Sinal à parte das quatro partes da análise: leitura probabilística de se a wallet analisada parece hosted (CEX / depósito inferido) ou unhosted (autocustódia aparente). Não é um quinto SKU nem parte de Portfólio.",
+    nameCol: "Sinal interno",
+    meaningCol: "O que aporta à decisão",
+    lead: "Complementa a origem dos fundos com uma leitura do tipo de wallet objetivo. O receptor interpreta; não é prova de quem controla as chaves.",
+    rows: [
+      {
+        name: "Classe e probabilidade hosted / unhosted",
+        meaning:
+          "Classes como hosted conhecido, depósito inferido, unhosted aparente ou desconhecido, com percentagens de confiança. Sinal explicável, não veredito binário.",
+      },
+      {
+        name: "Profundidade conforme o tier",
+        meaning:
+          "Básica: lookup do sujeito no catálogo CEX. Standard e Expert: mais varredura para hot wallets CEX e score comportamental residual.",
+      },
+      {
+        name: "Distinto de depósitos CEX de financiadores",
+        meaning:
+          "A custódia fala da wallet analisada. Os depósitos CEX inferidos em Origens etiquetam quem a financiou, não o sujeito.",
+      },
+    ],
+  },
+};
+
+export function analisisCustodyForLocale(locale: string): AnalisisCustodyCopy {
+  return analisisCustodyByLocale[locale] ?? analisisCustodyByLocale.es;
 }

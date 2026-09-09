@@ -1518,7 +1518,7 @@ body {
 
 .analisis-signals-carousel__table {
   width: 100%;
-  min-width: 38rem;
+  min-width: 48rem;
   border-collapse: collapse;
   text-align: left;
   font-size: 0.92rem;
@@ -1545,7 +1545,41 @@ body {
 }
 
 .analisis-signals-carousel__table td:first-child {
-  width: 34%;
+  width: 28%;
+}
+
+.analisis-signals-carousel__tier-col {
+  width: 4.5rem;
+  min-width: 4.25rem;
+  padding-left: 0.45rem;
+  padding-right: 0.45rem;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.analisis-signals-carousel__table th.analisis-signals-carousel__tier-col {
+  letter-spacing: 0.08em;
+  font-size: 0.6rem;
+}
+
+.analisis-signals-carousel__tier-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.35rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.analisis-signals-carousel__tier-col.is-covered .analisis-signals-carousel__tier-mark {
+  color: color-mix(in oklab, var(--primary-soft) 75%, white);
+}
+
+.analisis-signals-carousel__tier-col.is-missing .analisis-signals-carousel__tier-mark {
+  color: color-mix(in oklab, var(--muted) 55%, transparent);
 }
 
 .analisis-signals-carousel__row-index {

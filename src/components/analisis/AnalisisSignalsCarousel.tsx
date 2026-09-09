@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import type { AnalisisSignalsCopy } from "@/lib/analisisSignalSlides";
+import {
+  AnalisisTierCoverageCells,
+  AnalisisTierCoverageHeaders,
+} from "@/components/analisis/AnalisisTierCoverageCells";
 
 type Props = {
   copy: AnalisisSignalsCopy;
@@ -70,12 +74,13 @@ export function AnalisisSignalsCarousel({ copy }: Props) {
             <thead>
               <tr>
                 <th scope="col">{copy.nameCol}</th>
+                <AnalisisTierCoverageHeaders copy={copy} />
                 <th scope="col">{copy.meaningCol}</th>
               </tr>
             </thead>
             <tbody>
               {slide.rows.map((row, rowIndex) => (
-                <tr key={row.name}>
+                <tr key={row.id}>
                   <td>
                     <span className="analisis-signals-carousel__row-index">
                       {String(rowIndex + 1).padStart(2, "0")}
@@ -84,6 +89,7 @@ export function AnalisisSignalsCarousel({ copy }: Props) {
                       {row.name}
                     </span>
                   </td>
+                  <AnalisisTierCoverageCells rowId={row.id} copy={copy} />
                   <td>{row.meaning}</td>
                 </tr>
               ))}

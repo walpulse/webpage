@@ -50,6 +50,19 @@ Fuente en código: `src/lib/serviceTiers.ts` + página `/analisis`. Copy comerci
 - Copy público: uso + partes + cobertura. Sin precios, SLA, providers ni pesos de síntesis.
 - Naming en UI / meta / `llms.txt`: no usar «Lite» en copy público (reservado a IDs internos).
 
+### Señales internas en `/analisis` (cobertura por tier)
+
+Tablas del carrusel «Qué miramos dentro de cada señal» y del bloque Clasificación de custodia:
+
+| Pieza | Ubicación |
+|-------|-----------|
+| Copy + `id` estable por fila (es/en/pt) | `src/lib/analisisSignalSlides.ts` |
+| Mapa locale-agnóstico de cobertura | `analisisSignalRowTiers` / `signalRowCoversTier` |
+| UI columnas Básica / Estándar / Experta (✓ / —) | `AnalisisTierCoverageCells.tsx` |
+| Carrusel / custodia | `AnalisisSignalsCarousel.tsx` · `AnalisisCustodyBlock.tsx` |
+
+Cobertura alineada al catálogo v1.0 (p. ej. Portfolio y filas Kleros/hops/intensidad sin Básica). Vault: `Website - Análisis`.
+
 ## Shell de páginas interiores (hero + bandas)
 
 Patrón compartido (CSS en `src/app/globals.css`):
@@ -149,6 +162,7 @@ Fuente de marca: `public/brand/logo/Favicon.png` y `App-Icon.png`.
 - «El proceso» (Home + `/como-funciona`): copy inline en `src/lib/processFlowSteps.ts` (evita catálogos stale de next-intl/Turbopack).
 - Carrusel de módulos del reporte (`SignalModulesCarousel`): scroll del tablist sin `scrollIntoView` de página (evita clip horizontal en mobile).
 - Análisis / Motor de Riesgos / Demo / Proveedores / Exchanges / Nosotros: `page-hero` + ritmo Void / Surface / CTA (ver arriba).
+- Tablas de señales internas en `/analisis` (`AnalisisSignalsCarousel`, `AnalisisCustodyBlock`): columnas de cobertura por tier (Básica / Estándar / Experta) vía `analisisSignalRowTiers` en `analisisSignalSlides.ts`.
 - Nosotros → **Equipo**: Jair + Carolina (`/jair.jpeg`, `/carolina.jpeg`); links en `TEAM_LINKS` (`paths.ts`).
 - Cripto-exchanges: páginas `/internacional` y `/uruguay` (sin picker); mapa en mobile = cards, desktop = tabla.
 - Nombres de módulos localizados: `src/lib/signalModules.ts`.

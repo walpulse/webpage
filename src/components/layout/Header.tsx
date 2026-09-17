@@ -6,9 +6,11 @@ import { useEffect, useId, useRef, useState } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import {
   headerNavItems,
-  type HeaderNavDropdown,
+  routes,
   type HeaderNavItem,
+  type HeaderNavProduct,
 } from "@/lib/paths";
+import { Button } from "@/components/ui/Button";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 function navLinkClass(active: boolean) {
@@ -17,21 +19,61 @@ function navLinkClass(active: boolean) {
   }`;
 }
 
-function WhoUsesDropdown({
+const PRODUCT_ACTIVE_PREFIXES = [
+  "/analisis",
+  "/walpulse-engine-risk",
+  "/demo",
+  "/proveedores-de-datos",
+  "/cripto-exchanges",
+] as const;
+
+function isProductPathActive(pathname: string) {
+  return PRODUCT_ACTIVE_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
+}
+
+function Chevron({ open, className = "" }: { open?: boolean; className?: string }) {
+  return (
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 12 12"
+      fill="none"
+      aria-hidden
+      className={`transition-transform ${open ? "rotate-180" : ""} ${className}`}
+    >
+      <path
+        d="M3 4.5L6 7.5L9 4.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ProductDropdown({
   item,
   pathname,
 }: {
-  item: HeaderNavDropdown;
+  item: HeaderNavProduct;
   pathname: string;
 }) {
   const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
+  const [whoOpen, setWhoOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
-  const active = pathname.startsWith("/cripto-exchanges");
+  const whoMenuId = useId();
+  const active = isProductPathActive(pathname);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      setWhoOpen(false);
+      return;
+    }
     const onPointer = (event: MouseEvent) => {
       if (!wrapRef.current?.contains(event.target as Node)) setOpen(false);
     };
@@ -62,34 +104,100 @@ function WhoUsesDropdown({
         onClick={() => setOpen((v) => !v)}
       >
         {t(item.labelKey)}
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-          <path
-            d="M3 4.5L6 7.5L9 4.5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <Chevron open={open} />
       </button>
       {open ? (
         <div
           id={menuId}
           role="menu"
-          className="absolute left-0 top-full z-50 min-w-[19rem] pt-1"
+          className="absolute left-0 top-full z-50 min-w-[16rem] pt-1"
         >
           <div className="rounded-lg border border-glass/70 bg-void/95 py-1 shadow-[0_16px_40px_color-mix(in_oklab,var(--void)_70%,transparent)] backdrop-blur-md">
-            {item.children.map((child) => (
-              <Link
-                key={child.region}
-                href={child.href}
-                role="menuitem"
-                className="block px-3 py-2.5 text-sm text-muted hover:bg-surface hover:text-pure"
-                onClick={() => setOpen(false)}
-              >
-                {t(child.labelKey)}
-              </Link>
-            ))}
+            {item.children.map((child) => {
+              if (child.type === "link") {
+                const childActive =
+                  pathname === child.href ||
+                  pathname.startsWith(`${child.href}/`);
+                return (
+                  <Link
+                    key={child.href}
+                    href={child.href}
+                    role="menuitem"
+                    className={`block px-3 py-2.5 text-sm hover:bg-surface ${
+                      childActive
+                        ? "text-primary"
+                        : "text-muted hover:text-pure"
+                    }`}
+                    onClick={() => setOpen(false)}
+                  >
+                    {t(child.labelKey)}
+                  </Link>
+                );
+              }
+
+              const groupActive = pathname.startsWith("/cripto-exchanges");
+              return (
+                <div
+                  key={child.labelKey}
+                  className="relative"
+                  onMouseEnter={() => setWhoOpen(true)}
+                  onMouseLeave={() => setWhoOpen(false)}
+                >
+                  <button
+                    type="button"
+                    role="menuitem"
+                    aria-expanded={whoOpen}
+                    aria-haspopup="menu"
+                    aria-controls={whoMenuId}
+                    className={`flex w-full items-center justify-between gap-3 px-3 py-2.5 text-left text-sm hover:bg-surface ${
+                      groupActive
+                        ? "text-primary"
+                        : "text-muted hover:text-pure"
+                    }`}
+                    onClick={() => setWhoOpen((v) => !v)}
+                  >
+                    {t(child.labelKey)}
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      aria-hidden
+                      className="shrink-0 opacity-70"
+                    >
+                      <path
+                        d="M4.5 3L7.5 6L4.5 9"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+                  {whoOpen ? (
+                    <div
+                      id={whoMenuId}
+                      role="menu"
+                      className="absolute left-full top-0 z-50 min-w-[18rem] pl-1"
+                    >
+                      <div className="rounded-lg border border-glass/70 bg-void/95 py-1 shadow-[0_16px_40px_color-mix(in_oklab,var(--void)_70%,transparent)] backdrop-blur-md">
+                        {child.children.map((exchange) => (
+                          <Link
+                            key={exchange.region}
+                            href={exchange.href}
+                            role="menuitem"
+                            className="block px-3 py-2.5 text-sm text-muted hover:bg-surface hover:text-pure"
+                            onClick={() => setOpen(false)}
+                          >
+                            {t(exchange.labelKey)}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              );
+            })}
           </div>
         </div>
       ) : null}
@@ -111,28 +219,49 @@ function NavItems({
   return (
     <>
       {headerNavItems.map((item: HeaderNavItem) => {
-        if (item.type === "dropdown") {
+        if (item.type === "product") {
           if (mobile) {
             return (
               <div key={item.labelKey} className="flex flex-col gap-0.5">
                 <p className="px-3 pt-2 text-[11px] font-medium uppercase tracking-[0.14em] text-muted/80">
                   {t(item.labelKey)}
                 </p>
-                {item.children.map((child) => (
-                  <Link
-                    key={child.region}
-                    href={child.href}
-                    className="rounded-md px-3 py-2.5 text-sm text-muted hover:bg-surface hover:text-pure"
-                    onClick={onNavigate}
-                  >
-                    {t(child.labelKey)}
-                  </Link>
-                ))}
+                {item.children.map((child) => {
+                  if (child.type === "link") {
+                    return (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        className="rounded-md px-3 py-2.5 text-sm text-muted hover:bg-surface hover:text-pure"
+                        onClick={onNavigate}
+                      >
+                        {t(child.labelKey)}
+                      </Link>
+                    );
+                  }
+                  return (
+                    <div key={child.labelKey} className="flex flex-col gap-0.5">
+                      <p className="px-5 pt-2 text-[11px] font-medium uppercase tracking-[0.14em] text-muted/70">
+                        {t(child.labelKey)}
+                      </p>
+                      {child.children.map((exchange) => (
+                        <Link
+                          key={exchange.region}
+                          href={exchange.href}
+                          className="rounded-md px-5 py-2.5 text-sm text-muted hover:bg-surface hover:text-pure"
+                          onClick={onNavigate}
+                        >
+                          {t(exchange.labelKey)}
+                        </Link>
+                      ))}
+                    </div>
+                  );
+                })}
               </div>
             );
           }
           return (
-            <WhoUsesDropdown
+            <ProductDropdown
               key={item.labelKey}
               item={item}
               pathname={pathname}
@@ -174,6 +303,7 @@ function NavItems({
 
 export function Header() {
   const pathname = usePathname();
+  const t = useTranslations("nav");
   const [openPath, setOpenPath] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const isHome = pathname === "/";
@@ -217,6 +347,12 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           <LanguageSwitcher className="hidden sm:inline-flex" />
+          <Button
+            href={routes.login}
+            className="btn-premium hidden h-9 whitespace-nowrap px-3.5 py-0 text-sm sm:inline-flex"
+          >
+            {t("dashboardClientes")}
+          </Button>
           <button
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-glass/70 text-pure lg:hidden"
@@ -246,7 +382,15 @@ export function Header() {
               onNavigate={() => setOpenPath(null)}
             />
           </nav>
-          <LanguageSwitcher className="mt-4 sm:hidden" />
+          <div className="mt-4 flex flex-col gap-3">
+            <LanguageSwitcher className="sm:hidden" />
+            <Button
+              href={routes.login}
+              className="btn-premium w-full whitespace-nowrap"
+            >
+              {t("dashboardClientes")}
+            </Button>
+          </div>
         </div>
       ) : null}
     </header>

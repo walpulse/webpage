@@ -28,14 +28,176 @@ Prefijo de locale obligatorio (`/es`, `/pt`, `/en`):
 | `/[locale]/como-funciona` | Cómo funciona |
 | `/[locale]/contacto` | Contacto |
 | `/[locale]/ejemplo` | Ejemplo de reporte (fuera del nav principal) |
+| `/[locale]/login` | Portal — login (noindex) |
+| `/[locale]/registro` | Portal — registro invite-only `?token=` (noindex) |
+| `/[locale]/recuperar` | Portal — solicitar reset de contraseña (noindex) |
+| `/[locale]/nueva-contrasena` | Portal — nueva contraseña tras link Auth (noindex) |
+| `/[locale]/dashboard` | Portal — inicio (auth + perfil `get_mi_usuario` + KPIs de cliente u operador) |
+| `/[locale]/dashboard/analisis` | Portal — listado ops de análisis (`es_operador_sistema`); stub para otros clientes |
+| `/[locale]/dashboard/analisis/[id]` | Portal — detalle ops + etapas `analisis_run_stages` |
+| `/[locale]/dashboard/motor-riesgos` | Portal — Motor de Riesgos: matrices del cliente |
+| `/[locale]/dashboard/motor-riesgos/catalogo` | Portal — catálogo de señales (qué mide cada una y cómo usarla) |
+| `/[locale]/dashboard/motor-riesgos/nueva` | Portal — alta de matriz (nombre, slug, descripción) |
+| `/[locale]/dashboard/motor-riesgos/[id]` | Portal — versiones (`?v=`), despliegue de la matriz a sandbox/producción, copia y duplicado, y editor de reglas con presupuesto de 100 puntos |
+| `/[locale]/dashboard/admin/clientes` | Admin — listado/alta clientes (solo `es_operador_sistema`) |
+| `/[locale]/dashboard/admin/clientes/nuevo` | Admin — crear cliente |
+| `/[locale]/dashboard/admin/clientes/[id]` | Admin — detalle, invitaciones, API keys |
 
 Redirect legacy: `/para-psav` → `/cripto-exchanges/uruguay` (también con locale).
 
 ### Nav / shell
 
-- Header: logo + menú (Inicio, Análisis, **Motor de Riesgos** / Risk Engine / Motor de Riscos, **Demo**, **Proveedores**, Para quienes, Nosotros, Hablemos) + selector de idioma.
+- Header: logo + menú (Inicio, Análisis, **Motor de Riesgos** / Risk Engine / Motor de Riscos, **Demo**, **Proveedores**, Para quienes, Nosotros, Hablemos) + **Dashboard clientes** + selector de idioma.
 - Para quienes (dropdown): `/cripto-exchanges/uruguay` y `/cripto-exchanges/internacional` (orden: Uruguay primero).
 - Footer: logo + link a contacto; sin menú completo ni disclaimer PSAV/KYC/UIAF en el pie.
+- Portal (`/login`, `/registro`, `/dashboard/*`): sin Header/Footer de marketing; layout propio; **noindex**.
+- Consola admin (`/dashboard/admin/*`): visible solo si `get_mi_usuario().es_operador_sistema`; layout server llama `requireOperadorSistema` → redirect a `/dashboard` si no.
+
+### Portal clientes (auth invite-only)
+
+Alineado al ADR vault `2026-09-14 - Usuarios Auth invite-only` y RPCs en `walpulse/database`.
+
+1. Ops crea invitación (`create_usuario_invitacion`) → link `/[locale]/registro?token=…`
+2. Usuario registra email (mismo de la invite) + password → Supabase Auth `signUp` → `accept_usuario_invitacion(token)`
+3. Login → `signInWithPassword` → `get_mi_usuario()`; sin perfil = sin acceso
+4. Dashboard shell: Inicio / **Nuevo análisis** / Análisis / Motor de Riesgos (grupo con **Matrices** y **Catálogo de señales** anidados) / Cerrar sesión; si el cliente tiene `es_operador_sistema`, también **Admin → Clientes**. En **Análisis**, operadores ven el listado global; otros clientes ven stub. **Nuevo análisis** (`/dashboard/analisis/nuevo`) crea peticiones vía `POST /api/portal-analisis` usando la API key `portal-dashboard` del cliente de la sesión (secreto en Vault).
+5. Recovery: `/recuperar` → `resetPasswordForEmail` (redirectTo `/nueva-contrasena`) → `updateUser({ password })` → login
+
+#### KPIs del inicio (dos scopes por rol)
+
+El inicio del dashboard bifurca por `es_operador_sistema` sobre las dos MVs de KPIs (ADR vault `2026-09-16 - MV de KPIs por cliente sobre columnas denormalizadas`), refrescadas juntas cada hora por `refresh_analisis_kpis()` (job `pg_cron` `kpis-analisis-refresh`):
+
+| Rol | Fetch (`src/lib/portal/kpis.ts`) | RPC | Componente |
+| --- | --- | --- | --- |
+| Cliente | `getMisKpis()` | `portal_get_mis_kpis` | `PortalKpis` |
+| Operador | `getKpisGlobales()` + `getKpisPorCliente()` | `admin_get_kpis_globales` + `admin_list_cliente_kpis` | `PortalKpisOperador` |
+
+Todo el fetch es **server-side** en `dashboard/page.tsx`. `portal_get_mis_kpis` y `admin_get_kpis_globales` devuelven sin `p_ventana` las tres ventanas (`7d` / `30d` / `total`) en una sola llamada; `admin_list_cliente_kpis` solo devuelve una, así que las tres se piden en paralelo de entrada. En los dos casos el selector de ventana es estado local: no hay refetch ni spinner, y totales y desglose muestran siempre el mismo snapshot.
+
+Las dos MVs comparten nombres de columna, así que las seis familias las renderiza un único `PortalKpisPanels`: volumen (tier, canal, idioma), fiabilidad, latencia p50/p95, riesgo (grade predominante, histograma A–F, grades por módulo, clases de custodia), compliance y recencia. La fila global agrega tres métricas de cobertura de clientes al hero, y el operador ve además el desglose por cliente con link a su ficha y un botón que fuerza `admin_refresh_analisis_kpis()` (confirmación inline + `router.refresh()`).
+
+El riesgo se presenta como barra proporcional A–F con leyenda (grado, etiqueta, cantidad y porcentaje) y **denominador explícito**, porque el denominador cambia entre bloques: la síntesis se calcula sobre los análisis que terminaron con grado, y cada parte del análisis sobre los que la incluyen (Portafolio solo existe en Estándar y Experta, así que en Básica cuenta como sin grado). Sin ese dato las cuatro partes parecen comparables y no lo son. Custodia va en una línea al pie y no en tarjetas: hoy no discrimina.
+
+Dos semánticas de las MVs se muestran explícitamente para no mentir: `refrescado_at` y que las ventanas relativas se cuentan desde ese refresh, con hasta 60 minutos de desfase. Los KPIs que las MVs dejan en NULL sin datos terminados (`tasa_exito_pct`, latencias, `dias_desde_ultimo_analisis`) salen como `—`, no como 0, y un cliente con `total_analisis = 0` ve un estado vacío con CTA a `/dashboard/analisis/nuevo`. Los totales de plataforma **no** se derivan sumando el desglose: `wallets_unicas` se contaría doble y los percentiles de latencia no son aditivos.
+
+#### Motor de Riesgos (`/dashboard/motor-riesgos`)
+
+Cierra el pendiente de UI del ADR vault `2026-09-15 - Schema motor de riesgo matrices y senales`. El cliente opera **sus** matrices: nada de scope por operador.
+
+**Modelo de puntaje (2026-09-16):** cada versión define un puntaje de riesgo 0-100 y cada regla suma puntos. La suma de las reglas habilitadas no puede pasar 100 y publicar exige exactamente 100, así que el panel de reglas muestra el presupuesto `X/100` y el botón de publicar queda inhabilitado indicando cuántos puntos faltan. El motivo va en un texto visible al lado del botón ("Faltan N pts para publicar", enlazado con `aria-describedby`) y no en un `title`: un tooltip sobre un botón deshabilitado no dispara en Chrome ni existe en touch. `efecto` es siempre `{tipo: "puntos", valor}`: `peso` y `multiplicador` salieron del modelo. Detalle en [motor-riesgos-portal-rpcs.md](motor-riesgos-portal-rpcs.md) y ADR vault `2026-09-16 - Puntaje de riesgo 0-100 con presupuesto de puntos`.
+
+Ciclo que la UI hace explícito, porque son triggers de la base y no convenciones de la pantalla:
+
+```
+matriz nueva --------------------> v1 borrador (nace con la matriz)
+version borrador (reglas editables) --publicar (100 pts)--> vigente (congelada)
+vigente <--reemplazada por la siguiente-- archivado (historico)
+matriz --puntero en clientes--> sandbox (una por cliente, a su vigente)
+matriz --puntero en la matriz--> produccion (a su vigente)
+version nueva <--copia de reglas-- cualquier version del cliente
+matriz duplicada <--todas las versiones en borrador-- matriz
+```
+
+**Una sola versión vigente (2026-09-17):** por matriz hay una única versión `publicado` (la vigente) y publicar la siguiente deja la anterior en `archivado`, con las reglas igual de congeladas. Lo garantiza un unique index parcial, no la pantalla. El detalle refleja eso en tres lugares: los badges por versión son *Vigente* / *Histórico* / *Borrador*, la confirmación de publicar dice qué versión queda como histórico, y un borrador más viejo que la vigente tiene el botón inhabilitado con el motivo al lado (la base devolvería `version_obsoleta`).
+
+El **despliegue es de la matriz**, así que *Usar en producción* y *Usar como sandbox* viven en la cabecera del detalle —no por versión— y la base resuelve cuál es la vigente; sin versión publicada quedan inhabilitados con el motivo al lado. Publicar arrastra los punteros: si la matriz estaba desplegada, sigue desplegada apuntando a la versión nueva. Como una versión no puede ser sandbox y producción a la vez, probar sin tocar producción es una **segunda matriz**: de ahí los dos botones nuevos, *Copiar a otra matriz* por versión (abre el selector de destino y al terminar navega a la copia) y *Duplicar matriz* en la cabecera, que pide nombre e identificador precargados y trae todas las versiones en borrador y sin despliegue.
+
+Publicar congela las reglas (`version_frozen`), así que una versión vigente o histórica se muestra en lectura con el CTA de crear una versión nueva en lugar de inputs deshabilitados.
+
+La versión seleccionada viaja en la URL (`?v=<version_num>`) y sus reglas se traen en el servidor, así que el detalle es enlazable y la tabla llega renderizada; las mutaciones del editor terminan en `router.refresh()`, que actualiza reglas y contadores juntos.
+
+El panel de reglas suma **duplicar** una regla y mover cada una con flechas; **publicar vive solo en el panel de *Versiones***, porque dos botones con el mismo nombre en la misma pantalla no dejaban claro qué versión se publicaba. Cuando el presupuesto inhabilita un botón, el motivo va en un texto visible al lado enlazado con `aria-describedby` (con los 100 asignados, por qué no se puede agregar ni duplicar; en *Versiones*, cuántos puntos faltan para publicar), y el detalle largo queda en la barra de presupuesto.
+
+Las mutaciones corren `router.refresh()` dentro de `startTransition`, y el `isPending` de la transición entra en el `busy` que inhabilita los botones: entre la respuesta de la RPC y las filas nuevas la tabla que se ve sigue siendo la vieja, así que sin eso un segundo click repetía la acción (borrar dos veces la misma regla terminaba en error). Además cada handler descarta la llamada si ya hay una en curso, porque un doble click dentro del mismo frame llega antes del render que inhabilita el botón. Duplicar abre el formulario con la regla como prefill pero sin id, así la base inserta una regla nueva y le deriva su código; el nombre lleva el sufijo de copia y los puntos entran acotados al presupuesto, porque los del original no se liberan. Las flechas mandan **toda** la versión reordenada a `portal_reorder_riesgo_reglas` en lugar de dos updates: así no quedan órdenes duplicados y el movimiento es atómico. El orden salió del formulario (`p_orden` viaja en null: el alta va al final y la edición conserva el suyo).
+
+| Pieza | Path |
+|-------|------|
+| Fetch server-side | `src/lib/portal/riesgo.ts` (`getSenales`, `getMisMatrices`, `getMatriz`, `getReglas`) |
+| Ids canónicos y helpers | `src/lib/portal/riesgoLabels.ts` |
+| Componentes | `src/components/portal/riesgo/` |
+| Contrato de RPCs | [motor-riesgos-portal-rpcs.md](motor-riesgos-portal-rpcs.md) |
+
+El formulario de regla se ordenó alrededor de lo que el cliente necesita decidir: las señales se eligen por nombre, agrupadas en `optgroup` por parte del análisis (el `codigo` técnico se fue del selector, y el grupo desambigua las tres etiquetas que se repiten entre Origen y Actividad); debajo aparece el texto de negocio de la señal elegida, el mismo del catálogo, vía el componente compartido `SenalTextos`; y al lado del campo de puntos va la barra `PuntosBar`, que dibuja lo que suman las otras reglas y lo que suma esta mientras se tipea, en rojo si se pasa de 100. El campo de código desapareció: lo deriva la base (ver [motor-riesgos-portal-rpcs.md](motor-riesgos-portal-rpcs.md)). El formulario abre con encabezado propio (*Nueva regla* / *Editar regla* / *Duplicar regla*) porque sin él la etiqueta del primer campo ("Señal *") se leía como título de la sección, y al montarse lleva el foco al selector de señal y hace scroll hasta el formulario: aparece al final del panel, así que sin eso el botón que lo abre parece no hacer nada.
+
+Dos detalles del esquema que la UI respeta en lugar de improvisar:
+
+- **Operadores filtrados por `value_type` de la señal**: `number` / `percent` admiten comparaciones y `between`; `boolean` solo `is_true` / `is_false`; `enum` y `grade` usan `in` / `not_in` con los valores de `metadata.enum`; `object` solo `is_null` / `not_null`. El editor de umbral cambia de forma con el operador (un valor, dos para `between`, multi-select para listas, ninguno para los unarios).
+- **`senales.labels`, `senales.descripcion` y `senales.uso_sugerido` usan claves `esp` / `eng` / `por`** (no `es` / `en` / `pt`); el helper `senalTexto` mapea el locale activo y cae a `esp`.
+
+Las once RPCs `portal_*` están en la base desde la migración `20260916191630_portal_riesgo_engine_rpcs` (las siete de ops siguen siendo solo `service_role`), `20260916215500_riesgo_puntaje_100_y_ciclo` agregó el presupuesto de puntos, la v1 automática y el copiado de reglas al versionar, `20260917020500_riesgo_regla_codigo_interno` pasó el código de la regla a la base, `20260917025243_riesgo_reglas_orden` agregó `portal_reorder_riesgo_reglas` y el orden derivado, y las cinco `20260917034431`–`20260917035130` (`riesgo_version_vigente_*`) trajeron el estado `archivado`, la vigente única, el despliegue por matriz, la copia entre matrices y `portal_duplicate_riesgo_matriz`. Límite que se dice en pantalla: **no hay evaluador**, así que la pantalla configura y no simula el puntaje de una wallet.
+
+##### Catálogo de señales (`/dashboard/motor-riesgos/catalogo`)
+
+Matrices y catálogo son dos rutas con su propio item de menú anidado bajo *Motor de Riesgos* (antes eran pestañas de una sola página). El padre es solo encabezado de grupo: `NavItem.children` en `DashboardShell.tsx` y `.portal-nav-item--sub` en `globals.css`. En mobile el nav se aplana a tabs y muestra los hijos, no el padre.
+
+El catálogo es una lista de tarjetas por señal con **Qué calcula** y **Cómo usarla**, no una tabla: con dos párrafos por fila una tabla queda ilegible. Se fueron el `codigo` bajo el nombre y la columna de ruta JSON, que no le decían nada al cliente; el `codigo` sigue visible en el selector de señal del editor de reglas, que es donde identifica la fila. El buscador mira nombre y los dos textos.
+
+Los textos viven en la base (`walpulse.senales.descripcion` y `uso_sugerido`, jsonb trilingüe), no en `messages/*.json`: son 133 señales × 2 textos × 3 idiomas y el catálogo lo define el producto de análisis, no el frontend. `portal_list_senales` devuelve `to_jsonb(s)`, así que las columnas viajan sin tocar la RPC. Cobertura actual: **133 de 133** con los dos textos en los tres idiomas (migraciones `20260916194827_senales_uso_sugerido` y `20260916200500`–`20260916201000_senales_texto_*`). Si una señal quedara sin redacción, la tarjeta muestra el faltante en lugar de un espacio vacío.
+
+Las sugerencias de uso se apoyan en umbrales que ya usan las reglas de negocio del análisis (por ejemplo `mixer_exposure_pct_value > 0.15` fuerza F en Actividad), no en números nuevos.
+
+#### Capa visual del portal (`.portal-*`)
+
+El portal no usa las clases del marketing directamente: tiene su propia capa al final de `src/app/globals.css` con la misma gramática (gradientes diagonales, bordes `glass` teñidos de `primary`, glow radial, hairline superior) pero con radios y paddings más chicos para densidad de datos. Las primitivas React que la envuelven viven en `src/components/portal/ui/` y no tienen lógica de datos.
+
+| Clase | Uso | Primitiva |
+|-------|-----|-----------|
+| `.portal-panel` (+ `--flush` / `--inset` / `--accent`) y `.portal-panel__hairline` | Superficie base de tarjetas y secciones | `PortalPanel` |
+| `.portal-page-title`, `.portal-section-title`, `.portal-eyebrow` (+ `--muted`), `.portal-data` | Escala tipográfica del portal (pantalla / sección / label / dato) | `PortalPageHeader` |
+| `.portal-atmosphere`, `.portal-sidebar`, `.portal-topbar`, `.portal-nav-item`, `.portal-drawer` | Estructura del shell y del panel lateral | `DashboardShell`, `AdminAnalisisDrawer` |
+| `.portal-table-wrap`, `.portal-table` (`th` mono/uppercase, fila `is-active`), `.portal-table__mono` | Tablas de datos | `PortalTable`, `TableSkeletonRows`, `TableMessageRow`, `PortalPagination` |
+| `.portal-label`, `.portal-field` (+ `--sm` / `--mono`) | Único dialecto de input/select del portal | `PortalInput`, `PortalSelect`, `PortalCheckbox` |
+| `.portal-btn` + `--primary` / `--ghost` / `--danger` / `--link` / `--sm` | Botones y acciones | `PortalButton` |
+| `.portal-badge` + `--ok` / `--warn` / `--error` / `--info` / `--neutral` / `--sm` | Estados y tiers (etiquetas i18n de `lib/portal/analisisLabels`) | `StatusBadge`, `TierBadge` |
+| `.portal-alert--error` / `--success` / `--info` | Mensajes de error, éxito y one-shot (token / API key) | `PortalAlert` |
+| `.portal-tabs` / `.portal-tab` (`is-active`) | Tabs y nav móvil | `PortalTabs` |
+| `.portal-metric` | KPI y campos escalares del detalle | `PortalMetric` |
+| `.portal-stage-dot` (+ `--ok` / `--error` / `--idle`) | Timeline de `analisis_run_stages` | — |
+| `.portal-skeleton`, `.portal-progress` | Carga y progreso del polling (ambos respetan `prefers-reduced-motion`) | `PortalSkeleton` |
+
+### Consola admin (operadores Walpulse)
+
+Gate: `clientes.es_operador_sistema` (único `true` = cliente Walpulse). `get_mi_usuario()` incluye el flag. RPCs `admin_*` en BD (migraciones `20260915030000` + `20260915040000`).
+
+| Ruta | Función |
+|------|---------|
+| `/dashboard/admin/clientes` | Listado + alta |
+| `/dashboard/admin/clientes/nuevo` | Form create |
+| `/dashboard/admin/clientes/[id]` | Update + tabs invitaciones / API keys |
+| `/dashboard/analisis` | Listado global `analisis_requests` (filtros tier/wallet/status/idioma/email; orden `created_at` / `email_sent_at` / `onchain_updated_at`) vía `admin_list_analisis_requests`. Click en una fila abre el detalle en panel lateral (`?detalle=<id>`, shallow routing); ctrl/cmd+click navega a la página completa |
+| `/dashboard/analisis/nuevo` | Crear análisis (Básica sync · Estándar/Experta async+poll); API key `portal-dashboard` del cliente logueado |
+| `/dashboard/analisis/[id]` | Detalle completo (campos escalares en 4 paneles: petición e identidad / resultado / entregables / on-chain y tiempos) + etapas + acciones ops (regen señales/reporte, resend email, idioma, con confirmación inline) + links PDF/IPFS/Basescan + visor JSON |
+
+Grado: `analisis_requests.grade_label` se persiste en el idioma del informe (`idioma`), así que el detalle **no** lo muestra tal cual: deriva la etiqueta de `grade` (A/B/C/D/F) con `portal.analisis.gradeLabels.*` en el locale activo y usa el texto guardado solo como fallback si el grado no es canónico.
+
+Invitaciones: al crear se muestra token + link `/[locale]/registro?token=` **una sola vez**. API keys: plaintext `api_key` **una sola vez** (excepto `portal-dashboard`, auto-provisionada en Vault; no revocable desde UI). Llamadas con sesión browser (`supabase.rpc('admin_…')`).
+
+Al crear un cliente (`admin_create_cliente`) se llama `ensure_portal_dashboard_api_key` (label `portal-dashboard` + secreto Vault `portal_dashboard_api_key_<cliente_id>`). Poll autenticado: `portal_get_analisis_request`.
+
+Clientes:
+
+| Pieza | Path |
+|-------|------|
+| Browser | `src/lib/supabase/browser.ts` (`@supabase/ssr`) |
+| Server | `src/lib/supabase/server.ts` |
+| Admin (contacto/demo) | `src/lib/supabase/admin.ts` (`service_role`) |
+| Proxy session refresh | `src/proxy.ts` |
+
+Env portal (además de las de contacto/demo):
+
+| Variable | Uso |
+|----------|-----|
+| `NEXT_PUBLIC_SUPABASE_URL` | Mismo proyecto que `SUPABASE_URL` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Auth browser/SSR (nunca `service_role`) |
+
+Supuesto ops: confirmación de email Auth deshabilitada (o auto-confirm) para el flujo invite.
+
+**Auth Redirect URLs (Supabase Dashboard):** exactas (sin query):
+
+- `http://localhost:3000/auth/callback`
+- `https://www.walpulse.com/auth/callback`
+
+El recovery setea cookie `walpulse_recovery_next` con `/{locale}/nueva-contrasena` y usa `redirectTo` = `{origin}/auth/callback` (sin `?next=`). Pedí un enlace **nuevo** tras cambios; esperá ~60s si hay rate limit de email.
 
 ## Catálogo (tiers)
 
@@ -106,6 +268,8 @@ Env (server-only + public):
 |----------|-----|
 | `SUPABASE_URL` | Proyecto Supabase Walpulse (`https://api.walpulse.com`) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Insert vía RPC (nunca en cliente) |
+| `NEXT_PUBLIC_SUPABASE_URL` | Auth portal (browser/SSR); mismo host |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Auth portal anon key |
 | `NEXT_PUBLIC_SITE_URL` | Canonical / sitemap / OG (default `https://www.walpulse.com`) |
 | `WALPULSE_DEMO_API_KEY` | API key del cliente **Demo User** (label `website-demo`; nunca `NEXT_PUBLIC_`) |
 | `WALPULSE_DEMO_CLIENTE_ID` | UUID de `walpulse.clientes` Demo User — scope del poll |

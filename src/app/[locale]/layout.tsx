@@ -4,8 +4,6 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 import { SiteJsonLd } from "@/components/seo/JsonLd";
 import { routing } from "@/i18n/routing";
 import { routes } from "@/lib/paths";
@@ -76,9 +74,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body className="min-h-full flex flex-col bg-void text-pure">
         <SiteJsonLd locale={locale} />
         <NextIntlClientProvider messages={messages}>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          {children}
         </NextIntlClientProvider>
         <Analytics />
       </body>

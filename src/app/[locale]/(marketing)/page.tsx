@@ -1,4 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
+import { AuthErrorRedirect } from "@/components/portal/AuthErrorRedirect";
 import { HomeCrawlContent } from "@/components/seo/HomeCrawlContent";
 import { WalletReveal } from "@/components/wallet-reveal/WalletReveal";
 
@@ -9,6 +10,7 @@ export default async function HomePage({ params }: Props) {
   setRequestLocale(locale);
   return (
     <>
+      <AuthErrorRedirect />
       <HomeCrawlContent locale={locale} />
       <WalletReveal />
     </>

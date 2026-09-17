@@ -3783,3 +3783,701 @@ body {
     font-size: 0.95rem;
   }
 }
+
+/* ==========================================================================
+   Portal (auth + dashboard)
+   Misma gramática que el marketing (gradientes diagonales, bordes glass teñidos
+   de primary, glow radial, hairline superior) con radios y paddings reducidos
+   para densidad de datos.
+   ========================================================================== */
+
+/* --- Tipografía ---------------------------------------------------------- */
+
+.portal-page-title {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--pure);
+}
+
+.portal-section-title {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  color: var(--pure);
+}
+
+.portal-eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: color-mix(in oklab, var(--primary) 85%, white);
+}
+
+.portal-eyebrow--muted {
+  color: color-mix(in oklab, var(--muted) 92%, transparent);
+}
+
+.portal-data {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  color: var(--pure);
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 768px) {
+  .portal-page-title {
+    font-size: 1.95rem;
+  }
+}
+
+/* --- Atmósfera y superficies estructurales ------------------------------- */
+
+.portal-atmosphere {
+  background-image:
+    radial-gradient(
+      ellipse 55% 45% at 6% 0%,
+      color-mix(in oklab, var(--primary) 7%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 100% 4%,
+      color-mix(in oklab, var(--surface) 65%, transparent),
+      transparent 68%
+    );
+  background-repeat: no-repeat;
+}
+
+.portal-sidebar {
+  border-right: 1px solid color-mix(in oklab, var(--glass) 70%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--surface) 82%, transparent) 0%,
+    color-mix(in oklab, var(--void) 94%, transparent) 100%
+  );
+}
+
+.portal-topbar {
+  border-bottom: 1px solid color-mix(in oklab, var(--glass) 60%, transparent);
+  background: color-mix(in oklab, var(--void) 80%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.portal-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  border-radius: 0.65rem;
+  border: 1px solid transparent;
+  padding: 0.6rem 0.7rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+  transition:
+    color 200ms ease,
+    background 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.portal-nav-item:hover {
+  color: var(--pure);
+  background: color-mix(in oklab, var(--primary) 7%, transparent);
+  border-color: color-mix(in oklab, var(--glass) 75%, transparent);
+}
+
+.portal-nav-item.is-active {
+  color: var(--pure);
+  border-color: color-mix(in oklab, var(--primary) 42%, var(--glass));
+  background: linear-gradient(
+    160deg,
+    color-mix(in oklab, var(--primary) 20%, var(--surface)),
+    color-mix(in oklab, var(--primary) 6%, var(--void))
+  );
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 8%, transparent),
+    0 0 18px color-mix(in oklab, var(--primary) 12%, transparent);
+}
+
+.portal-nav-item.is-active svg {
+  color: var(--primary-soft);
+}
+
+/* Encabezado de un grupo con sub-items: no navega, solo agrupa. */
+.portal-nav-parent {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.6rem 0.7rem 0.15rem;
+  font-size: 0.875rem;
+  color: color-mix(in oklab, var(--muted) 85%, var(--void));
+}
+
+.portal-nav-item--sub {
+  padding-left: 2rem;
+  font-size: 0.82rem;
+}
+
+.portal-drawer {
+  border-left: 1px solid color-mix(in oklab, var(--glass) 70%, var(--primary) 22%);
+  background: color-mix(in oklab, var(--surface) 92%, var(--void));
+  box-shadow:
+    -24px 0 60px color-mix(in oklab, var(--void) 70%, transparent),
+    0 0 60px color-mix(in oklab, var(--primary) 8%, transparent);
+}
+
+/* --- Paneles ------------------------------------------------------------- */
+
+.portal-panel {
+  position: relative;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 70%, var(--primary) 16%);
+  background: linear-gradient(
+    158deg,
+    color-mix(in oklab, var(--surface) 92%, transparent) 0%,
+    color-mix(in oklab, var(--void) 90%, transparent) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 6%, transparent),
+    0 18px 40px color-mix(in oklab, var(--void) 55%, transparent);
+}
+
+.portal-panel--flush {
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 5%, transparent);
+}
+
+.portal-panel--inset {
+  border-radius: 0.85rem;
+  border-color: color-mix(in oklab, var(--glass) 60%, transparent);
+  background: color-mix(in oklab, var(--void) 55%, transparent);
+  box-shadow: none;
+}
+
+.portal-panel--accent {
+  border-color: color-mix(in oklab, var(--primary) 32%, var(--glass));
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 7%, transparent),
+    0 18px 40px color-mix(in oklab, var(--void) 55%, transparent),
+    0 0 32px color-mix(in oklab, var(--primary) 9%, transparent);
+}
+
+.portal-panel__hairline {
+  pointer-events: none;
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 6%,
+    color-mix(in oklab, var(--primary) 42%, transparent) 34%,
+    color-mix(in oklab, var(--primary-soft) 52%, transparent) 54%,
+    transparent 92%
+  );
+  opacity: 0.8;
+}
+
+/* --- Métricas ------------------------------------------------------------ */
+
+.portal-metric {
+  border-radius: 0.85rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 62%, var(--primary) 10%);
+  background:
+    radial-gradient(
+      circle at 14% 0%,
+      color-mix(in oklab, var(--primary) 9%, transparent),
+      transparent 62%
+    ),
+    color-mix(in oklab, var(--void) 55%, transparent);
+  padding: 0.9rem 1rem;
+}
+
+.portal-metric__label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--muted) 88%, transparent);
+}
+
+.portal-metric__value {
+  margin-top: 0.3rem;
+  font-size: 0.95rem;
+  color: var(--pure);
+  overflow-wrap: anywhere;
+}
+
+/* --- Tablas -------------------------------------------------------------- */
+
+.portal-table-wrap {
+  position: relative;
+  overflow-x: auto;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 55%, var(--primary) 10%);
+  background: color-mix(in oklab, var(--void) 45%, transparent);
+}
+
+.portal-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.portal-table th {
+  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--glass) 55%, transparent);
+  background: color-mix(in oklab, var(--surface) 55%, transparent);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: color-mix(in oklab, var(--primary) 88%, white);
+}
+
+.portal-table td {
+  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--glass) 30%, transparent);
+  vertical-align: middle;
+  line-height: 1.5;
+  color: color-mix(in oklab, var(--muted) 90%, white);
+}
+
+.portal-table tbody tr {
+  transition: background 180ms ease;
+}
+
+.portal-table tbody tr:hover {
+  background: color-mix(in oklab, var(--primary) 6%, transparent);
+}
+
+.portal-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.portal-table tbody tr.is-active {
+  background: color-mix(in oklab, var(--primary) 10%, transparent);
+  box-shadow: inset 2px 0 0 var(--primary);
+}
+
+.portal-table__mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.78rem;
+}
+
+/* --- Formularios --------------------------------------------------------- */
+
+.portal-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.portal-label__text {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.portal-field {
+  width: 100%;
+  border-radius: 0.65rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 90%, transparent);
+  background-color: color-mix(in oklab, var(--void) 62%, transparent);
+  padding: 0.55rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--pure);
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.portal-field::placeholder {
+  color: color-mix(in oklab, var(--muted) 65%, transparent);
+}
+
+.portal-field:hover:not(:disabled) {
+  border-color: color-mix(in oklab, var(--glass) 100%, var(--primary) 16%);
+}
+
+.portal-field:focus {
+  outline: none;
+  border-color: color-mix(in oklab, var(--primary) 58%, var(--glass));
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 15%, transparent);
+}
+
+.portal-field:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.portal-field--sm {
+  padding: 0.4rem 0.6rem;
+  font-size: 0.8125rem;
+}
+
+.portal-field--mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.8125rem;
+}
+
+select.portal-field {
+  appearance: none;
+  padding-right: 2rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9.5l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 0.95rem;
+}
+
+/* --- Botones ------------------------------------------------------------- */
+
+.portal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border-radius: 0.65rem;
+  border: 1px solid transparent;
+  padding: 0.5rem 0.95rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 220ms ease,
+    background 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+.portal-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.portal-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.portal-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.portal-btn--primary {
+  background: linear-gradient(
+    160deg,
+    var(--primary-soft) 0%,
+    var(--primary) 100%
+  );
+  color: var(--void);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 30%, transparent),
+    0 0 22px color-mix(in oklab, var(--primary) 18%, transparent);
+}
+
+.portal-btn--primary:hover:not(:disabled) {
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 35%, transparent),
+    0 0 30px color-mix(in oklab, var(--primary) 26%, transparent);
+}
+
+.portal-btn--ghost {
+  border-color: color-mix(in oklab, var(--glass) 85%, transparent);
+  background: color-mix(in oklab, var(--surface) 45%, transparent);
+  color: var(--muted);
+}
+
+.portal-btn--ghost:hover:not(:disabled) {
+  border-color: color-mix(in oklab, var(--primary) 40%, var(--glass));
+  background: color-mix(in oklab, var(--primary) 8%, transparent);
+  color: var(--pure);
+}
+
+.portal-btn--danger {
+  border-color: color-mix(in oklab, var(--grade-f) 38%, transparent);
+  background: color-mix(in oklab, var(--grade-f) 12%, transparent);
+  color: color-mix(in oklab, var(--grade-f) 80%, white);
+}
+
+.portal-btn--danger:hover:not(:disabled) {
+  border-color: color-mix(in oklab, var(--grade-f) 55%, transparent);
+  background: color-mix(in oklab, var(--grade-f) 18%, transparent);
+  color: color-mix(in oklab, var(--grade-f) 55%, white);
+}
+
+.portal-btn--sm {
+  padding: 0.3rem 0.65rem;
+  font-size: 0.75rem;
+}
+
+.portal-btn--link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--primary);
+}
+
+.portal-btn--link:hover:not(:disabled) {
+  color: var(--primary-soft);
+  text-decoration: underline;
+}
+
+/* --- Badges -------------------------------------------------------------- */
+
+.portal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 0.18rem 0.6rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.portal-badge--sm {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.62rem;
+}
+
+.portal-badge--ok {
+  color: var(--grade-a);
+  background: color-mix(in oklab, var(--grade-a) 12%, transparent);
+  border-color: color-mix(in oklab, var(--grade-a) 32%, transparent);
+}
+
+.portal-badge--warn {
+  color: var(--grade-c);
+  background: color-mix(in oklab, var(--grade-c) 12%, transparent);
+  border-color: color-mix(in oklab, var(--grade-c) 32%, transparent);
+}
+
+.portal-badge--error {
+  color: var(--grade-f);
+  background: color-mix(in oklab, var(--grade-f) 12%, transparent);
+  border-color: color-mix(in oklab, var(--grade-f) 32%, transparent);
+}
+
+.portal-badge--info {
+  color: var(--primary-soft);
+  background: color-mix(in oklab, var(--primary) 12%, transparent);
+  border-color: color-mix(in oklab, var(--primary) 32%, transparent);
+}
+
+.portal-badge--neutral {
+  color: color-mix(in oklab, var(--muted) 95%, white);
+  background: color-mix(in oklab, var(--glass) 45%, transparent);
+  border-color: color-mix(in oklab, var(--glass) 95%, transparent);
+}
+
+/* --- Alertas ------------------------------------------------------------- */
+
+.portal-alert {
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
+  border-left-width: 2px;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+}
+
+.portal-alert--error {
+  border-color: color-mix(in oklab, var(--grade-f) 32%, transparent);
+  border-left-color: color-mix(in oklab, var(--grade-f) 75%, transparent);
+  background: color-mix(in oklab, var(--grade-f) 10%, transparent);
+  color: color-mix(in oklab, var(--grade-f) 42%, var(--pure));
+}
+
+.portal-alert--success {
+  border-color: color-mix(in oklab, var(--grade-a) 32%, transparent);
+  border-left-color: color-mix(in oklab, var(--grade-a) 75%, transparent);
+  background: color-mix(in oklab, var(--grade-a) 10%, transparent);
+  color: color-mix(in oklab, var(--grade-a) 38%, var(--pure));
+}
+
+.portal-alert--info {
+  border-color: color-mix(in oklab, var(--primary) 32%, transparent);
+  border-left-color: color-mix(in oklab, var(--primary) 75%, transparent);
+  background: color-mix(in oklab, var(--primary) 10%, transparent);
+  color: color-mix(in oklab, var(--primary-soft) 35%, var(--pure));
+}
+
+/* --- Tabs ---------------------------------------------------------------- */
+
+.portal-tabs {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: 0.8rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 65%, transparent);
+  background: color-mix(in oklab, var(--surface) 55%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.portal-tab {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.6rem;
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    color 200ms ease,
+    background 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.portal-tab:hover {
+  color: var(--pure);
+  background: color-mix(in oklab, var(--primary) 8%, transparent);
+}
+
+.portal-tab:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.portal-tab.is-active {
+  color: var(--pure);
+  border-color: color-mix(in oklab, var(--primary) 45%, var(--glass));
+  background: linear-gradient(
+    160deg,
+    color-mix(in oklab, var(--primary) 22%, var(--surface)),
+    color-mix(in oklab, var(--primary) 8%, var(--void))
+  );
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 8%, transparent),
+    0 0 20px color-mix(in oklab, var(--primary) 14%, transparent);
+}
+
+/* --- Etapas (timeline) --------------------------------------------------- */
+
+.portal-stage-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--primary-soft), var(--primary));
+  box-shadow: 0 0 10px color-mix(in oklab, var(--primary) 35%, transparent);
+}
+
+.portal-stage-dot--ok {
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--grade-a) 65%, white),
+    var(--grade-a)
+  );
+  box-shadow: 0 0 10px color-mix(in oklab, var(--grade-a) 35%, transparent);
+}
+
+.portal-stage-dot--error {
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--grade-f) 65%, white),
+    var(--grade-f)
+  );
+  box-shadow: 0 0 10px color-mix(in oklab, var(--grade-f) 35%, transparent);
+}
+
+.portal-stage-dot--idle {
+  background: color-mix(in oklab, var(--glass) 100%, white 12%);
+  box-shadow: none;
+}
+
+/* --- Progreso indeterminado (polling) ------------------------------------ */
+
+.portal-progress {
+  position: relative;
+  overflow: hidden;
+  height: 2px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--glass) 60%, transparent);
+}
+
+.portal-progress::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 32%;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--primary) 50%,
+    transparent
+  );
+  animation: portal-progress-sweep 1.7s ease-in-out infinite;
+}
+
+@keyframes portal-progress-sweep {
+  0% {
+    transform: translateX(-105%);
+  }
+  100% {
+    transform: translateX(315%);
+  }
+}
+
+/* --- Skeleton ------------------------------------------------------------ */
+
+.portal-skeleton {
+  border-radius: 0.45rem;
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--glass) 50%, transparent) 0%,
+    color-mix(in oklab, var(--glass) 95%, var(--primary) 8%) 50%,
+    color-mix(in oklab, var(--glass) 50%, transparent) 100%
+  );
+  background-size: 200% 100%;
+  animation: portal-skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes portal-skeleton-shimmer {
+  0% {
+    background-position: 150% 0;
+  }
+  100% {
+    background-position: -150% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-skeleton {
+    animation: none;
+  }
+
+  .portal-progress::after {
+    animation: none;
+    width: 100%;
+    opacity: 0.45;
+  }
+
+  .portal-btn,
+  .portal-field,
+  .portal-tab,
+  .portal-nav-item,
+  .portal-table tbody tr {
+    transition: none;
+  }
+
+  .portal-btn:active:not(:disabled) {
+    transform: none;
+  }
+}

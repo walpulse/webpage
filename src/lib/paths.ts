@@ -12,7 +12,34 @@ export const routes = {
   comoFunciona: "/como-funciona",
   contacto: "/contacto",
   ejemplo: "/ejemplo",
+  login: "/login",
+  registro: "/registro",
+  recuperar: "/recuperar",
+  nuevaContrasena: "/nueva-contrasena",
+  dashboard: "/dashboard",
+  dashboardAnalisis: "/dashboard/analisis",
+  dashboardAnalisisNuevo: "/dashboard/analisis/nuevo",
+  dashboardMotorRiesgos: "/dashboard/motor-riesgos",
+  dashboardMotorRiesgosCatalogo: "/dashboard/motor-riesgos/catalogo",
+  dashboardMotorRiesgosNueva: "/dashboard/motor-riesgos/nueva",
+  adminClientes: "/dashboard/admin/clientes",
+  adminClienteNuevo: "/dashboard/admin/clientes/nuevo",
 } as const;
+
+/** La versión viaja en la query para que el detalle sea enlazable. */
+export function motorRiesgosMatrizPath(id: string, versionNum?: number): string {
+  const base = `/dashboard/motor-riesgos/${id}`;
+  return versionNum == null ? base : `${base}?v=${versionNum}`;
+}
+
+export function adminClientePath(id: string): string {
+  return `/dashboard/admin/clientes/${id}`;
+}
+
+export function adminAnalisisPath(id: string): string {
+  return `/dashboard/analisis/${id}`;
+}
+
 
 /** Home section anchor for the 4 signals (replaces dedicated /senales page). */
 export const homeSenales = {
@@ -33,18 +60,17 @@ export function criptoExchangesPath(region: ExchangeRegion): string {
 export type HeaderNavLink = {
   type: "link";
   href: AppRoute;
-  labelKey:
-    | "senales"
-    | "analisis"
-    | "engineRisk"
-    | "demo"
-    | "proveedores"
-    | "nosotros"
-    | "earlyAccess";
+  labelKey: "senales" | "nosotros" | "earlyAccess";
 };
 
-export type HeaderNavDropdown = {
-  type: "dropdown";
+export type HeaderNavProductChildLink = {
+  type: "link";
+  href: AppRoute;
+  labelKey: "analisis" | "engineRisk" | "demo" | "proveedores";
+};
+
+export type HeaderNavProductChildGroup = {
+  type: "group";
   labelKey: "whoUses";
   children: {
     href: string;
@@ -53,36 +79,48 @@ export type HeaderNavDropdown = {
   }[];
 };
 
-export type HeaderNavItem = HeaderNavLink | HeaderNavDropdown;
+export type HeaderNavProduct = {
+  type: "product";
+  labelKey: "producto";
+  children: (HeaderNavProductChildLink | HeaderNavProductChildGroup)[];
+};
 
-/** Primary header — Inicio, Análisis, Engine Risk, Demo, Proveedores, Para quienes, Nosotros, Hablemos. */
+export type HeaderNavItem = HeaderNavLink | HeaderNavProduct;
+
+/** Primary header — Inicio · Producto · Nosotros · Hablemos. */
 export const headerNavItems: HeaderNavItem[] = [
   { type: "link", href: routes.home, labelKey: "senales" },
-  { type: "link", href: routes.analisis, labelKey: "analisis" },
   {
-    type: "link",
-    href: routes.walpulseEngineRisk,
-    labelKey: "engineRisk",
-  },
-  { type: "link", href: routes.demo, labelKey: "demo" },
-  {
-    type: "link",
-    href: routes.proveedoresDeDatos,
-    labelKey: "proveedores",
-  },
-  {
-    type: "dropdown",
-    labelKey: "whoUses",
+    type: "product",
+    labelKey: "producto",
     children: [
+      { type: "link", href: routes.analisis, labelKey: "analisis" },
       {
-        href: routes.criptoExchangesUruguay,
-        labelKey: "cryptoExchangesPsav",
-        region: "uy",
+        type: "link",
+        href: routes.walpulseEngineRisk,
+        labelKey: "engineRisk",
+      },
+      { type: "link", href: routes.demo, labelKey: "demo" },
+      {
+        type: "link",
+        href: routes.proveedoresDeDatos,
+        labelKey: "proveedores",
       },
       {
-        href: routes.criptoExchangesInternacional,
-        labelKey: "cryptoExchanges",
-        region: "row",
+        type: "group",
+        labelKey: "whoUses",
+        children: [
+          {
+            href: routes.criptoExchangesUruguay,
+            labelKey: "cryptoExchangesPsav",
+            region: "uy",
+          },
+          {
+            href: routes.criptoExchangesInternacional,
+            labelKey: "cryptoExchanges",
+            region: "row",
+          },
+        ],
       },
     ],
   },

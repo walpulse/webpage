@@ -255,11 +255,12 @@ function NavGroup({
   return (
     <>
       {items.map((item) => {
-        if (item.children) {
+        if (item.children && item.children.length > 0) {
+          const withChildren = item as NavItem & { children: NavItem[] };
           return (
             <NavCollapsible
               key={item.href}
-              item={item}
+              item={withChildren}
               pathname={pathname}
               t={t}
             />

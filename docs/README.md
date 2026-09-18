@@ -34,7 +34,7 @@ Prefijo de locale obligatorio (`/es`, `/pt`, `/en`):
 | `/[locale]/nueva-contrasena` | Portal — nueva contraseña tras link Auth (noindex) |
 | `/[locale]/dashboard` | Portal — inicio (auth + perfil `get_mi_usuario` + KPIs de cliente u operador) |
 | `/[locale]/dashboard/analisis` | Portal — listado ops de análisis (`es_operador_sistema`); stub para otros clientes |
-| `/[locale]/dashboard/analisis/[id]` | Portal — detalle ops + etapas `analisis_run_stages` |
+| `/[locale]/dashboard/analisis/[id]` | Portal — detalle ops + etapas + JSON/CIDs (`analisis` / `evidencia` / `riesgo`) + PDF Motor (`riesgo_cid`) |
 | `/[locale]/dashboard/motor-riesgos` | Portal — Motor de Riesgos: matrices del cliente |
 | `/[locale]/dashboard/motor-riesgos/catalogo` | Portal — catálogo de señales (qué mide cada una y cómo usarla) |
 | `/[locale]/dashboard/motor-riesgos/nueva` | Portal — alta de matriz (nombre, slug, descripción) |
@@ -84,7 +84,7 @@ Dos semánticas de las MVs se muestran explícitamente para no mentir: `refresca
 
 Cierra el pendiente de UI del ADR vault `2026-09-15 - Schema motor de riesgo matrices y senales`. El cliente opera **sus** matrices: nada de scope por operador.
 
-**Modelo de puntaje (2026-09-16):** cada versión define un puntaje de riesgo 0-100 y cada regla suma puntos. La suma de las reglas habilitadas no puede pasar 100 y publicar exige exactamente 100, así que el panel de reglas muestra el presupuesto `X/100` y el botón de publicar queda inhabilitado indicando cuántos puntos faltan. El motivo va en un texto visible al lado del botón ("Faltan N pts para publicar", enlazado con `aria-describedby`) y no en un `title`: un tooltip sobre un botón deshabilitado no dispara en Chrome ni existe en touch. `efecto` es siempre `{tipo: "puntos", valor}`: `peso` y `multiplicador` salieron del modelo. Detalle en [motor-riesgos-portal-rpcs.md](motor-riesgos-portal-rpcs.md) y ADR vault `2026-09-16 - Puntaje de riesgo 0-100 con presupuesto de puntos`.
+**Modelo de puntaje (2026-09-16, ajuste 2026-09-17):** cada versión define un puntaje de riesgo 0-100 y cada regla suma puntos. La suma de las reglas habilitadas no puede pasar 100; **publicar ya no exige 100 exactos** (el faltante es informativo en UI). El panel de reglas muestra el presupuesto `X/100`. Si el botón de publicar está inhabilitado (p. ej. versión obsoleta), el motivo va en un texto visible al lado enlazado con `aria-describedby` y no en un `title`. `efecto` es siempre `{tipo: "puntos", valor}`: `peso` y `multiplicador` salieron del modelo. Detalle en [motor-riesgos-portal-rpcs.md](motor-riesgos-portal-rpcs.md) y ADR vault `2026-09-16 - Puntaje de riesgo 0-100 con presupuesto de puntos`.
 
 Ciclo que la UI hace explícito, porque son triggers de la base y no convenciones de la pantalla:
 
@@ -99,6 +99,8 @@ matriz duplicada <--todas las versiones en borrador-- matriz
 ```
 
 **Una sola versión vigente (2026-09-17):** por matriz hay una única versión `publicado` (la vigente) y publicar la siguiente deja la anterior en `archivado`, con las reglas igual de congeladas. Lo garantiza un unique index parcial, no la pantalla. El detalle refleja eso en tres lugares: los badges por versión son *Vigente* / *Histórico* / *Borrador*, la confirmación de publicar dice qué versión queda como histórico, y un borrador más viejo que la vigente tiene el botón inhabilitado con el motivo al lado (la base devolvería `version_obsoleta`).
+
+**Nombre y notas (2026-09-17):** cada versión admite `nombre` (etiqueta) y `notas` (usuario), editables también en vigente/histórico. La procedencia al copiar entre matrices vive en `origen_copia`, no en `notas`. La fila seleccionada se destaca en el listado (`portal-version-row.is-selected` + badge *Seleccionada*) y el panel de reglas muestra `vN · nombre` en el eyebrow.
 
 El **despliegue es de la matriz**, así que *Usar en producción* y *Usar como sandbox* viven en la cabecera del detalle —no por versión— y la base resuelve cuál es la vigente; sin versión publicada quedan inhabilitados con el motivo al lado. Publicar arrastra los punteros: si la matriz estaba desplegada, sigue desplegada apuntando a la versión nueva. Como una versión no puede ser sandbox y producción a la vez, probar sin tocar producción es una **segunda matriz**: de ahí los dos botones nuevos, *Copiar a otra matriz* por versión (abre el selector de destino y al terminar navega a la copia) y *Duplicar matriz* en la cabecera, que pide nombre e identificador precargados y trae todas las versiones en borrador y sin despliegue.
 
@@ -128,7 +130,7 @@ Las once RPCs `portal_*` están en la base desde la migración `20260916191630_p
 
 ##### Catálogo de señales (`/dashboard/motor-riesgos/catalogo`)
 
-Matrices y catálogo son dos rutas con su propio item de menú anidado bajo *Motor de Riesgos* (antes eran pestañas de una sola página). El padre es solo encabezado de grupo: `NavItem.children` en `DashboardShell.tsx` y `.portal-nav-item--sub` en `globals.css`. En mobile el nav se aplana a tabs y muestra los hijos, no el padre.
+Matrices y catálogo son dos rutas con su propio item de menú anidado bajo *Motor de Riesgos* (antes eran pestañas de una sola página). El padre es un **toggle desplegable** (`NavCollapsible` en `DashboardShell.tsx`: chevron + `aria-expanded`, auto-abierto en rutas hijas) con rail en `.portal-nav-sublist` / `.portal-nav-item--sub`. En mobile el nav se aplana a tabs y muestra los hijos, no el padre.
 
 El catálogo es una lista de tarjetas por señal con **Qué calcula** y **Cómo usarla**, no una tabla: con dos párrafos por fila una tabla queda ilegible. Se fueron el `codigo` bajo el nombre y la columna de ruta JSON, que no le decían nada al cliente; el `codigo` sigue visible en el selector de señal del editor de reglas, que es donde identifica la fila. El buscador mira nombre y los dos textos.
 
@@ -166,7 +168,7 @@ Gate: `clientes.es_operador_sistema` (único `true` = cliente Walpulse). `get_mi
 | `/dashboard/admin/clientes/[id]` | Update + tabs invitaciones / API keys |
 | `/dashboard/analisis` | Listado global `analisis_requests` (filtros tier/wallet/status/idioma/email; orden `created_at` / `email_sent_at` / `onchain_updated_at`) vía `admin_list_analisis_requests`. Click en una fila abre el detalle en panel lateral (`?detalle=<id>`, shallow routing); ctrl/cmd+click navega a la página completa |
 | `/dashboard/analisis/nuevo` | Crear análisis (Básica sync · Estándar/Experta async+poll); API key `portal-dashboard` del cliente logueado |
-| `/dashboard/analisis/[id]` | Detalle completo (campos escalares en 4 paneles: petición e identidad / resultado / entregables / on-chain y tiempos) + etapas + acciones ops (regen señales/reporte, resend email, idioma, con confirmación inline) + links PDF/IPFS/Basescan + visor JSON |
+| `/dashboard/analisis/[id]` | Detalle completo (campos escalares en 4 paneles: petición e identidad / resultado / entregables / on-chain y tiempos) + etapas + acciones ops (regen señales/reporte, resend email, idioma, con confirmación inline) + links PDF/IPFS/Basescan + visor JSON (`analisis` / `evidencia` / `riesgo`) + entregables Motor (`riesgo_cid`, `riesgo_evaluado_at`) |
 
 Grado: `analisis_requests.grade_label` se persiste en el idioma del informe (`idioma`), así que el detalle **no** lo muestra tal cual: deriva la etiqueta de `grade` (A/B/C/D/F) con `portal.analisis.gradeLabels.*` en el locale activo y usa el texto guardado solo como fallback si el grado no es canónico.
 

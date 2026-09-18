@@ -2,7 +2,7 @@
 
 Contrato entre la UI `/dashboard/motor-riesgos` y `walpulse/database`. **Implementado** el 2026-09-16 en la migración `20260916191630_portal_riesgo_engine_rpcs`: las once RPCs existen en `public` con `EXECUTE` para `authenticated` y `service_role` (las siete de ops siguen siendo solo `service_role`).
 
-**Fuente:** ADR vault `2026-09-15 - Schema motor de riesgo matrices y senales`, `2026-09-16 - Puntaje de riesgo 0-100 con presupuesto de puntos` y `2026-09-17 - Una sola version vigente por matriz` · `walpulse/database` → `docs/schema-walpulse-riesgo-engine.md` · migraciones `20260915034916` / `20260915035416` / `20260915035439` / `20260916191630` / `20260916215500` / `20260917020500` / `20260917025243` / `20260917034431`–`20260917035130`.
+**Fuente:** ADR vault `2026-09-15 - Schema motor de riesgo matrices y senales`, `2026-09-16 - Puntaje de riesgo 0-100 con presupuesto de puntos`, `2026-09-17 - Una sola version vigente por matriz` y `2026-09-17 - Nombre y notas de versiones` · `walpulse/database` → `docs/schema-walpulse-riesgo-engine.md` · migraciones `20260915034916` / `20260915035416` / `20260915035439` / `20260916191630` / `20260916215500` / `20260917020500` / `20260917025243` / `20260917034431`–`20260917035130` / `20260918020622` / `20260918022318`.
 
 ## Modelo de puntaje (2026-09-16)
 
@@ -10,8 +10,8 @@ Cada versión de matriz define **un** puntaje de riesgo 0-100 y cada regla **sum
 
 - `efecto` es siempre `{ "tipo": "puntos", "valor": 0-100 }`. `peso` y `multiplicador` salieron del check de la tabla y del formulario.
 - La suma de los puntos de las reglas **habilitadas** de una versión no puede pasar 100: lo corta el trigger `trg_riesgo_reglas_presupuesto` con `puntos_exceden_100`.
-- Publicar exige que esa suma sea **exactamente 100**; si no, `puntos_incompletos`. Como sandbox y producción solo aceptan versiones publicadas, ninguna versión incompleta llega a desplegarse.
-- Las dos lecturas de matrices devuelven `reglas_count` y `puntos_asignados` por versión, así la UI muestra `X/100` y bloquea el botón de publicar sin pedir las reglas.
+- Publicar **no** exige 100 exactos (ajuste `20260918020622`): una escala incompleta se puede publicar y desplegar. El techo de 100 se mantiene.
+- Las dos lecturas de matrices devuelven `reglas_count` y `puntos_asignados` por versión, así la UI muestra `X/100` (el faltante es informativo).
 
 ## Criterio común
 
@@ -39,11 +39,12 @@ Cada regla trae su señal embebida (`codigo`, `modulo`, `labels`, `value_type`, 
 | RPC | Notas |
 | --- | --- |
 | `portal_create_riesgo_matriz(p_nombre text, p_slug text, p_descripcion text default null)` | Slug normalizado a minúsculas y validado contra `^[a-z0-9]+(?:-[a-z0-9]+)*$`; unique por cliente. Crea también la **v1 borrador** y la devuelve en `versiones[]` |
-| `portal_create_riesgo_matriz_version(p_matriz_id uuid, p_notas text default null, p_copiar_desde uuid default null)` | `version_num` automático; `created_by` = usuario de la sesión. **Copia las reglas** de `p_copiar_desde` —que puede ser de **otra matriz del mismo cliente**— o, por default, de la última versión de la matriz; devuelve `reglas_copiadas` |
+| `portal_create_riesgo_matriz_version(p_matriz_id uuid, p_notas text default null, p_copiar_desde uuid default null, p_nombre text default null, p_origen_copia text default null)` | `version_num` automático; `created_by` = usuario de la sesión. **Copia las reglas** de `p_copiar_desde` —que puede ser de **otra matriz del mismo cliente**— o, por default, de la última versión de la matriz; `p_origen_copia` para procedencia (no mezclar con `p_notas`); devuelve `reglas_copiadas` |
+| `portal_update_riesgo_matriz_version(p_version_id uuid, p_nombre text default null, p_notas text default null)` | Actualiza etiqueta y notas en **cualquier estado**; no toca `origen_copia` |
 | `portal_upsert_riesgo_regla(p_matriz_version_id uuid, p_senal_id uuid, p_nombre text, p_operador text, p_umbral jsonb, p_efecto jsonb, p_orden int default null, p_habilitada boolean default true, p_params jsonb default '{}', p_regla_id uuid default null)` | Solo en versiones `borrador`. Sin `p_regla_id` inserta y **deriva el código**; con `p_regla_id` actualiza esa regla (`regla_not_found` si no es de esa versión). `p_efecto` tiene que ser `{tipo: puntos, valor: 0-100}` (`invalid_efecto`) y no pasar el presupuesto (`puntos_exceden_100`). Sin `p_orden`, el alta va al final (`max + 1`) y la edición conserva el orden |
 | `portal_delete_riesgo_regla(p_regla_id uuid)` | `{ id, matriz_version_id }`. No existe en la capa ops: se creó para el portal |
 | `portal_reorder_riesgo_reglas(p_matriz_version_id uuid, p_reglas uuid[])` | Reasigna `orden` por posición en el array. Solo en `borrador` (`version_frozen`) y el array tiene que traer el **conjunto exacto** de la versión (`regla_not_found`) |
-| `portal_publish_riesgo_matriz_version(p_version_id uuid)` | Exige 100 puntos exactos (`puntos_incompletos`), **archiva la vigente anterior** de la matriz y arrastra sus punteros. Devuelve la versión nueva más `archivada` y `punteros_movidos` |
+| `portal_publish_riesgo_matriz_version(p_version_id uuid)` | Publica un borrador (sin exigir 100 exactos), **archiva la vigente anterior** de la matriz y arrastra sus punteros. Devuelve la versión nueva más `archivada` y `punteros_movidos` · `version_obsoleta` |
 | `portal_set_riesgo_sandbox_matriz(p_matriz_id uuid)` | Apunta la sandbox del cliente a la **vigente** de esa matriz; `null` la libera. `matriz_sin_vigente` si todavía no publicó nada |
 | `portal_set_riesgo_matriz_produccion(p_matriz_id uuid, p_activo boolean default true)` | Pone la matriz en producción apuntando a su vigente; con `p_activo = false` la libera. Mismo `matriz_sin_vigente` |
 | `portal_duplicate_riesgo_matriz(p_matriz_id uuid, p_nombre text, p_slug text)` | Copia la matriz con **todas** sus versiones y reglas, todo en `borrador` y sin despliegue. Devuelve `versiones[]`, `versiones_copiadas` y `reglas_copiadas` |
@@ -52,7 +53,17 @@ Cada regla trae su señal embebida (`codigo`, `modulo`, `labels`, `value_type`, 
 
 Una matriz tiene una única versión `publicado` — la **vigente** — garantizada por el unique index parcial `riesgo_version_publicada_unica`. Al publicar la siguiente, la anterior pasa a `archivado` (histórico, reglas congeladas) y lo hace la misma RPC, antes de publicar, para no chocar con el index.
 
-- El estado admite `borrador`, `publicado` y `archivado`. `publicado → archivado` es la **única** transición que el trigger `tg_riesgo_version_publish` permite sobre una vigente; cualquier otro cambio sobre una publicada o archivada sigue siendo `version_frozen`, así el histórico no se reabre.
+- El estado admite `borrador`, `publicado` y `archivado`. `publicado → archivado` es la transición de estado que el trigger `tg_riesgo_version_publish` permite sobre una vigente. Además permite actualizar **nombre** y **notas** en publicado/archivado (metadata). Cambiar identidad u `origen_copia` en congeladas sigue siendo `version_frozen`.
+
+## Nombre y notas de versión (2026-09-17)
+
+Cada versión puede tener:
+
+- `nombre` — etiqueta humana opcional (`version_num` sigue siendo la identidad)
+- `notas` — texto libre del usuario
+- `origen_copia` — procedencia automática al copiar entre matrices (solo lectura en UI)
+
+La UI muestra la fila seleccionada con highlight fuerte + badge *Seleccionada*, el editor de metadata debajo de esa fila, y el eyebrow del panel de reglas como `vN · nombre` cuando hay nombre.
 - Publicar un borrador con `version_num` menor que la vigente devuelve `version_obsoleta`: para volver a reglas anteriores se crea una versión nueva copiando la vieja.
 - El **despliegue es de la matriz**: los punteros (`riesgo_matrices.version_produccion_id` y `clientes.riesgo_sandbox_version_id`) siempre apuntan a la vigente, y publicar los mueve solo. Las dos RPCs de despliegue reciben la matriz, no una versión.
 - Como una versión no puede ser sandbox y producción a la vez, probar sin tocar producción exige **otra matriz**: de ahí que `p_copiar_desde` acepte una versión de cualquier matriz del mismo cliente y que exista `portal_duplicate_riesgo_matriz`. `version_cannot_be_sandbox_and_produccion` se lee ahora como "esa matriz ya está en producción, usá otra como sandbox".
@@ -75,7 +86,7 @@ Se pide el conjunto completo en lugar de dos updates porque con un subconjunto l
 
 La UI mapea el mensaje del `P0001` a una clave i18n en `src/lib/portal/errors.ts`:
 
-`version_required` · `version_not_found` · `version_not_publicado` · `version_not_found_or_not_borrador` · `version_cliente_mismatch` · `version_matriz_mismatch` · `version_cannot_be_sandbox_and_produccion` · `version_frozen` · `version_obsoleta` · `matriz_not_found` · `matriz_sin_vigente` · `matriz_slug_exists` · `invalid_slug` · `invalid_nombre` · `regla_not_found` · `senal_not_found` · `invalid_regla` · `invalid_efecto` · `puntos_exceden_100` · `puntos_incompletos`
+`version_required` · `version_not_found` · `version_not_publicado` · `version_not_found_or_not_borrador` · `version_cliente_mismatch` · `version_matriz_mismatch` · `version_cannot_be_sandbox_and_produccion` · `version_frozen` · `version_obsoleta` · `matriz_not_found` · `matriz_sin_vigente` · `matriz_slug_exists` · `invalid_slug` · `invalid_nombre` · `regla_not_found` · `senal_not_found` · `invalid_regla` · `invalid_efecto` · `puntos_exceden_100` · `puntos_incompletos` (legacy; ya no lo lanza publish)
 
 Más los del portal que ya existían (`not_authenticated`, `no_portal_access`, `usuario_inactive`).
 
@@ -83,7 +94,9 @@ Más los del portal que ya existían (`not_authenticated`, `no_portal_access`, `
 
 Smoke del 2026-09-16 con rol `authenticated` (`request.jwt.claims` con el `sub` de un usuario real, transacción revertida): el ciclo completo funciona y cada trigger responde con su código. En particular se confirmó que no se puede editar ni borrar una regla de una versión publicada (`version_frozen`), que producción no acepta un borrador (`version_not_publicado`) y que una versión no puede ser sandbox y producción a la vez.
 
-Segundo smoke tras `20260916215500`, mismo método: la matriz nace con `v1 borrador` en 0 puntos, una regla de 60 entra, otra de 50 devuelve `puntos_exceden_100`, un efecto `peso` devuelve `invalid_efecto`, publicar con 60 devuelve `puntos_incompletos`, con 100 pasa, y la versión siguiente llega con `reglas_copiadas = 2` y `puntos_asignados = 100`.
+Segundo smoke tras `20260916215500`, mismo método: la matriz nace con `v1 borrador` en 0 puntos, una regla de 60 entra, otra de 50 devuelve `puntos_exceden_100`, un efecto `peso` devuelve `invalid_efecto`, publicar con 60 devolvía `puntos_incompletos` (requisito de 100 exactos vigente en ese momento), con 100 pasa, y la versión siguiente llega con `reglas_copiadas = 2` y `puntos_asignados = 100`.
+
+Ajuste `20260918020622`: `portal_publish_riesgo_matriz_version` ya no exige 100 exactos; publicar con suma &lt; 100 es válido. El techo `puntos_exceden_100` se mantiene.
 
 Cuarto smoke tras las migraciones de vigente (`20260917034431`–`20260917035130`, `riesgo_version_vigente_*`), mismo método: con la matriz en producción, publicar v3 archivó la v2 y **dejó el puntero en v3**; apuntar la sandbox a esa misma matriz devolvió `version_cannot_be_sandbox_and_produccion`; una matriz recién creada devolvió `matriz_sin_vigente`; publicar un borrador más viejo que la vigente devolvió `version_obsoleta`; borrar una regla de una archivada devolvió `version_frozen`; copiar una versión de la matriz A a la B dejó un borrador con las mismas 2 reglas sin tocar A; un `p_copiar_desde` ajeno siguió devolviendo `version_not_found`; duplicar la matriz copió 4 versiones y 8 reglas, todas en `borrador` y sin despliegue, y repitió `matriz_slug_exists` con un slug tomado. A nivel datos, insertar una segunda publicada choca con `riesgo_version_publicada_unica` y reabrir una archivada o despublicar la vigente devuelve `version_frozen`.
 

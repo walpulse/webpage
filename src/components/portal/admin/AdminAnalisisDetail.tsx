@@ -84,6 +84,7 @@ type ActionsPanelProps = {
   pendingAction: string | null;
   canRegenReporte: boolean;
   pdfUrl: string | null;
+  riesgoPdfUrl: string | null;
   analisisUrl: string | null;
   evidenciaUrl: string | null;
   txUrl: string | null;
@@ -104,6 +105,7 @@ function ActionsPanel({
   pendingAction,
   canRegenReporte,
   pdfUrl,
+  riesgoPdfUrl,
   analisisUrl,
   evidenciaUrl,
   txUrl,
@@ -252,6 +254,20 @@ function ActionsPanel({
           </a>
         ) : (
           <span className={`${btnLink} opacity-40`}>{t("detail.actions.openPdf")}</span>
+        )}
+        {riesgoPdfUrl ? (
+          <a
+            href={riesgoPdfUrl}
+            target="_blank"
+            rel="noreferrer"
+            className={btnLink}
+          >
+            {t("detail.actions.openRiesgoPdf")}
+          </a>
+        ) : (
+          <span className={`${btnLink} opacity-40`}>
+            {t("detail.actions.openRiesgoPdf")}
+          </span>
         )}
         {analisisUrl ? (
           <a
@@ -412,6 +428,7 @@ export function AdminAnalisisDetail({
   }
 
   const pdfUrl = ipfsGatewayUrl(row.pdf_cid);
+  const riesgoPdfUrl = ipfsGatewayUrl(row.riesgo_cid);
   const analisisUrl = ipfsGatewayUrl(row.analisis_cid);
   const evidenciaUrl = ipfsGatewayUrl(row.evidencia_cid);
   const txUrl = basescanTxUrl(row.onchain_tx_hash);
@@ -429,6 +446,7 @@ export function AdminAnalisisDetail({
     pendingAction,
     canRegenReporte,
     pdfUrl,
+    riesgoPdfUrl,
     analisisUrl,
     evidenciaUrl,
     txUrl,
@@ -504,6 +522,11 @@ export function AdminAnalisisDetail({
           mono: true,
         },
         { label: t("detail.pdfCid"), value: row.pdf_cid ?? "—", mono: true },
+        {
+          label: t("detail.riesgoCid"),
+          value: row.riesgo_cid ?? "—",
+          mono: true,
+        },
         { label: t("colEmail"), value: row.email ?? "—" },
         {
           label: t("detail.emailMessageId"),
@@ -536,6 +559,10 @@ export function AdminAnalisisDetail({
         {
           label: t("detail.analyzedAt"),
           value: formatDate(row.analyzed_at, locale),
+        },
+        {
+          label: t("detail.riesgoEvaluadoAt"),
+          value: formatDate(row.riesgo_evaluado_at, locale),
         },
       ],
     },
@@ -730,6 +757,12 @@ export function AdminAnalisisDetail({
                 title={t("detail.jsonEvidencia")}
                 emptyLabel={t("detail.jsonEmpty")}
                 value={row.evidencia}
+                viewerLabels={viewerLabels}
+              />
+              <JsonSection
+                title={t("detail.jsonRiesgo")}
+                emptyLabel={t("detail.jsonEmpty")}
+                value={row.riesgo}
                 viewerLabels={viewerLabels}
               />
               <JsonSection

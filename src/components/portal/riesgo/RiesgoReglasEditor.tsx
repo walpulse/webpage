@@ -164,7 +164,11 @@ export function RiesgoReglasEditor({
     <PortalPanel
       className={className}
       aria-busy={busy || undefined}
-      eyebrow={`v${version.version_num}`}
+      eyebrow={
+        version.nombre
+          ? `v${version.version_num} · ${version.nombre}`
+          : `v${version.version_num}`
+      }
       title={t("reglasTitle")}
       actions={
         editable ? (
@@ -199,7 +203,6 @@ export function RiesgoReglasEditor({
     >
       <PuntosBar
         asignados={asignados}
-        paraPublicar={editable}
         className="mb-3"
       />
 

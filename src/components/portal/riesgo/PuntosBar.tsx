@@ -7,20 +7,17 @@ import { RIESGO_PUNTOS_MAX } from "@/lib/portal/riesgoLabels";
  * Presupuesto de puntos de una versión: lo que ya suman sus reglas habilitadas
  * y, cuando se está cargando una regla, lo que esa regla agrega (`extra`). Si el
  * total pasa de 100 el tramo de la regla se pinta en rojo, porque la base
- * rechaza la escritura.
+ * rechaza la escritura. Publicar no exige 100 exactos: el faltante es informativo.
  */
 export function PuntosBar({
   asignados,
   extra = 0,
   leyenda = false,
-  paraPublicar = false,
   className = "",
 }: {
   asignados: number;
   extra?: number;
   leyenda?: boolean;
-  /** En un borrador, el faltante explica el requisito de publicar. */
-  paraPublicar?: boolean;
   className?: string;
 }) {
   const t = useTranslations("portal.riesgo");
@@ -84,9 +81,7 @@ export function PuntosBar({
         {exceso > 0
           ? t("puntosSobrepasa", { puntos: exceso })
           : libres > 0
-            ? paraPublicar
-              ? t("puntosFaltanPublicar", { puntos: libres })
-              : t("puntosLibres", { puntos: libres })
+            ? t("puntosLibres", { puntos: libres })
             : t("puntosCompletos")}
       </p>
     </div>

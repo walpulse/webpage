@@ -3908,18 +3908,70 @@ body {
   color: var(--primary-soft);
 }
 
-/* Encabezado de un grupo con sub-items: no navega, solo agrupa. */
+/* Grupo colapsable: el padre es un toggle; los hijos van bajo un rail. */
+.portal-nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
 .portal-nav-parent {
   display: flex;
+  width: 100%;
   align-items: center;
   gap: 0.65rem;
-  padding: 0.6rem 0.7rem 0.15rem;
+  border-radius: 0.65rem;
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 0.6rem 0.7rem;
   font-size: 0.875rem;
-  color: color-mix(in oklab, var(--muted) 85%, var(--void));
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    color 200ms ease,
+    background 200ms ease,
+    border-color 200ms ease;
+}
+
+.portal-nav-parent:hover {
+  color: var(--pure);
+  background: color-mix(in oklab, var(--primary) 7%, transparent);
+  border-color: color-mix(in oklab, var(--glass) 75%, transparent);
+}
+
+.portal-nav-parent.is-active {
+  color: var(--pure);
+}
+
+.portal-nav-parent.is-active svg:first-child {
+  color: var(--primary-soft);
+}
+
+.portal-nav-chevron {
+  flex-shrink: 0;
+  color: color-mix(in oklab, var(--muted) 80%, transparent);
+  transition: transform 180ms ease;
+}
+
+.portal-nav-chevron.is-open {
+  transform: rotate(180deg);
+}
+
+.portal-nav-sublist {
+  display: none;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0.1rem 0 0.25rem 0.85rem;
+  padding: 0.15rem 0 0.15rem 0.55rem;
+  border-left: 1px solid color-mix(in oklab, var(--primary) 28%, var(--glass));
+}
+
+.portal-nav-sublist.is-open {
+  display: flex;
 }
 
 .portal-nav-item--sub {
-  padding-left: 2rem;
+  padding-left: 0.75rem;
   font-size: 0.82rem;
 }
 
@@ -3964,6 +4016,19 @@ body {
     inset 0 1px 0 color-mix(in oklab, white 7%, transparent),
     0 18px 40px color-mix(in oklab, var(--void) 55%, transparent),
     0 0 32px color-mix(in oklab, var(--primary) 9%, transparent);
+}
+
+/* Fila de versión seleccionada en el listado del detalle de matriz. */
+.portal-version-row.is-selected {
+  border-color: color-mix(in oklab, var(--primary) 55%, var(--glass));
+  background: linear-gradient(
+    160deg,
+    color-mix(in oklab, var(--primary) 18%, var(--surface)),
+    color-mix(in oklab, var(--primary) 6%, var(--void))
+  );
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 8%, transparent),
+    0 0 22px color-mix(in oklab, var(--primary) 14%, transparent);
 }
 
 .portal-panel__hairline {

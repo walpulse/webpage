@@ -5,7 +5,7 @@
 > Origins, Activity, Multichain, and Portfolio are **parts** of that analysis, not standalone SKUs.
 > Coverage (networks, activity window, funder risk hops, whether Portfolio is included) scales with the tier.
 > A–F grades are a secondary synthesis tied to the tier. The recipient interprets and decides.
-> **Walpulse Motor de Riesgos / Risk Engine** (coming soon): a fully client-parametrizable risk score built on those signals; the client owns the score and the decision.
+> **Walpulse Motor de Riesgos / Risk Engine**: versioned client risk matrices (0–100 points) on those signals, configurable in the dashboard; on each analysis Walpulse calculates the score from the deployed matrix. The client owns the score and the decision.
 > Walpulse does not perform KYC, Travel Rule, UIAF reporting, or compliance decisions. It is not a compliance tool.
 
 Canonical site: https://www.walpulse.com
@@ -19,7 +19,7 @@ Canonical site: https://www.walpulse.com
 ## Key pages
 
 - Analysis catalog (Basic / Standard / Expert): https://www.walpulse.com/es/analisis
-- Walpulse Motor de Riesgos / Risk Engine (parametrizable risk score — coming soon):
+- Walpulse Motor de Riesgos / Risk Engine (dashboard configurator + per-analysis score):
   - ES: https://www.walpulse.com/es/walpulse-engine-risk
   - EN: https://www.walpulse.com/en/walpulse-engine-risk
   - PT: https://www.walpulse.com/pt/walpulse-engine-risk
@@ -40,11 +40,11 @@ Canonical site: https://www.walpulse.com
 
 Coverage depth is commercial; synthesis weights are not published. External data providers are listed on /proveedores-de-datos.
 
-## Walpulse Motor de Riesgos / Risk Engine (upcoming)
+## Walpulse Motor de Riesgos / Risk Engine
 
-- Client-parametrizable risk score: each compliance officer/department defines rules, thresholds, and weights using **any internal signal** from the four analyses (Ecosystem Presence / Multichain, Portfolio Quality, Source of Funds / Origins, Recent Activity).
-- On each analysis request (when available), Walpulse applies the client’s math to already-computed on-chain data and can deliver an additional Risk Score report with auditable traceability under the client’s framework.
-- Availability (planned): Walpulse clients only, via dashboard, for **Standard / Expert** analyses — not Basic. Marketing page live; product not GA yet.
+- Client-parametrizable risk score on a **0–100** scale: each rule adds points from the published analysis signal catalog (Ecosystem Presence / Multichain, Portfolio Quality, Source of Funds / Origins, Recent Activity, and related signals). Version budget ≤100; publishing does not require exactly 100 points.
+- Clients configure matrices, versions, and rules in the dashboard, then deploy a matrix to sandbox or production. On each analysis Walpulse calculates the risk score from the deployed matrix.
+- Availability: Walpulse clients only, via dashboard. Per-analysis score is intended for **Standard / Expert** depths.
 - Not a Walpulse verdict or compliance product: Walpulse does not decide, approve, or report to any public authority; the client decides whether to interact with a wallet.
 
 ## Signal parts (engines inside an analysis)

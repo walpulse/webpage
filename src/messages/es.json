@@ -28,7 +28,7 @@
     "proveedoresTitle": "Proveedores de datos",
     "proveedoresDescription": "Proveedores externos que Walpulse consulta para señales on-chain: presencia, transacciones, portafolio, OFAC (exposición), contratos y catálogos. El receptor interpreta y decide.",
     "engineRiskTitle": "Walpulse Motor de Riesgos",
-    "engineRiskDescription": "Puntuación de riesgo totalmente parametrizable por el cliente sobre señales on-chain de Walpulse. Reglas del área de cumplimiento; Estándar/Experta vía dashboard. Próximamente. Walpulse no decide ni es herramienta de compliance."
+    "engineRiskDescription": "Matrices de riesgo 0–100 parametrizables por el cliente sobre señales on-chain de Walpulse. Configuración y cálculo por análisis en el dashboard. Walpulse no decide ni es herramienta de compliance."
   },
   "nav": {
     "home": "Inicio",
@@ -598,7 +598,7 @@
     },
     "intro": {
       "title": "Qué es Walpulse?",
-      "body": "Producimos un análisis de wallet en tres profundidades: Básica, Estándar o Experta, basado en señales on-chain (presencia en el ecosistema, origen de los fondos, actividad reciente y, en Estándar/Experta, portafolio). Próximamente: Motor de Riesgos — puntuación parametrizable por el cliente sobre esas señales.",
+      "body": "Producimos un análisis de wallet en tres profundidades: Básica, Estándar o Experta, basado en señales on-chain (presencia en el ecosistema, origen de los fondos, actividad reciente y, en Estándar/Experta, portafolio). Incluye Motor de Riesgos: puntuación 0–100 parametrizable por el cliente sobre esas señales, configurable y calculada en el dashboard.",
       "explainLead": "El análisis no es una caja negra y tampoco es una calificación final. Priorizamos que el receptor entienda las señales asociadas a cada elemento analizado y que en base a ellas tome decisiones informadas al interactuar con la wallet.",
       "explainGoal": "Nuestro objetivo es que el receptor entienda:",
       "explainPoints": {
@@ -712,7 +712,7 @@
     "alreadyRegistered": "¿Ya tenés cuenta?",
     "goLogin": "Ingresá",
     "homeGreeting": "Hola, {name}",
-    "homeIntro": "Este es el portal interno de clientes. Pronto vas a poder consultar análisis y configurar el Motor de Riesgos.",
+    "homeIntro": "Este es el portal interno de clientes. Acá consultás análisis y configurás el Motor de Riesgos.",
     "stubComingSoon": "Próximamente. Esta sección estará disponible en una próxima entrega.",
     "kpis": {
       "title": "Tu actividad",
@@ -855,13 +855,21 @@
       "fieldDescripcion": "Descripción",
       "crearMatriz": "Crear matriz",
       "matrizTitle": "Matriz",
-      "cicloHint": "Cada versión define un puntaje de riesgo de 0 a 100 y cada regla suma puntos. Las reglas se editan en un borrador; para publicarlo sus reglas habilitadas tienen que sumar 100 exactos. Una matriz tiene una sola versión vigente: al publicar la siguiente, la anterior queda como histórico. Si querés probar sin tocar producción, duplicá la matriz y apuntá la sandbox a esa copia.",
+      "cicloHint": "Cada versión define un puntaje de riesgo de 0 a 100 y cada regla suma puntos. Las reglas se editan en un borrador; podés publicar aunque no sumen 100 (el techo de 100 se mantiene). Una matriz tiene una sola versión vigente: al publicar la siguiente, la anterior queda como histórico. Si querés probar sin tocar producción, duplicá la matriz y apuntá la sandbox a esa copia.",
       "versiones": "Versiones",
       "versionesEmpty": "Esta matriz no tiene versiones. Creá la primera para empezar a agregar reglas.",
       "versionResumen": "{reglas} reglas · {puntos}/{max} pts",
+      "versionSeleccionada": "Seleccionada",
+      "versionNombre": "Nombre de la versión",
+      "versionNombrePlaceholder": "Ej. Sandbox KYC, Prod Q3",
+      "versionNotas": "Notas",
+      "versionNotasPlaceholder": "Contexto para tu equipo (opcional)",
+      "versionOrigenCopia": "Origen: {origen}",
+      "guardarVersionMeta": "Guardar",
+      "descartarVersionMeta": "Descartar",
       "crearVersion": "Crear versión",
       "crearVersionHint": "La versión nueva nace como borrador con una copia de las reglas de la última versión, para ajustar sin volver a cargarlas.",
-      "publicarFaltanPuntos": "Faltan {puntos} pts",
+      "publicarFaltanPuntos": "Quedan {puntos} pts libres",
       "publicarObsoleta": "Hay una versión más nueva vigente",
       "publicarReemplaza": "Publicar v{version} deja a la v{vigente} como histórico.",
       "publicarPrimera": "Publicar v{version} la deja vigente en esta matriz.",
@@ -901,8 +909,8 @@
       "puntosOtrasReglas": "Otras reglas: {puntos}",
       "puntosEstaRegla": "Esta regla: {puntos}",
       "puntosSobrepasa": "Te pasás por {puntos} puntos del presupuesto de 100.",
-      "puntosCompletos": "Los 100 puntos están asignados: la versión se puede publicar.",
-      "puntosFaltanPublicar": "Para publicar, las reglas habilitadas tienen que sumar 100: faltan {puntos}.",
+      "puntosCompletos": "Los 100 puntos están asignados.",
+      "puntosFaltanPublicar": "Quedan {puntos} puntos libres de 100.",
       "reglaDeshabilitada": "Deshabilitada",
       "editar": "Editar",
       "editarRegla": "Editar regla",
@@ -1083,6 +1091,8 @@
         "analisisCid": "CID del análisis",
         "evidenciaCid": "CID de evidencia",
         "pdfCid": "CID del PDF",
+        "riesgoCid": "CID del PDF Motor",
+        "riesgoEvaluadoAt": "Motor evaluado",
         "onchainTx": "Transacción on-chain",
         "analyzedAt": "Analizado",
         "claimedAt": "Tomado por el worker",
@@ -1092,6 +1102,7 @@
         "jsonRequestPayload": "request_payload",
         "jsonAnalisis": "analisis",
         "jsonEvidencia": "evidencia",
+        "jsonRiesgo": "riesgo",
         "jsonManifiesto": "manifiesto",
         "jsonCompliance": "compliance_screen",
         "jsonUpstream": "upstream_errors",
@@ -1107,6 +1118,7 @@
           "idioma": "Idioma",
           "applyIdioma": "Aplicar idioma y regenerar",
           "openPdf": "Abrir PDF",
+          "openRiesgoPdf": "Abrir PDF Motor",
           "openAnalisisIpfs": "IPFS análisis",
           "openEvidenciaIpfs": "IPFS evidencia",
           "openOnchain": "Tx on-chain",
@@ -1305,7 +1317,7 @@
       "invalid_regla": "La regla necesita código y nombre.",
       "invalid_efecto": "Los puntos de riesgo tienen que ser un número entre 0 y 100.",
       "puntos_exceden_100": "Con esos puntos la versión pasa de 100. Bajá el valor o liberá puntos de otra regla.",
-      "puntos_incompletos": "Para publicar, las reglas habilitadas tienen que sumar exactamente 100 puntos."
+      "puntos_incompletos": "Esta versión ya se puede publicar con menos de 100 puntos. Recargá la página e intentá de nuevo."
     }
   }
 }

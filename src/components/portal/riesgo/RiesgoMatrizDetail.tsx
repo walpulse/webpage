@@ -5,6 +5,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { useState, useTransition } from "react";
 import { RiesgoMatrizDuplicarForm } from "@/components/portal/riesgo/RiesgoMatrizDuplicarForm";
 import { RiesgoReglasEditor } from "@/components/portal/riesgo/RiesgoReglasEditor";
+import { VersionMetaEditor } from "@/components/portal/riesgo/VersionMetaEditor";
 import { PortalAlert } from "@/components/portal/ui/PortalAlert";
 import { PortalButton } from "@/components/portal/ui/PortalButton";
 import { PortalMetric } from "@/components/portal/ui/PortalMetric";
@@ -247,7 +248,7 @@ export function RiesgoMatrizDetail({
     return {
       id: `publicar-${version.id}`,
       label: t("publicar"),
-      disabled: obsoleta || faltan !== 0,
+      disabled: obsoleta,
       hint: obsoleta
         ? t("publicarObsoleta")
         : faltan > 0
@@ -273,7 +274,7 @@ export function RiesgoMatrizDetail({
       run: () =>
         rpc().rpc("portal_create_riesgo_matriz_version", {
           p_matriz_id: destino,
-          p_notas: t("copiadaDe", {
+          p_origen_copia: t("copiadaDe", {
             matriz: matriz.nombre,
             version: version.version_num,
           }),
@@ -370,133 +371,161 @@ export function RiesgoMatrizDetail({
               return (
                 <li key={version.id}>
                   <div
-                    className={`portal-panel portal-panel--inset flex flex-wrap items-center justify-between gap-3 ${
-                      activa ? "border-primary/40" : ""
+                    className={`portal-panel portal-panel--inset portal-version-row flex flex-col gap-0 p-3 ${
+                      activa ? "is-selected" : ""
                     }`}
                   >
-                    <Link
-                      href={motorRiesgosMatrizPath(
-                        matriz.id,
-                        version.version_num,
-                      )}
-                      scroll={false}
-                      className="flex min-w-0 flex-wrap items-center gap-2 text-left"
-                    >
-                      <span className="font-mono text-sm text-pure">
-                        v{version.version_num}
-                      </span>
-                      <span
-                        className={`portal-badge portal-badge--sm portal-badge--${
-                          version.estado === "publicado" ? "ok" : "neutral"
-                        }`}
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <Link
+                        href={motorRiesgosMatrizPath(
+                          matriz.id,
+                          version.version_num,
+                        )}
+                        scroll={false}
+                        className="flex min-w-0 flex-1 flex-col gap-1 text-left"
                       >
-                        {t(
-                          version.estado === "publicado"
-                            ? "estadoVigente"
-                            : version.estado === "archivado"
-                              ? "estadoHistorico"
-                              : "estadoBorrador",
-                        )}
-                      </span>
-                      <span className="font-mono text-[11px] text-muted">
-                        {t("versionResumen", {
-                          reglas: version.reglas_count,
-                          puntos: version.puntos_asignados,
-                          max: RIESGO_PUNTOS_MAX,
-                        })}
-                      </span>
-                      <span className="text-xs text-muted">
-                        {formatDate(
-                          version.publicado_at ?? version.created_at,
-                          locale,
-                        )}
-                      </span>
-                    </Link>
-
-                    <div className="flex flex-wrap items-center gap-3">
-                      {version.estado === "borrador" ? (
-                        <AccionBoton
-                          accion={publicarVersion(version)}
-                          confirmando={
-                            confirming?.id === `publicar-${version.id}`
-                          }
-                          {...accionProps}
-                        />
-                      ) : null}
-
-                      {copiandoEsta ? (
-                        <span className="flex flex-wrap items-end gap-2">
-                          <label className="portal-label">
-                            <span className="portal-label__text">
-                              {t("elegirMatrizDestino")}
+                        <span className="flex min-w-0 flex-wrap items-center gap-2">
+                          <span className="font-mono text-sm text-pure">
+                            v{version.version_num}
+                          </span>
+                          {version.nombre ? (
+                            <span className="truncate text-sm text-pure">
+                              {version.nombre}
                             </span>
-                            <select
-                              className="portal-field"
-                              value={copia.destino}
-                              onChange={(event) =>
+                          ) : null}
+                          {activa ? (
+                            <span className="portal-badge portal-badge--sm portal-badge--info">
+                              {t("versionSeleccionada")}
+                            </span>
+                          ) : null}
+                          <span
+                            className={`portal-badge portal-badge--sm portal-badge--${
+                              version.estado === "publicado" ? "ok" : "neutral"
+                            }`}
+                          >
+                            {t(
+                              version.estado === "publicado"
+                                ? "estadoVigente"
+                                : version.estado === "archivado"
+                                  ? "estadoHistorico"
+                                  : "estadoBorrador",
+                            )}
+                          </span>
+                          <span className="font-mono text-[11px] text-muted">
+                            {t("versionResumen", {
+                              reglas: version.reglas_count,
+                              puntos: version.puntos_asignados,
+                              max: RIESGO_PUNTOS_MAX,
+                            })}
+                          </span>
+                          <span className="text-xs text-muted">
+                            {formatDate(
+                              version.publicado_at ?? version.created_at,
+                              locale,
+                            )}
+                          </span>
+                        </span>
+                        {version.notas ? (
+                          <span className="line-clamp-2 text-[11px] leading-snug text-muted/80">
+                            {version.notas}
+                          </span>
+                        ) : null}
+                        {version.origen_copia ? (
+                          <span className="text-[11px] leading-snug text-muted/60">
+                            {version.origen_copia}
+                          </span>
+                        ) : null}
+                      </Link>
+
+                      <div className="flex flex-wrap items-center gap-3">
+                        {version.estado === "borrador" ? (
+                          <AccionBoton
+                            accion={publicarVersion(version)}
+                            confirmando={
+                              confirming?.id === `publicar-${version.id}`
+                            }
+                            {...accionProps}
+                          />
+                        ) : null}
+
+                        {copiandoEsta ? (
+                          <span className="flex flex-wrap items-end gap-2">
+                            <label className="portal-label">
+                              <span className="portal-label__text">
+                                {t("elegirMatrizDestino")}
+                              </span>
+                              <select
+                                className="portal-field"
+                                value={copia.destino}
+                                onChange={(event) =>
+                                  setCopia({
+                                    versionId: version.id,
+                                    destino: event.target.value,
+                                  })
+                                }
+                              >
+                                {otrasMatrices.map((m) => (
+                                  <option key={m.id} value={m.id}>
+                                    {m.nombre}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
+                            <PortalButton
+                              type="button"
+                              size="sm"
+                              disabled={busy}
+                              pending={pendingId === `copiar-${version.id}`}
+                              onClick={() =>
+                                copiarVersion(version, copia.destino)
+                              }
+                            >
+                              {tAcciones("confirm")}
+                            </PortalButton>
+                            <PortalButton
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setCopia(null)}
+                            >
+                              {tAcciones("cancel")}
+                            </PortalButton>
+                          </span>
+                        ) : (
+                          <span className="flex items-center gap-2">
+                            {otrasMatrices.length === 0 ? (
+                              <span
+                                id={`sin-otra-${version.id}`}
+                                className="text-[11px] text-muted"
+                              >
+                                {t("sinOtraMatriz")}
+                              </span>
+                            ) : null}
+                            <PortalButton
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              disabled={busy || otrasMatrices.length === 0}
+                              aria-describedby={
+                                otrasMatrices.length === 0
+                                  ? `sin-otra-${version.id}`
+                                  : undefined
+                              }
+                              onClick={() =>
                                 setCopia({
                                   versionId: version.id,
-                                  destino: event.target.value,
+                                  destino: otrasMatrices[0].id,
                                 })
                               }
                             >
-                              {otrasMatrices.map((m) => (
-                                <option key={m.id} value={m.id}>
-                                  {m.nombre}
-                                </option>
-                              ))}
-                            </select>
-                          </label>
-                          <PortalButton
-                            type="button"
-                            size="sm"
-                            disabled={busy}
-                            pending={pendingId === `copiar-${version.id}`}
-                            onClick={() => copiarVersion(version, copia.destino)}
-                          >
-                            {tAcciones("confirm")}
-                          </PortalButton>
-                          <PortalButton
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setCopia(null)}
-                          >
-                            {tAcciones("cancel")}
-                          </PortalButton>
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-2">
-                          {otrasMatrices.length === 0 ? (
-                            <span
-                              id={`sin-otra-${version.id}`}
-                              className="text-[11px] text-muted"
-                            >
-                              {t("sinOtraMatriz")}
-                            </span>
-                          ) : null}
-                          <PortalButton
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            disabled={busy || otrasMatrices.length === 0}
-                            aria-describedby={
-                              otrasMatrices.length === 0
-                                ? `sin-otra-${version.id}`
-                                : undefined
-                            }
-                            onClick={() =>
-                              setCopia({
-                                versionId: version.id,
-                                destino: otrasMatrices[0].id,
-                              })
-                            }
-                          >
-                            {t("copiarAMatriz")}
-                          </PortalButton>
-                        </span>
-                      )}
+                              {t("copiarAMatriz")}
+                            </PortalButton>
+                          </span>
+                        )}
+                      </div>
                     </div>
+
+                    {activa ? <VersionMetaEditor version={version} /> : null}
                   </div>
                 </li>
               );

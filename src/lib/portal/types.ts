@@ -94,6 +94,9 @@ export type AdminAnalisisDetail = AdminAnalisisRequest & {
   analisis_cid: string | null;
   evidencia_cid: string | null;
   pdf_cid: string | null;
+  riesgo: unknown;
+  riesgo_cid: string | null;
+  riesgo_evaluado_at: string | null;
   error_message: string | null;
   onchain: unknown;
   signature: unknown;
@@ -273,7 +276,12 @@ export type RiesgoMatrizVersion = {
   matriz_id: string;
   version_num: number;
   estado: RiesgoMatrizVersionEstado | string;
+  /** Etiqueta humana opcional; version_num sigue siendo la identidad. */
+  nombre: string | null;
+  /** Notas libres del usuario. */
   notas: string | null;
+  /** Procedencia automática al copiar entre matrices (no editable). */
+  origen_copia: string | null;
   created_by: string | null;
   publicado_at: string | null;
   frozen_at: string | null;

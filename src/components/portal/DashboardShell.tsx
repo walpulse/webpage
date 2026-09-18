@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useId, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
@@ -236,6 +237,12 @@ export function DashboardShell({
   );
 }
 
+function groupChildActive(pathname: string, children: NavItem[]) {
+  return children.some((child) =>
+    navActive(pathname, child.href, child.exact),
+  );
+}
+
 function NavGroup({
   items,
   pathname,
@@ -248,32 +255,18 @@ function NavGroup({
   return (
     <>
       {items.map((item) => {
-        const Icon = item.icon;
-
         if (item.children) {
           return (
-            <div key={item.href} className="flex flex-col gap-1">
-              <p className="portal-nav-parent">
-                {Icon ? <Icon /> : null}
-                {t(item.labelKey)}
-              </p>
-              {item.children.map((child) => (
-                <Link
-                  key={child.href}
-                  href={child.href}
-                  className={`portal-nav-item portal-nav-item--sub${
-                    navActive(pathname, child.href, child.exact)
-                      ? " is-active"
-                      : ""
-                  }`}
-                >
-                  {t(child.labelKey)}
-                </Link>
-              ))}
-            </div>
+            <NavCollapsible
+              key={item.href}
+              item={item}
+              pathname={pathname}
+              t={t}
+            />
           );
         }
 
+        const Icon = item.icon;
         return (
           <Link
             key={item.href}
@@ -288,6 +281,85 @@ function NavGroup({
         );
       })}
     </>
+  );
+}
+
+/**
+ * Grupo con hijos: el padre es un toggle (no navega). Se abre solo si la
+ * ruta actual cae en un hijo; el usuario puede cerrarlo/abrirlo a mano.
+ */
+function NavCollapsible({
+  item,
+  pathname,
+  t,
+}: {
+  item: NavItem & { children: NavItem[] };
+  pathname: string;
+  t: (key: NavLabelKey) => string;
+}) {
+  const Icon = item.icon;
+  const panelId = useId();
+  const childActive = groupChildActive(pathname, item.children);
+  const [open, setOpen] = useState(childActive);
+
+  useEffect(() => {
+    if (childActive) setOpen(true);
+  }, [childActive]);
+
+  return (
+    <div className="portal-nav-group">
+      <button
+        type="button"
+        className={`portal-nav-parent${childActive ? " is-active" : ""}`}
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={() => setOpen((value) => !value)}
+      >
+        {Icon ? <Icon /> : null}
+        <span className="min-w-0 flex-1 truncate text-left">
+          {t(item.labelKey)}
+        </span>
+        <ChevronIcon open={open} />
+      </button>
+      <div
+        id={panelId}
+        className={`portal-nav-sublist${open ? " is-open" : ""}`}
+        hidden={!open}
+      >
+        {item.children.map((child) => (
+          <Link
+            key={child.href}
+            href={child.href}
+            className={`portal-nav-item portal-nav-item--sub${
+              navActive(pathname, child.href, child.exact) ? " is-active" : ""
+            }`}
+          >
+            {t(child.labelKey)}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ChevronIcon({ open }: { open: boolean }) {
+  return (
+    <svg
+      className={`portal-nav-chevron${open ? " is-open" : ""}`}
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden
+    >
+      <path
+        d="M6 9l6 6 6-6"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 

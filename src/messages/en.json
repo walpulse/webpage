@@ -28,7 +28,7 @@
     "proveedoresTitle": "Data Providers",
     "proveedoresDescription": "External providers Walpulse queries for on-chain signals: presence, transactions, portfolio, OFAC (exposure), contracts, and catalogs. The recipient interprets and decides.",
     "engineRiskTitle": "Walpulse Risk Engine",
-    "engineRiskDescription": "Fully client-parametrizable risk score on Walpulse on-chain signals. Compliance teams set the rules; Standard/Expert via dashboard. Coming soon. Walpulse does not decide and is not a compliance tool."
+    "engineRiskDescription": "Client-parametrizable 0–100 risk matrices on Walpulse on-chain signals. Configure and score per analysis in the dashboard. Walpulse does not decide and is not a compliance tool."
   },
   "nav": {
     "home": "Home",
@@ -598,7 +598,7 @@
     },
     "intro": {
       "title": "What is Walpulse?",
-      "body": "We produce a wallet analysis at three depths: Basic, Standard, or Expert, based on on-chain signals (ecosystem presence, source of funds, recent activity, and — in Standard/Expert — portfolio). Coming soon: Risk Engine — a client-parametrizable score on those signals.",
+      "body": "We produce a wallet analysis at three depths: Basic, Standard, or Expert, based on on-chain signals (ecosystem presence, source of funds, recent activity, and — in Standard/Expert — portfolio). Includes Risk Engine: a client-parametrizable 0–100 score on those signals, configured and calculated in the dashboard.",
       "explainLead": "The analysis is not a black box, nor a final rating. We prioritize that the recipient understands the signals tied to each element analyzed and, based on them, makes informed decisions when interacting with the wallet.",
       "explainGoal": "Our goal is that the recipient understands:",
       "explainPoints": {
@@ -712,7 +712,7 @@
     "alreadyRegistered": "Already have an account?",
     "goLogin": "Sign in",
     "homeGreeting": "Hello, {name}",
-    "homeIntro": "This is the client portal. Soon you will be able to review analyses and configure the Risk Engine.",
+    "homeIntro": "This is the client portal. Here you review analyses and configure the Risk Engine.",
     "stubComingSoon": "Coming soon. This section will be available in a later release.",
     "kpis": {
       "title": "Your activity",
@@ -855,13 +855,21 @@
       "fieldDescripcion": "Description",
       "crearMatriz": "Create matrix",
       "matrizTitle": "Matrix",
-      "cicloHint": "Every version defines a 0-100 risk score and each rule adds points. Rules are edited in a draft; to publish it, its enabled rules must add up to exactly 100. A matrix has a single current version: publishing the next one turns the previous into history. To test without touching production, duplicate the matrix and point the sandbox at that copy.",
+      "cicloHint": "Every version defines a 0-100 risk score and each rule adds points. Rules are edited in a draft; you can publish even if they do not add up to 100 (the 100-point ceiling still applies). A matrix has a single current version: publishing the next one turns the previous into history. To test without touching production, duplicate the matrix and point the sandbox at that copy.",
       "versiones": "Versions",
       "versionesEmpty": "This matrix has no versions. Create the first one to start adding rules.",
       "versionResumen": "{reglas} rules · {puntos}/{max} pts",
+      "versionSeleccionada": "Selected",
+      "versionNombre": "Version name",
+      "versionNombrePlaceholder": "E.g. KYC sandbox, Prod Q3",
+      "versionNotas": "Notes",
+      "versionNotasPlaceholder": "Context for your team (optional)",
+      "versionOrigenCopia": "Source: {origen}",
+      "guardarVersionMeta": "Save",
+      "descartarVersionMeta": "Discard",
       "crearVersion": "Create version",
       "crearVersionHint": "The new version starts as a draft with a copy of the latest version's rules, so you can adjust without entering them again.",
-      "publicarFaltanPuntos": "{puntos} pts missing",
+      "publicarFaltanPuntos": "{puntos} pts still free",
       "publicarObsoleta": "A newer version is already current",
       "publicarReemplaza": "Publishing v{version} turns v{vigente} into history.",
       "publicarPrimera": "Publishing v{version} makes it the current version of this matrix.",
@@ -901,8 +909,8 @@
       "puntosOtrasReglas": "Other rules: {puntos}",
       "puntosEstaRegla": "This rule: {puntos}",
       "puntosSobrepasa": "You are {puntos} points over the budget of 100.",
-      "puntosCompletos": "All 100 points are assigned: the version can be published.",
-      "puntosFaltanPublicar": "To publish, the enabled rules must add up to 100: {puntos} missing.",
+      "puntosCompletos": "All 100 points are assigned.",
+      "puntosFaltanPublicar": "{puntos} points still free out of 100.",
       "reglaDeshabilitada": "Disabled",
       "editar": "Edit",
       "editarRegla": "Edit rule",
@@ -1083,6 +1091,8 @@
         "analisisCid": "Analysis CID",
         "evidenciaCid": "Evidence CID",
         "pdfCid": "PDF CID",
+        "riesgoCid": "Risk Engine PDF CID",
+        "riesgoEvaluadoAt": "Risk Engine evaluated",
         "onchainTx": "On-chain transaction",
         "analyzedAt": "Analyzed at",
         "claimedAt": "Claimed by worker",
@@ -1092,6 +1102,7 @@
         "jsonRequestPayload": "request_payload",
         "jsonAnalisis": "analisis",
         "jsonEvidencia": "evidencia",
+        "jsonRiesgo": "riesgo",
         "jsonManifiesto": "manifiesto",
         "jsonCompliance": "compliance_screen",
         "jsonUpstream": "upstream_errors",
@@ -1107,6 +1118,7 @@
           "idioma": "Language",
           "applyIdioma": "Apply language and regenerate",
           "openPdf": "Open PDF",
+          "openRiesgoPdf": "Open Risk Engine PDF",
           "openAnalisisIpfs": "IPFS analysis",
           "openEvidenciaIpfs": "IPFS evidence",
           "openOnchain": "On-chain tx",
@@ -1305,7 +1317,7 @@
       "invalid_regla": "The rule needs a code and a name.",
       "invalid_efecto": "Risk points must be a number between 0 and 100.",
       "puntos_exceden_100": "Those points push the version past 100. Lower the value or free points from another rule.",
-      "puntos_incompletos": "To publish, the enabled rules must add up to exactly 100 points."
+      "puntos_incompletos": "This version can already be published with fewer than 100 points. Reload the page and try again."
     }
   }
 }

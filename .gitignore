@@ -43,3 +43,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Natural Earth source (regenerate with scripts/build-latam-map.mjs)
+scripts/ne_50m_admin_0_countries.geojson
+

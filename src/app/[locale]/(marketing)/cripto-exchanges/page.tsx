@@ -16,7 +16,7 @@ export default async function CriptoExchangesIndexPage({
   setRequestLocale(locale);
 
   if (region === "row") {
-    redirect({ href: routes.criptoExchangesInternacional, locale });
+    redirect({ href: routes.regulacionLatinoamericana, locale });
   }
 
   redirect({ href: routes.criptoExchangesUruguay, locale });

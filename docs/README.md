@@ -21,10 +21,11 @@ Prefijo de locale obligatorio (`/es`, `/pt`, `/en`):
 | `/[locale]/walpulse-engine-risk` | Motor de Riesgos — puntuación parametrizable por el cliente (próximamente; marketing) |
 | `/[locale]/demo` | Demo live de análisis (Básica sync; Estándar/Experta async + poll) |
 | `/[locale]/proveedores-de-datos` | Proveedores de datos (logos + links + roles) |
-| `/[locale]/cripto-exchanges` | Redirect → uruguay (o internacional si `?region=row`) |
-| `/[locale]/cripto-exchanges/internacional` | Cripto Exchanges — Internacional |
+| `/[locale]/cripto-exchanges` | Redirect → uruguay (o regulación-latinoamericana si `?region=row`) |
 | `/[locale]/cripto-exchanges/uruguay` | Cripto Exchanges — Uruguay |
+| `/[locale]/regulacion-latinoamericana` | Regulación Latinoamericana (GAFI LatAm + mapa interactivo) |
 | `/[locale]/nosotros` | Nosotros |
+| `/[locale]/terminos` | Términos y condiciones |
 | `/[locale]/como-funciona` | Cómo funciona |
 | `/[locale]/contacto` | Contacto |
 | `/[locale]/ejemplo` | Ejemplo de reporte (fuera del nav principal) |
@@ -47,9 +48,11 @@ Redirect legacy: `/para-psav` → `/cripto-exchanges/uruguay` (también con loca
 
 ### Nav / shell
 
-- Header: logo + menú (Inicio, Análisis, **Motor de Riesgos** / Risk Engine / Motor de Riscos, **Demo**, **Proveedores**, Para quienes, Nosotros, Hablemos) + **Dashboard clientes** + selector de idioma.
-- Para quienes (dropdown): `/cripto-exchanges/uruguay` y `/cripto-exchanges/internacional` (orden: Uruguay primero).
-- Footer: logo + link a contacto; sin menú completo ni disclaimer PSAV/KYC/UIAF en el pie.
+- Header: logo + menú (Inicio, Producto dropdown, **Acerca de** dropdown con Nosotros + Términos, Hablemos) + **Dashboard clientes** + selector de idioma.
+- Producto (dropdown): Análisis, Motor de Riesgos, Demo, Proveedores, Para quienes.
+- Para quienes (dropdown): `/cripto-exchanges/uruguay` y `/regulacion-latinoamericana` (orden: Uruguay primero).
+- Acerca de (dropdown): `/nosotros` y `/terminos`.
+- Footer: logo + links a contacto y términos; sin menú completo ni disclaimer PSAV/KYC/UIAF en el pie.
 - Portal (`/login`, `/registro`, `/dashboard/*`): sin Header/Footer de marketing; layout propio; **noindex**.
 - Consola admin (`/dashboard/admin/*`): visible solo si `get_mi_usuario().es_operador_sistema`; layout server llama `requireOperadorSistema` → redirect a `/dashboard` si no.
 
@@ -247,7 +250,7 @@ Páginas con el patrón:
 | `/demo` | `/brand/demo/header-demo.png` | `src/app/[locale]/demo/page.tsx` |
 | `/proveedores-de-datos` | `/brand/providers/header-proveedores.png` | `DataProvidersPage` |
 | `/cripto-exchanges/uruguay` | `/brand/exchanges/header-uruguay.png` | `CriptoExchangesContent` (`region=uy`) |
-| `/cripto-exchanges/internacional` | `/brand/exchanges/header-internacional.png` | `CriptoExchangesContent` (`region=row`) |
+| `/regulacion-latinoamericana` | `/brand/exchanges/header-internacional.png` | `GafiLatamExchangesPage` + `LatAmRegulationMap` |
 | `/nosotros` | `/brand/nosotros/header-nosotros.png` | `src/app/[locale]/nosotros/page.tsx` |
 
 Imágenes de hero: 16:9, **sin texto** embebido (el copy va en HTML).
@@ -299,18 +302,18 @@ Canales públicos: Telegram, `hello@walpulse.com`, X — ver `src/lib/paths.ts`.
 | Pieza | Ubicación |
 |-------|-----------|
 | Helper metadata (canonical, hreflang, OG, Twitter) | `src/lib/seo.ts` — canónico default `https://www.walpulse.com` |
-| Paths indexables | `INDEXABLE_PATHS` en `seo.ts` (home, analisis, **walpulse-engine-risk**, **demo**, **proveedores-de-datos**, exchanges split, nosotros, como-funciona, contacto, ejemplo) |
+| Paths indexables | `INDEXABLE_PATHS` en `seo.ts` (home, analisis, **walpulse-engine-risk**, **demo**, **proveedores-de-datos**, exchanges uruguay, **regulacion-latinoamericana**, nosotros, **terminos**, como-funciona, contacto, ejemplo) |
 | Sitemap | `/sitemap.xml` ← `src/app/sitemap.ts` (prioridad 0.85 para analisis / **walpulse-engine-risk** / demo / proveedores) |
 | Robots | `/robots.txt` ← `src/app/robots.ts` |
 | JSON-LD Organization + WebSite | `src/components/seo/JsonLd.tsx` (`sameAs`: X, Telegram, LinkedIn fundador) |
 | Home crawlable (SSR + ItemList señales) | `src/components/seo/HomeCrawlContent.tsx` (copy de motores vía `signalCerts.ts`) |
-| Agentes de IA | `public/llms.txt` → `/llms.txt` (catálogo + key pages incl. **Motor de Riesgos**, demo y proveedores) |
+| Agentes de IA | `public/llms.txt` → `/llms.txt` (catálogo, Motor de Riesgos, **Regulación Latinoamericana / GAFI**, **Términos**, demo y proveedores; nombres canónicos Origen / Actividad / Presencia / Portafolio) |
 | OG image | `/og.png` |
 | Meta copy i18n | `src/messages/{es,en,pt}.json` → `meta.*` (incl. `engineRiskTitle` / `demoTitle` / `proveedoresTitle`) |
 
 `NEXT_PUBLIC_SITE_URL` en Vercel debe ser `https://www.walpulse.com`.
 
-Tras deploy: verificar que prod sirva sitemap con `/analisis`, `/walpulse-engine-risk`, `/demo`, `/proveedores-de-datos` y un `llms.txt` alineado al catálogo + Motor de Riesgos (prod puede ir atrás del repo).
+Tras deploy: verificar que prod sirva sitemap con `/analisis`, `/walpulse-engine-risk`, `/demo`, `/proveedores-de-datos`, `/regulacion-latinoamericana`, `/terminos` y un `llms.txt` alineado (GAFI LatAm + términos + catálogo).
 
 ### Favicon / iconos
 
@@ -330,7 +333,7 @@ Fuente de marca: `public/brand/logo/Favicon.png` y `App-Icon.png`.
 - Análisis / Motor de Riesgos / Demo / Proveedores / Exchanges / Nosotros: `page-hero` + ritmo Void / Surface / CTA (ver arriba).
 - Tablas de señales internas en `/analisis` (`AnalisisSignalsCarousel`, `AnalisisCustodyBlock`): columnas de cobertura por tier (Básica / Estándar / Experta) vía `analisisSignalRowTiers` en `analisisSignalSlides.ts`.
 - Nosotros → **Equipo**: Jair + Carolina (`/jair.jpeg`, `/carolina.jpeg`); links en `TEAM_LINKS` (`paths.ts`).
-- Cripto-exchanges: páginas `/internacional` y `/uruguay` (sin picker); mapa en mobile = cards, desktop = tabla.
+- Cripto-exchanges Uruguay: `/cripto-exchanges/uruguay`. Regulación Latinoamericana: `/regulacion-latinoamericana` (mapa SVG geográfico Natural Earth + lista a11y; redirect 301 desde `/cripto-exchanges/internacional`). Regenerar paths: `node scripts/build-latam-map.mjs`.
 - Nombres de módulos localizados: `src/lib/signalModules.ts`.
 - Motores de señal (listas «qué analiza»): `src/lib/signalCerts.ts` (fuente live; no depender solo de `messages` para catálogos grandes).
 - Motor de Riesgos (marketing): `src/lib/engineRiskPage.ts` + `EngineRiskPage.tsx`.

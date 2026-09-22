@@ -8,7 +8,9 @@ export const routes = {
   criptoExchanges: "/cripto-exchanges",
   criptoExchangesInternacional: "/cripto-exchanges/internacional",
   criptoExchangesUruguay: "/cripto-exchanges/uruguay",
+  regulacionLatinoamericana: "/regulacion-latinoamericana",
   nosotros: "/nosotros",
+  terminos: "/terminos",
   comoFunciona: "/como-funciona",
   contacto: "/contacto",
   ejemplo: "/ejemplo",
@@ -54,13 +56,13 @@ export type ExchangeRegion = "uy" | "row";
 export function criptoExchangesPath(region: ExchangeRegion): string {
   return region === "uy"
     ? routes.criptoExchangesUruguay
-    : routes.criptoExchangesInternacional;
+    : routes.regulacionLatinoamericana;
 }
 
 export type HeaderNavLink = {
   type: "link";
   href: AppRoute;
-  labelKey: "senales" | "nosotros" | "earlyAccess";
+  labelKey: "senales" | "earlyAccess";
 };
 
 export type HeaderNavProductChildLink = {
@@ -74,7 +76,7 @@ export type HeaderNavProductChildGroup = {
   labelKey: "whoUses";
   children: {
     href: string;
-    labelKey: "cryptoExchanges" | "cryptoExchangesPsav";
+    labelKey: "regulacionLatinoamericana" | "cryptoExchangesPsav";
     region: ExchangeRegion;
   }[];
 };
@@ -85,9 +87,18 @@ export type HeaderNavProduct = {
   children: (HeaderNavProductChildLink | HeaderNavProductChildGroup)[];
 };
 
-export type HeaderNavItem = HeaderNavLink | HeaderNavProduct;
+export type HeaderNavAbout = {
+  type: "about";
+  labelKey: "acercaDe";
+  children: {
+    href: AppRoute;
+    labelKey: "nosotros" | "terminos";
+  }[];
+};
 
-/** Primary header — Inicio · Producto · Nosotros · Hablemos. */
+export type HeaderNavItem = HeaderNavLink | HeaderNavProduct | HeaderNavAbout;
+
+/** Primary header — Inicio · Producto · Acerca de · Hablemos. */
 export const headerNavItems: HeaderNavItem[] = [
   { type: "link", href: routes.home, labelKey: "senales" },
   {
@@ -116,15 +127,22 @@ export const headerNavItems: HeaderNavItem[] = [
             region: "uy",
           },
           {
-            href: routes.criptoExchangesInternacional,
-            labelKey: "cryptoExchanges",
+            href: routes.regulacionLatinoamericana,
+            labelKey: "regulacionLatinoamericana",
             region: "row",
           },
         ],
       },
     ],
   },
-  { type: "link", href: routes.nosotros, labelKey: "nosotros" },
+  {
+    type: "about",
+    labelKey: "acercaDe",
+    children: [
+      { href: routes.nosotros, labelKey: "nosotros" },
+      { href: routes.terminos, labelKey: "terminos" },
+    ],
+  },
   { type: "link", href: routes.contacto, labelKey: "earlyAccess" },
 ];
 

@@ -48,12 +48,15 @@ export async function HomeCrawlContent({ locale }: Props) {
           </Link>
         </li>
         <li>
-          <Link href={routes.criptoExchangesInternacional}>
-            {nav("cryptoExchanges")}
+          <Link href={routes.regulacionLatinoamericana}>
+            {nav("regulacionLatinoamericana")}
           </Link>
         </li>
         <li>
           <Link href={routes.nosotros}>{nav("nosotros")}</Link>
+        </li>
+        <li>
+          <Link href={routes.terminos}>{nav("terminos")}</Link>
         </li>
         <li>
           <Link href={routes.comoFunciona}>{nav("comoFunciona")}</Link>

@@ -597,7 +597,7 @@ body {
   }
 }
 
-/* Cómo funciona — process flow */
+/* Cómo funciona ? process flow */
 .process-flow {
   display: flex;
   flex-direction: column;
@@ -735,7 +735,7 @@ body {
   }
 }
 
-/* Cripto Exchanges — coverage map */
+/* Cripto Exchanges ? coverage map */
 .coverage-badge {
   display: inline-flex;
   align-items: center;
@@ -784,7 +784,7 @@ body {
   border: 1px solid color-mix(in oklab, var(--primary) 35%, transparent);
 }
 
-/* Cripto exchanges — mobile comparison cards (table from md up) */
+/* Cripto exchanges ? mobile comparison cards (table from md up) */
 .exchanges-map-cards {
   display: flex;
   flex-direction: column;
@@ -1675,7 +1675,7 @@ body {
 }
 
 
-/* Cripto Exchanges — contexto + diagrama lado a lado
+/* Cripto Exchanges ? contexto + diagrama lado a lado
    El diagrama es preview; el detalle vive en el modal.
    Sub-cards se separan en altura para empatar al diagrama. */
 .context-diagram {
@@ -1762,7 +1762,7 @@ body {
   bottom: -2px;
 }
 
-/* Nosotros — recognition strip (GSA About–style) */
+/* Nosotros ? recognition strip (GSA About?style) */
 .origin-recognition {
   position: relative;
   overflow: hidden;
@@ -2143,7 +2143,7 @@ body {
   }
 }
 
-/* Nosotros — equipo */
+/* Nosotros ? equipo */
 .team-roster {
   display: flex;
   flex-direction: column;
@@ -2230,7 +2230,7 @@ body {
   object-position: center top;
 }
 
-/* Nosotros — proyectos asociados */
+/* Nosotros ? proyectos asociados */
 .project-assoc-card {
   border-radius: 1.25rem;
   border: 1px solid color-mix(in oklab, var(--glass) 70%, var(--primary) 16%);
@@ -2280,7 +2280,7 @@ body {
   color: var(--muted);
 }
 
-/* Nosotros — principios */
+/* Nosotros ? principios */
 .principles-grid {
   display: grid;
   gap: 0.85rem;
@@ -2352,7 +2352,7 @@ body {
   }
 }
 
-/* Contacto — canales + form panel */
+/* Contacto ? canales + form panel */
 .contact-channels {
   display: flex;
   flex-direction: column;
@@ -2449,7 +2449,7 @@ body {
   }
 }
 
-/* Nosotros — hackaton carousel */
+/* Nosotros ? hackaton carousel */
 .hackaton-carousel {
   width: 100%;
   max-width: 42rem;
@@ -2594,7 +2594,7 @@ body {
   }
 }
 
-/* Home — progressive wallet reveal (split: etapas izq / detalle der) */
+/* Home ? progressive wallet reveal (split: etapas izq / detalle der) */
 .wallet-reveal {
   position: relative;
   height: 500vh;
@@ -3656,7 +3656,7 @@ body {
   }
 }
 
-/* —— Data providers grid —— */
+/* ?? Data providers grid ?? */
 .providers-grid-wrap {
   display: flex;
   flex-direction: column;
@@ -4545,4 +4545,259 @@ select.portal-field {
   .portal-btn:active:not(:disabled) {
     transform: none;
   }
+}
+
+/* -- LatAm regulation interactive map -- */
+.latam-map {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.latam-map__stage {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 900px) {
+  .latam-map__stage {
+    grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+    align-items: start;
+  }
+}
+
+.latam-map__visual {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.latam-map__svg {
+  width: 100%;
+  height: auto;
+  max-height: 40rem;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 55%, transparent);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--void) 40%, #0c1a28) 0%,
+      color-mix(in oklab, var(--void) 70%, #081018) 100%
+    );
+}
+
+.latam-map__country {
+  stroke: color-mix(in oklab, var(--void) 40%, #0a1620);
+  stroke-width: 0.7;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+  transition:
+    fill 160ms ease,
+    stroke 160ms ease,
+    filter 160ms ease;
+  outline: none;
+}
+
+.latam-map__country--gafiGafilatLaw {
+  fill: #1d9a6c;
+}
+
+.latam-map__country--gafiGafilatPending {
+  fill: #7bc9a4;
+}
+
+.latam-map__country--gafilatLaw {
+  fill: #2f7fd4;
+}
+
+.latam-map__country--gafilatPending {
+  fill: #8eb6e0;
+}
+
+.latam-map__country--neutral {
+  fill: #6b7280;
+}
+
+.latam-map__country:hover,
+.latam-map__country:focus-visible,
+.latam-map__country.is-active {
+  stroke: #f8fafc;
+  stroke-width: 1.25;
+  filter: brightness(1.18);
+}
+
+.latam-map__legend {
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 55%, transparent);
+  background: color-mix(in oklab, var(--void) 55%, transparent);
+  padding: 0.85rem 1rem 1rem;
+}
+
+.latam-map__legend-title {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary-soft);
+}
+
+.latam-map__legend-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.latam-map__legend-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.latam-map__swatch {
+  flex-shrink: 0;
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-top: 0.15rem;
+  border-radius: 0.2rem;
+  border: 1px solid color-mix(in oklab, var(--void) 50%, transparent);
+}
+
+.latam-map__swatch--gafiGafilatLaw {
+  background: #1d9a6c;
+}
+
+.latam-map__swatch--gafiGafilatPending {
+  background: #7bc9a4;
+}
+
+.latam-map__swatch--gafilatLaw {
+  background: #2f7fd4;
+}
+
+.latam-map__swatch--gafilatPending {
+  background: #8eb6e0;
+}
+
+.latam-map__swatch--neutral {
+  background: #6b7280;
+}
+
+.latam-map__panel {
+  border-radius: 1.15rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 70%, var(--primary) 16%);
+  background:
+    linear-gradient(
+      160deg,
+      color-mix(in oklab, var(--surface) 90%, transparent),
+      color-mix(in oklab, var(--void) 90%, transparent)
+    );
+  padding: 1.15rem 1.2rem 1.25rem;
+  min-height: 12rem;
+}
+
+.latam-map__panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.latam-map__panel-title {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--pure);
+}
+
+.latam-map__panel-close {
+  flex-shrink: 0;
+  border-radius: 0.55rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 70%, transparent);
+  padding: 0.3rem 0.6rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.latam-map__panel-close:hover {
+  color: var(--pure);
+  border-color: color-mix(in oklab, var(--primary) 40%, transparent);
+}
+
+.latam-map__panel-empty {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.latam-map__fields {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.latam-map__fields dt {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary-soft);
+}
+
+.latam-map__fields dd {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.latam-map__details {
+  border-radius: 0.95rem;
+  border: 1px solid color-mix(in oklab, var(--glass) 65%, transparent);
+  background: color-mix(in oklab, var(--void) 45%, transparent);
+  padding: 0.85rem 1rem;
+}
+
+.latam-map__details summary {
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--pure);
+}
+
+.latam-map__list {
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.latam-map__list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in oklab, var(--glass) 40%, transparent);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.latam-map__list li strong {
+  color: var(--pure);
 }

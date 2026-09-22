@@ -7,6 +7,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import {
   headerNavItems,
   routes,
+  type HeaderNavAbout,
   type HeaderNavItem,
   type HeaderNavProduct,
 } from "@/lib/paths";
@@ -25,10 +26,19 @@ const PRODUCT_ACTIVE_PREFIXES = [
   "/demo",
   "/proveedores-de-datos",
   "/cripto-exchanges",
+  "/regulacion-latinoamericana",
 ] as const;
+
+const ABOUT_ACTIVE_PREFIXES = ["/nosotros", "/terminos"] as const;
 
 function isProductPathActive(pathname: string) {
   return PRODUCT_ACTIVE_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
+}
+
+function isAboutPathActive(pathname: string) {
+  return ABOUT_ACTIVE_PREFIXES.some(
     (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
   );
 }
@@ -135,7 +145,9 @@ function ProductDropdown({
                 );
               }
 
-              const groupActive = pathname.startsWith("/cripto-exchanges");
+              const groupActive =
+                pathname.startsWith("/cripto-exchanges") ||
+                pathname.startsWith("/regulacion-latinoamericana");
               return (
                 <div
                   key={child.labelKey}
@@ -205,6 +217,87 @@ function ProductDropdown({
   );
 }
 
+function AboutDropdown({
+  item,
+  pathname,
+}: {
+  item: HeaderNavAbout;
+  pathname: string;
+}) {
+  const t = useTranslations("nav");
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const menuId = useId();
+  const active = isAboutPathActive(pathname);
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointer = (event: MouseEvent) => {
+      if (!wrapRef.current?.contains(event.target as Node)) setOpen(false);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("mousedown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div
+      ref={wrapRef}
+      className="relative"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        type="button"
+        className={`${navLinkClass(active)} inline-flex items-center gap-1`}
+        aria-expanded={open}
+        aria-haspopup="menu"
+        aria-controls={menuId}
+        onClick={() => setOpen((v) => !v)}
+      >
+        {t(item.labelKey)}
+        <Chevron open={open} />
+      </button>
+      {open ? (
+        <div
+          id={menuId}
+          role="menu"
+          className="absolute left-0 top-full z-50 min-w-[14rem] pt-1"
+        >
+          <div className="rounded-lg border border-glass/70 bg-void/95 py-1 shadow-[0_16px_40px_color-mix(in_oklab,var(--void)_70%,transparent)] backdrop-blur-md">
+            {item.children.map((child) => {
+              const childActive =
+                pathname === child.href ||
+                pathname.startsWith(`${child.href}/`);
+              return (
+                <Link
+                  key={child.href}
+                  href={child.href}
+                  role="menuitem"
+                  className={`block px-3 py-2.5 text-sm hover:bg-surface ${
+                    childActive
+                      ? "text-primary"
+                      : "text-muted hover:text-pure"
+                  }`}
+                  onClick={() => setOpen(false)}
+                >
+                  {t(child.labelKey)}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function NavItems({
   pathname,
   onNavigate,
@@ -262,6 +355,35 @@ function NavItems({
           }
           return (
             <ProductDropdown
+              key={item.labelKey}
+              item={item}
+              pathname={pathname}
+            />
+          );
+        }
+
+        if (item.type === "about") {
+          if (mobile) {
+            return (
+              <div key={item.labelKey} className="flex flex-col gap-0.5">
+                <p className="px-3 pt-2 text-[11px] font-medium uppercase tracking-[0.14em] text-muted/80">
+                  {t(item.labelKey)}
+                </p>
+                {item.children.map((child) => (
+                  <Link
+                    key={child.href}
+                    href={child.href}
+                    className="rounded-md px-3 py-2.5 text-sm text-muted hover:bg-surface hover:text-pure"
+                    onClick={onNavigate}
+                  >
+                    {t(child.labelKey)}
+                  </Link>
+                ))}
+              </div>
+            );
+          }
+          return (
+            <AboutDropdown
               key={item.labelKey}
               item={item}
               pathname={pathname}

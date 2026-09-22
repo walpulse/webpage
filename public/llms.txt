@@ -2,11 +2,11 @@
 
 > Walpulse creates and analyzes on-chain reputation signals for blockchain wallets.
 > The product sold is a **wallet analysis** in three depths: Basic, Standard, Expert (ES: Básica / Estándar / Experta).
-> Origins, Activity, Multichain, and Portfolio are **parts** of that analysis, not standalone SKUs.
-> Coverage (networks, activity window, funder risk hops, whether Portfolio is included) scales with the tier.
+> Canonical signal parts (product names): **Origin**, **Activity**, **Presence**, **Portfolio** (technical/module keys may still say Origins / Multichain).
+> These are **parts** of one analysis, not standalone SKUs. Coverage (networks, activity window, funder risk hops, whether Portfolio is included) scales with the tier.
 > A–F grades are a secondary synthesis tied to the tier. The recipient interprets and decides.
 > **Walpulse Motor de Riesgos / Risk Engine**: versioned client risk matrices (0–100 points) on those signals, configurable in the dashboard; on each analysis Walpulse calculates the score from the deployed matrix. The client owns the score and the decision.
-> Walpulse does not perform KYC, Travel Rule, UIAF reporting, or compliance decisions. It is not a compliance tool.
+> Walpulse is an ally for on-chain intelligence under institutional frameworks (including FATF/GAFI-driven regimes). It does not replace VASP licensing, KYC, Travel Rule, or financial-intelligence reporting.
 
 Canonical site: https://www.walpulse.com
 
@@ -25,33 +25,59 @@ Canonical site: https://www.walpulse.com
   - PT: https://www.walpulse.com/pt/walpulse-engine-risk
 - Live analysis demo: https://www.walpulse.com/es/demo
 - Data providers (logos + roles): https://www.walpulse.com/es/proveedores-de-datos
-- Crypto exchanges — International: https://www.walpulse.com/es/cripto-exchanges/internacional
 - Crypto exchanges — Uruguay (PSAV / BCU frame): https://www.walpulse.com/es/cripto-exchanges/uruguay
+- Latin American regulation (FATF/GAFI LatAm + institutions offering virtual-asset services):
+  - ES: https://www.walpulse.com/es/regulacion-latinoamericana
+  - EN: https://www.walpulse.com/en/regulacion-latinoamericana
+  - PT: https://www.walpulse.com/pt/regulacion-latinoamericana
+  - Legacy URL (301): /cripto-exchanges/internacional → regulacion-latinoamericana
+- Terms of use:
+  - ES: https://www.walpulse.com/es/terminos
+  - EN: https://www.walpulse.com/en/terminos
+  - PT: https://www.walpulse.com/pt/terminos
 - How it works: https://www.walpulse.com/es/como-funciona
 - Illustrative full report: https://www.walpulse.com/es/ejemplo
 - About (team): https://www.walpulse.com/es/nosotros
 - Contact: https://www.walpulse.com/es/contacto
 
+## Latin American regulation (FATF / GAFI)
+
+- FATF (GAFI) sets the global AML standard via 40 Recommendations; in LatAm the main regional body is **GAFILAT** (plus CFATF for some Caribbean jurisdictions).
+- Among the 40, several recommendations focus on virtual assets / VASP-style obligations (risk-based approach, CDD/KYC, R.15 VA package, Travel Rule via R.16, suspicious-transaction reporting).
+- Adherence ≠ implementation: accepting the 40 Recommendations is not the same as an operating local crypto/AML regime with licensing, supervision, and enforcement.
+- Walpulse helps **institutions that offer crypto / virtual-asset services** with verifiable on-chain signals and a client-parametrizable Risk Engine for risk-based approach, source-of-funds analysis, and activity monitoring.
+- Walpulse does **not** offer VASP licensing services, KYC, or Travel Rule execution.
+- Interactive regional map classifies countries by FATF+GAFILAT vs GAFILAT-only and whether local VA/AML legislation or registry is published (even if still rolling out). Venezuela (CFATF) is shown as neutral.
+- Uruguay PSAV / BCU content remains on `/cripto-exchanges/uruguay` (separate page).
+
+## Terms of use
+
+- Public terms at `/terminos` (last updated 18 September 2026).
+- Govern access to www.walpulse.com, APIs, analysis tools, and related services.
+- Describe the Service: wallet analysis (Basic / Standard / Expert), signal parts Origin / Activity / Presence / Portfolio, and the Risk Engine.
+- Clarify that Walpulse provides on-chain signals and intelligence; interpretation and commercial decisions belong to the recipient; not financial/legal advice; not a substitute for mandatory KYC/AML procedures under applicable law.
+- Cover data sources, license and restrictions, tiers and payment, privacy, IP, liability limits, jurisdiction, and contact channels.
+
 ## Catalog (what is sold)
 
-- Basic (ES: Básica): Multichain (~15 networks), Origins + Activity on top 2 networks (Activity 15 days; Origins ≤100 inbound by value, no hops). **No Portfolio.** OFAC compliance screen = exposure signal (not official screening). Sync delivery.
-- Standard (ES: Estándar): Multichain (~100 networks), Portfolio (Zerion), Origins top 5 / ≤250 by value + funder risk screen hop-1 (top 2 funders, 1 dominant chain). Activity 45 days. Async + PDF + email.
-- Expert (ES: Experta): Same Multichain/Portfolio as Standard; Origins top 10 / ≤500 by value + funder risk hops (top 5; hop-2 only if hop-1 is a normal wallet). Activity 90 days + Activity light on top counterparties. Async + PDF + email.
+- Basic (ES: Básica): Presence/Multichain (~15 networks), Origin + Activity on top 2 networks (Activity 15 days; Origin ≤100 inbound by value, no hops). **No Portfolio.** OFAC compliance screen = exposure signal (not official screening). Sync delivery.
+- Standard (ES: Estándar): Presence (~100 networks), Portfolio (Zerion), Origin top 5 / ≤250 by value + funder risk screen hop-1 (top 2 funders, 1 dominant chain). Activity 45 days. Async + PDF + email.
+- Expert (ES: Experta): Same Presence/Portfolio as Standard; Origin top 10 / ≤500 by value + funder risk hops (top 5; hop-2 only if hop-1 is a normal wallet). Activity 90 days + Activity light on top counterparties. Async + PDF + email.
 
 Coverage depth is commercial; synthesis weights are not published. External data providers are listed on /proveedores-de-datos.
 
 ## Walpulse Motor de Riesgos / Risk Engine
 
-- Client-parametrizable risk score on a **0–100** scale: each rule adds points from the published analysis signal catalog (Ecosystem Presence / Multichain, Portfolio Quality, Source of Funds / Origins, Recent Activity, and related signals). Version budget ≤100; publishing does not require exactly 100 points.
+- Client-parametrizable risk score on a **0–100** scale: each rule adds points from the published analysis signal catalog (Presence, Portfolio, Origin / source of funds, Activity, and related signals). Version budget ≤100; publishing does not require exactly 100 points.
 - Clients configure matrices, versions, and rules in the dashboard, then deploy a matrix to sandbox or production. On each analysis Walpulse calculates the risk score from the deployed matrix.
 - Availability: Walpulse clients only, via dashboard. Per-analysis score is intended for **Standard / Expert** depths.
 - Not a Walpulse verdict or compliance product: Walpulse does not decide, approve, or report to any public authority; the client decides whether to interact with a wallet.
 
 ## Signal parts (engines inside an analysis)
 
-- Origins: source of funds; funder risk hops and tx cap depend on the tier (not a second full Origins on funders)
+- Origin: source of funds; funder risk hops and tx cap depend on the tier
 - Activity: flow behavior; 15 / 45 / 90-day window by tier; sanctions exposure as a signal (not official screening)
-- Multichain: multi-network presence and maturity; intensity scales with the tier
+- Presence: multi-network presence and maturity; intensity scales with the tier
 - Portfolio: economic quality and on-chain composition (**Standard / Expert only**)
 
 ## Principle
@@ -61,6 +87,7 @@ We create and analyze signals. The recipient decides.
 ## Contact
 
 - Email: hello@walpulse.com
+- Terms contact (legal): carolina.rodriguez@walpulse.com
 - X: https://x.com/ibzjairvalenz
 - Telegram: https://t.me/Global_Score_Agent
 - LinkedIn (founder): https://www.linkedin.com/in/ibzanjairvalenzuelasuarez

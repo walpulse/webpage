@@ -64,7 +64,8 @@ Header: Inicio · Para quienes · Nosotros · Hablemos · idioma.
 
 Dropdown:
 
-- Cripto-Exchanges - Internacional → `/cripto-exchanges/internacional`
+- Cripto-Exchanges - Uruguay → `/cripto-exchanges/uruguay`
+- Regulación Latinoamericana → `/regulacion-latinoamericana`
 - Cripto-Exchanges - Uruguay → `/cripto-exchanges/uruguay`
 
 Dos páginas aparte (sin selector de región en página). `/cripto-exchanges?region=` y `/para-psav` redirigen.

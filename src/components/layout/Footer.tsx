@@ -30,12 +30,20 @@ export async function Footer() {
         </div>
 
         <div className="flex flex-col items-start gap-3 sm:items-end">
-          <Link
-            href={routes.contacto}
-            className="text-sm text-muted transition-colors hover:text-pure"
-          >
-            {t("nav.earlyAccess")}
-          </Link>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <Link
+              href={routes.contacto}
+              className="text-sm text-muted transition-colors hover:text-pure"
+            >
+              {t("nav.earlyAccess")}
+            </Link>
+            <Link
+              href={routes.terminos}
+              className="text-sm text-muted transition-colors hover:text-pure"
+            >
+              {t("nav.terminos")}
+            </Link>
+          </div>
           <LanguageSwitcher />
           <p className="text-xs text-muted">
             © {year} {t("footer.rights")}

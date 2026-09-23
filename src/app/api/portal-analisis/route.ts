@@ -11,6 +11,7 @@ import {
   type DemoIdioma,
   type DemoTier,
 } from "@/lib/demoAnalisis";
+import { enrichRowWithAnalisisArtifact } from "@/lib/portal/analisisArtifacts";
 import { clientIpFromRequest } from "@/lib/demoRateLimit";
 import { getMiUsuario } from "@/lib/portal/session";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
@@ -299,7 +300,11 @@ export async function GET(request: Request) {
     const idioma: DemoIdioma = isDemoIdioma(idiomaRaw) ? idiomaRaw : "es";
     const status = typeof row.status === "string" ? row.status : "unknown";
 
-    const result = toPublicResult(row, { requestId, idioma });
+    const enriched = await enrichRowWithAnalisisArtifact(
+      getSupabaseAdmin(),
+      row,
+    );
+    const result = toPublicResult(enriched, { requestId, idioma });
 
     return NextResponse.json({
       ok: true,

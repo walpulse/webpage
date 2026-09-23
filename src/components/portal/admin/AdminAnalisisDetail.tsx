@@ -56,6 +56,109 @@ function isEmptyJson(value: unknown): boolean {
   return false;
 }
 
+type ViewerLabels = {
+  copyLabel: string;
+  copiedLabel: string;
+  emptyLabel: string;
+};
+
+function LazyJsonSection({
+  title,
+  emptyLabel,
+  analisisId,
+  kind,
+  available,
+  viewerLabels,
+  loadErrorLabel,
+  loadingLabel,
+}: {
+  title: string;
+  emptyLabel: string;
+  analisisId: string;
+  kind: string;
+  available: boolean;
+  viewerLabels: ViewerLabels;
+  loadErrorLabel: string;
+  loadingLabel: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState<unknown>(undefined);
+  const [loading, setLoading] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    if (!open || !available || value !== undefined || loading) return;
+    let cancelled = false;
+    setLoading(true);
+    setFailed(false);
+    void (async () => {
+      try {
+        const res = await fetch(
+          `/api/admin/analisis-artifact?request_id=${encodeURIComponent(analisisId)}&kind=${encodeURIComponent(kind)}`,
+        );
+        const json = (await res.json()) as {
+          ok?: boolean;
+          data?: unknown;
+        };
+        if (cancelled) return;
+        if (!res.ok || !json.ok) {
+          setFailed(true);
+          setValue(null);
+          return;
+        }
+        setValue(json.data ?? null);
+      } catch {
+        if (!cancelled) {
+          setFailed(true);
+          setValue(null);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [open, available, value, loading, analisisId, kind]);
+
+  const empty = !available || failed || (value !== undefined && isEmptyJson(value));
+
+  return (
+    <details
+      className="rounded-md border border-glass/40 bg-void/40"
+      open={open}
+      onToggle={(e) => setOpen((e.target as HTMLDetailsElement).open)}
+    >
+      <summary className="cursor-pointer select-none px-3 py-2 text-sm font-medium text-pure">
+        {title}
+        {!available ? (
+          <span className="ml-2 text-xs font-normal text-muted">
+            ({emptyLabel})
+          </span>
+        ) : null}
+      </summary>
+      <div className="border-t border-glass/30 px-3 py-2">
+        {!available ? (
+          <p className="text-sm text-muted">{emptyLabel}</p>
+        ) : loading ? (
+          <p className="text-sm text-muted">{loadingLabel}</p>
+        ) : failed ? (
+          <p className="text-sm text-muted">{loadErrorLabel}</p>
+        ) : empty ? (
+          <p className="text-sm text-muted">{emptyLabel}</p>
+        ) : (
+          <JsonTreeViewer
+            value={value}
+            copyLabel={viewerLabels.copyLabel}
+            copiedLabel={viewerLabels.copiedLabel}
+            emptyLabel={viewerLabels.emptyLabel}
+          />
+        )}
+      </div>
+    </details>
+  );
+}
+
 type ConfirmKey =
   | "confirmSenales"
   | "confirmReporte"
@@ -353,7 +456,12 @@ export function AdminAnalisisDetail({
       return;
     }
     const detail = detailRes.data as AnalisisDetail;
-    setRow(detail);
+    setRow({
+      ...detail,
+      artifacts: Array.isArray(detail.artifacts) ? detail.artifacts : [],
+      has_analisis_artifact: Boolean(detail.has_analisis_artifact),
+      has_evidencia_artifact: Boolean(detail.has_evidencia_artifact),
+    });
     setIdiomaDraft(detail.idioma || "es");
 
     if (stagesRes.error) {
@@ -434,7 +542,7 @@ export function AdminAnalisisDetail({
   const txUrl = basescanTxUrl(row.onchain_tx_hash);
   const canRegenReporte =
     (row.status === "succeeded" || row.status === "succeeded_with_warnings") &&
-    row.analisis != null;
+    Boolean(row.has_analisis_artifact);
   const busy = pendingAction != null;
 
   const actionsProps: ActionsPanelProps = {
@@ -493,6 +601,28 @@ export function AdminAnalisisDetail({
         { label: t("detail.marketplace"), value: row.marketplace ?? "—" },
         { label: t("detail.billing"), value: row.billing ?? "—" },
         { label: t("detail.clientIp"), value: row.client_ip ?? "—", mono: true },
+        {
+          label: t("detail.currentStage"),
+          value: row.current_stage ?? "—",
+        },
+        {
+          label: t("detail.hasAnalisisArtifact"),
+          value: row.has_analisis_artifact ? t("detail.yes") : t("detail.no"),
+        },
+        {
+          label: t("detail.hasEvidenciaArtifact"),
+          value: row.has_evidencia_artifact ? t("detail.yes") : t("detail.no"),
+        },
+        {
+          label: t("detail.tieneEvaluacionesRiesgo"),
+          value: row.tiene_evaluaciones_riesgo
+            ? t("detail.yes")
+            : t("detail.no"),
+        },
+        {
+          label: t("detail.complianceStatus"),
+          value: row.compliance_status ?? "—",
+        },
       ],
     },
     {
@@ -500,6 +630,26 @@ export function AdminAnalisisDetail({
       fields: [
         { label: t("detail.grade"), value: grade || "—" },
         { label: t("detail.gradeLabel"), value: gradeLabel },
+        {
+          label: t("detail.gradeOrigins"),
+          value: row.grade_origins ?? "—",
+        },
+        {
+          label: t("detail.gradeActivity"),
+          value: row.grade_activity ?? "—",
+        },
+        {
+          label: t("detail.gradeMultichain"),
+          value: row.grade_multichain ?? "—",
+        },
+        {
+          label: t("detail.gradePortfolio"),
+          value: row.grade_portfolio ?? "—",
+        },
+        {
+          label: t("detail.custodyClass"),
+          value: row.custody_class ?? "—",
+        },
         {
           label: t("detail.dataHash"),
           value: row.data_hash ?? "—",
@@ -568,22 +718,16 @@ export function AdminAnalisisDetail({
     },
   ];
 
-  const technicalMeta = {
-    request_payload: row.request_payload,
-    manifiesto: row.manifiesto,
-    compliance_screen: row.compliance_screen,
-    upstream_errors: row.upstream_errors,
-    onchain: row.onchain,
-    signature: row.signature,
-    receipt: row.receipt,
-    run_progress: row.run_progress,
-  };
-  const technicalMetaEmpty = Object.values(technicalMeta).every(isEmptyJson);
   const viewerLabels: ViewerLabels = {
     copyLabel: t("detail.viewer.copy"),
     copiedLabel: t("detail.viewer.copied"),
     emptyLabel: t("detail.viewer.empty"),
   };
+
+  const artifactKinds = Array.isArray(row.artifacts)
+    ? row.artifacts.map((a) => String(a.kind || "").toLowerCase())
+    : [];
+  const hasArtifact = (kind: string) => artifactKinds.includes(kind);
 
   return (
     <div className={shellClass}>
@@ -747,30 +891,115 @@ export function AdminAnalisisDetail({
 
           <PortalPanel>
             <div className="flex flex-col gap-2">
-              <JsonSection
+              <LazyJsonSection
                 title={t("detail.jsonAnalisis")}
                 emptyLabel={t("detail.jsonEmpty")}
-                value={row.analisis}
+                analisisId={analisisId}
+                kind="analisis"
+                available={hasArtifact("analisis")}
                 viewerLabels={viewerLabels}
+                loadErrorLabel={t("detail.jsonLoadError")}
+                loadingLabel={t("detail.jsonLoading")}
               />
-              <JsonSection
+              <LazyJsonSection
                 title={t("detail.jsonEvidencia")}
                 emptyLabel={t("detail.jsonEmpty")}
-                value={row.evidencia}
+                analisisId={analisisId}
+                kind="evidencia"
+                available={hasArtifact("evidencia")}
                 viewerLabels={viewerLabels}
+                loadErrorLabel={t("detail.jsonLoadError")}
+                loadingLabel={t("detail.jsonLoading")}
               />
-              <JsonSection
+              <LazyJsonSection
                 title={t("detail.jsonRiesgo")}
                 emptyLabel={t("detail.jsonEmpty")}
-                value={row.riesgo}
+                analisisId={analisisId}
+                kind="riesgo"
+                available={hasArtifact("riesgo")}
                 viewerLabels={viewerLabels}
+                loadErrorLabel={t("detail.jsonLoadError")}
+                loadingLabel={t("detail.jsonLoading")}
               />
-              <JsonSection
-                title={t("detail.sectionMeta")}
+              <LazyJsonSection
+                title={t("detail.jsonRequestPayload")}
                 emptyLabel={t("detail.jsonEmpty")}
-                value={technicalMeta}
-                isEmpty={technicalMetaEmpty}
+                analisisId={analisisId}
+                kind="request_payload"
+                available={hasArtifact("request_payload")}
                 viewerLabels={viewerLabels}
+                loadErrorLabel={t("detail.jsonLoadError")}
+                loadingLabel={t("detail.jsonLoading")}
+              />
+              <LazyJsonSection
+                title={t("detail.jsonManifiesto")}
+                emptyLabel={t("detail.jsonEmpty")}
+                analisisId={analisisId}
+                kind="manifiesto"
+                available={hasArtifact("manifiesto")}
+                viewerLabels={viewerLabels}
+                loadErrorLabel={t("detail.jsonLoadError")}
+                loadingLabel={t("detail.jsonLoading")}
+              />
+              <LazyJsonSection
+                title={t("detail.jsonCompliance")}
+                emptyLabel={t("detail.jsonEmpty")}
+                analisisId={analisisId}
+                kind="compliance_screen"
+                available={hasArtifact("compliance_screen")}
+                viewerLabels={viewerLabels}
+                loadErrorLabel={t("detail.jsonLoadError")}
+                loadingLabel={t("detail.jsonLoading")}
+              />
+              <LazyJsonSection
+                title={t("detail.jsonUpstream")}
+                emptyLabel={t("detail.jsonEmpty")}
+                analisisId={analisisId}
+                kind="upstream_errors"
+                available={hasArtifact("upstream_errors")}
+                viewerLabels={viewerLabels}
+                loadErrorLabel={t("detail.jsonLoadError")}
+                loadingLabel={t("detail.jsonLoading")}
+              />
+              <LazyJsonSection
+                title={t("detail.jsonOnchain")}
+                emptyLabel={t("detail.jsonEmpty")}
+                analisisId={analisisId}
+                kind="onchain"
+                available={hasArtifact("onchain")}
+                viewerLabels={viewerLabels}
+                loadErrorLabel={t("detail.jsonLoadError")}
+                loadingLabel={t("detail.jsonLoading")}
+              />
+              <LazyJsonSection
+                title={t("detail.jsonSignature")}
+                emptyLabel={t("detail.jsonEmpty")}
+                analisisId={analisisId}
+                kind="signature"
+                available={hasArtifact("signature")}
+                viewerLabels={viewerLabels}
+                loadErrorLabel={t("detail.jsonLoadError")}
+                loadingLabel={t("detail.jsonLoading")}
+              />
+              <LazyJsonSection
+                title={t("detail.jsonReceipt")}
+                emptyLabel={t("detail.jsonEmpty")}
+                analisisId={analisisId}
+                kind="receipt"
+                available={hasArtifact("receipt")}
+                viewerLabels={viewerLabels}
+                loadErrorLabel={t("detail.jsonLoadError")}
+                loadingLabel={t("detail.jsonLoading")}
+              />
+              <LazyJsonSection
+                title={t("detail.jsonRunProgress")}
+                emptyLabel={t("detail.jsonEmpty")}
+                analisisId={analisisId}
+                kind="run_progress"
+                available={hasArtifact("run_progress")}
+                viewerLabels={viewerLabels}
+                loadErrorLabel={t("detail.jsonLoadError")}
+                loadingLabel={t("detail.jsonLoading")}
               />
             </div>
           </PortalPanel>
@@ -786,45 +1015,3 @@ export function AdminAnalisisDetail({
   );
 }
 
-type ViewerLabels = {
-  copyLabel: string;
-  copiedLabel: string;
-  emptyLabel: string;
-};
-
-function JsonSection({
-  title,
-  emptyLabel,
-  value,
-  isEmpty,
-  viewerLabels,
-}: {
-  title: string;
-  emptyLabel: string;
-  value: unknown;
-  isEmpty?: boolean;
-  viewerLabels: ViewerLabels;
-}) {
-  const empty = isEmpty ?? isEmptyJson(value);
-
-  return (
-    <details className="portal-panel portal-panel--inset px-3 py-2.5">
-      <summary className="cursor-pointer text-sm font-medium text-pure hover:text-primary">
-        {title}
-        {empty ? (
-          <span className="ml-2 text-xs font-normal text-muted">
-            ({emptyLabel})
-          </span>
-        ) : null}
-      </summary>
-      <div className="mt-2.5">
-        <JsonTreeViewer
-          value={value}
-          copyLabel={viewerLabels.copyLabel}
-          copiedLabel={viewerLabels.copiedLabel}
-          emptyLabel={viewerLabels.emptyLabel}
-        />
-      </div>
-    </details>
-  );
-}

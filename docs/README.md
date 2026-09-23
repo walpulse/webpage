@@ -35,7 +35,7 @@ Prefijo de locale obligatorio (`/es`, `/pt`, `/en`):
 | `/[locale]/nueva-contrasena` | Portal — nueva contraseña tras link Auth (noindex) |
 | `/[locale]/dashboard` | Portal — inicio (auth + perfil `get_mi_usuario` + KPIs de cliente u operador) |
 | `/[locale]/dashboard/analisis` | Portal — listado ops de análisis (`es_operador_sistema`); stub para otros clientes |
-| `/[locale]/dashboard/analisis/[id]` | Portal — detalle ops + etapas + JSON/CIDs (`analisis` / `evidencia` / `riesgo`) + PDF Motor (`riesgo_cid`) |
+| `/[locale]/dashboard/analisis/[id]` | Portal — detalle ops (control plane + CIDs); JSON de artefactos lazy vía Storage (`/api/admin/analisis-artifact`) |
 | `/[locale]/dashboard/motor-riesgos` | Portal — Motor de Riesgos: matrices del cliente |
 | `/[locale]/dashboard/motor-riesgos/catalogo` | Portal — catálogo de señales (qué mide cada una y cómo usarla) |
 | `/[locale]/dashboard/motor-riesgos/nueva` | Portal — alta de matriz (nombre, slug, descripción) |
@@ -171,13 +171,13 @@ Gate: `clientes.es_operador_sistema` (único `true` = cliente Walpulse). `get_mi
 | `/dashboard/admin/clientes/[id]` | Update + tabs invitaciones / API keys |
 | `/dashboard/analisis` | Listado global `analisis_requests` (filtros tier/wallet/status/idioma/email; orden `created_at` / `email_sent_at` / `onchain_updated_at`) vía `admin_list_analisis_requests`. Click en una fila abre el detalle en panel lateral (`?detalle=<id>`, shallow routing); ctrl/cmd+click navega a la página completa |
 | `/dashboard/analisis/nuevo` | Crear análisis (Básica sync · Estándar/Experta async+poll); API key `portal-dashboard` del cliente logueado |
-| `/dashboard/analisis/[id]` | Detalle completo (campos escalares en 4 paneles: petición e identidad / resultado / entregables / on-chain y tiempos) + etapas + acciones ops (regen señales/reporte, resend email, idioma, con confirmación inline) + links PDF/IPFS/Basescan + visor JSON (`analisis` / `evidencia` / `riesgo`) + entregables Motor (`riesgo_cid`, `riesgo_evaluado_at`) |
+| `/dashboard/analisis/[id]` | Detalle control plane (escalares + flags `has_*` / compliance / grades) + etapas + acciones ops + links PDF/IPFS/Basescan + visor JSON **lazy** desde Storage (`GET /api/admin/analisis-artifact?request_id=&kind=`) |
 
 Grado: `analisis_requests.grade_label` se persiste en el idioma del informe (`idioma`), así que el detalle **no** lo muestra tal cual: deriva la etiqueta de `grade` (A/B/C/D/F) con `portal.analisis.gradeLabels.*` en el locale activo y usa el texto guardado solo como fallback si el grado no es canónico.
 
-Invitaciones: al crear se muestra token + link `/[locale]/registro?token=` **una sola vez**. API keys: plaintext `api_key` **una sola vez** (excepto `portal-dashboard`, auto-provisionada en Vault; no revocable desde UI). Llamadas con sesión browser (`supabase.rpc('admin_…')`).
+Invitaciones: al crear se muestra token + link `/[locale]/registro?token=` **una sola vez**. API keys: plaintext `api_key` **una sola vez** (excepto `portal-dashboard`, auto-provisionada en Vault; no revocable desde UI). Llamadas con sesión browser (`supabase.rpc('admin_…')`). Artefactos JSON: no viajan en el get; se piden a `GET /api/admin/analisis-artifact` (operador + download Storage `analisis-artifacts`).
 
-Al crear un cliente (`admin_create_cliente`) se llama `ensure_portal_dashboard_api_key` (label `portal-dashboard` + secreto Vault `portal_dashboard_api_key_<cliente_id>`). Poll autenticado: `portal_get_analisis_request`.
+Al crear un cliente (`admin_create_cliente`) se llama `ensure_portal_dashboard_api_key` (label `portal-dashboard` + secreto Vault `portal_dashboard_api_key_<cliente_id>`). Poll autenticado: `portal_get_analisis_request` (control plane + `artifacts[]`); el route descarga el artefacto `analisis` de Storage antes de `toPublicResult`.
 
 Clientes:
 
@@ -291,7 +291,7 @@ Canales públicos: Telegram, `hello@walpulse.com`, X — ver `src/lib/paths.ts`.
 
 - UI: `src/components/demo/DemoAnalisisForm.tsx` · ruta `/[locale]/demo`
 - Submit: `POST /api/demo-analisis` → Edge Functions `analisis-basica` (sync) / `analisis-estandar` / `analisis-experta` (202 + `request_id`); reenvía IP del visitante a la Edge (guard in-flight wallet+tier+IP; 409 `analisis_in_progress`)
-- Poll: `GET /api/demo-analisis?request_id=` → RPC `get_analisis_request`, **filtrado** a `WALPULSE_DEMO_CLIENTE_ID`
+- Poll: `GET /api/demo-analisis?request_id=` → RPC `get_analisis_request` (control plane), **filtrado** a `WALPULSE_DEMO_CLIENTE_ID`; enriquecer con Storage `analisis` → `toPublicResult`
 - Helpers: `src/lib/demoAnalisis.ts` (subset público: grades + summaries + CIDs; sin evidencia)
 - Abuse: rate limit por IP (Upstash: **15 POST / 15 min** tras Turnstile OK, 60 GET / min) + Cloudflare Turnstile en submit (`src/lib/demoRateLimit.ts`, `src/lib/turnstile.ts`, `DemoTurnstile`). Bypass temporal de prueba: `NEXT_PUBLIC_DEMO_SKIP_TURNSTILE=1`.
 - `maxDuration` 120s en el route (Básica puede tardar ~1 min)

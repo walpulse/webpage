@@ -80,37 +80,47 @@ export type AdminAnalisisListResult = {
   offset: number;
 };
 
+export type AnalisisArtifactMeta = {
+  kind: string;
+  storage_path: string;
+  byte_size: number | null;
+  sha256: string | null;
+  updated_at: string | null;
+};
+
 export type AdminAnalisisDetail = AdminAnalisisRequest & {
   api_key_id: string | null;
   function_slug: string | null;
   grade: string | null;
   grade_label: string | null;
+  grade_origins: string | null;
+  grade_activity: string | null;
+  grade_multichain: string | null;
+  grade_portfolio: string | null;
+  custody_class: string | null;
   data_hash: string | null;
   analyzed_at: string | null;
-  request_payload: unknown;
-  analisis: unknown;
-  evidencia: unknown;
-  manifiesto: unknown;
   analisis_cid: string | null;
   evidencia_cid: string | null;
   pdf_cid: string | null;
-  riesgo: unknown;
   riesgo_cid: string | null;
   riesgo_evaluado_at: string | null;
   error_message: string | null;
-  onchain: unknown;
-  signature: unknown;
   onchain_tx_hash: string | null;
   access_channel: string | null;
   marketplace: string | null;
   billing: string | null;
-  receipt: unknown;
-  upstream_errors: unknown;
-  compliance_screen: unknown;
   email_message_id: string | null;
   claimed_at: string | null;
-  run_progress: unknown;
   client_ip: string | null;
+  compliance_status: string | null;
+  compliance_sanctioned: boolean | null;
+  compliance_any_list_match: boolean | null;
+  tiene_evaluaciones_riesgo: boolean | null;
+  current_stage: string | null;
+  has_analisis_artifact: boolean;
+  has_evidencia_artifact: boolean;
+  artifacts: AnalisisArtifactMeta[];
 };
 
 export type PortalKpiVentana = "7d" | "30d" | "total";
